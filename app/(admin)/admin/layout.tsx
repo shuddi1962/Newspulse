@@ -8,6 +8,7 @@ import {
   LayoutDashboard,
   Newspaper,
   Settings,
+  UserCircle2,
   Users,
 } from 'lucide-react';
 import { getCurrentUser } from '@/lib/auth/session';
@@ -28,6 +29,7 @@ const navItems: NavItem[] = [
   { href: '/admin/users', label: 'Users', icon: Users },
   { href: '/admin/schedule', label: 'Schedule', icon: CalendarClock },
   { href: '/admin/analytics', label: 'Analytics', icon: BarChart3 },
+  { href: '/admin/profile', label: 'Profile', icon: UserCircle2 },
   { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 
