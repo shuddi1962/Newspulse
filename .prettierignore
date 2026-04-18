@@ -1,0 +1,14 @@
+node_modules
+.next
+out
+build
+dist
+coverage
+.vercel
+package-lock.json
+next-env.d.ts
+public
+*.tsbuildinfo
+.insforge
+.agents
+.claude
