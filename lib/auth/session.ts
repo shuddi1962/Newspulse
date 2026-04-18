@@ -1,5 +1,6 @@
 import 'server-only';
 import { cache } from 'react';
+import { redirect } from 'next/navigation';
 import { createServerInsForge } from '@/lib/insforge/server';
 import {
   clearAuthCookies,
@@ -83,4 +84,15 @@ export function hasRole(user: AuthUser | null, ...roles: UserRole[]): boolean {
 
 export function isAdmin(user: AuthUser | null): boolean {
   return hasRole(user, 'admin');
+}
+
+export async function requireAdmin(): Promise<AuthUser> {
+  const user = await getCurrentUser();
+  if (!user) {
+    redirect('/login?next=/admin');
+  }
+  if (!isAdmin(user)) {
+    redirect('/admin?error=forbidden');
+  }
+  return user;
 }
