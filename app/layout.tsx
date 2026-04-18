@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Fraunces, Instrument_Sans, JetBrains_Mono } from 'next/font/google';
+import { Toaster } from 'sonner';
+import { ThemeProvider } from '@/components/providers/theme-provider';
 import './globals.css';
 
 const fraunces = Fraunces({
@@ -104,7 +106,27 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${fraunces.variable} ${instrumentSans.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="min-h-screen flex flex-col">{children}</body>
+      <body className="min-h-screen flex flex-col">
+        <ThemeProvider
+          attribute="data-theme"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+          <Toaster
+            position="top-right"
+            closeButton
+            richColors
+            toastOptions={{
+              classNames: {
+                toast:
+                  'border border-(--border-default) bg-(--bg-surface) text-(--fg-default)',
+              },
+            }}
+          />
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
