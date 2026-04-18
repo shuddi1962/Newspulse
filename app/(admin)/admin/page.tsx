@@ -19,9 +19,10 @@ export default async function AdminOverviewPage() {
           Welcome back, {displayName}.
         </h1>
         <p className="mt-2 max-w-2xl text-sm text-(--fg-muted)">
-          The admin shell is live. Editorial, directory, jobs, marketplace,
-          events, real estate, classifieds, and ad-platform modules are
-          scheduled for subsequent phases.
+          The admin shell is live and the foundation schema is deployed.
+          Editorial, directory, jobs, marketplace, events, real estate,
+          classifieds, and ad-platform modules are scheduled for subsequent
+          phases.
         </p>
       </div>
 
@@ -36,10 +37,10 @@ export default async function AdminOverviewPage() {
         </dl>
         <dl className="border-b border-(--border-subtle) p-6 sm:border-b-0 sm:border-r">
           <dt className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-(--fg-subtle)">
-            Routes
+            Schema
           </dt>
           <dd className="mt-2 text-sm text-(--fg-default)">
-            /login · /signup · /forgot-password · /reset-password · /admin
+            profiles · organizations · categories · tags · media · audit log
           </dd>
         </dl>
         <dl className="p-6">
@@ -47,7 +48,7 @@ export default async function AdminOverviewPage() {
             Next up
           </dt>
           <dd className="mt-2 text-sm text-(--fg-default)">
-            Database schema · RLS policies · editorial CMS
+            Editorial CMS · directory · structured content types
           </dd>
         </dl>
       </div>

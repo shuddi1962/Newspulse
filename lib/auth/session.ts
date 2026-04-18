@@ -6,12 +6,21 @@ import {
   getAuthCookies,
   setAuthCookies,
 } from '@/lib/auth/cookies';
+import { getProfileById } from '@/lib/db/profiles';
+import type { Profile, UserRole } from '@/lib/db/types';
 
 export type AuthUser = {
   id: string;
   email: string;
   name?: string | null;
-  role?: string | null;
+  role: UserRole;
+  profile: Profile | null;
+};
+
+type RawUser = {
+  id: string;
+  email: string;
+  name?: string | null;
 };
 
 async function tryRefresh(refreshToken: string): Promise<string | null> {
@@ -24,27 +33,40 @@ async function tryRefresh(refreshToken: string): Promise<string | null> {
   return data.accessToken;
 }
 
-async function fetchUser(accessToken: string): Promise<AuthUser | null> {
+async function fetchRawUser(accessToken: string): Promise<RawUser | null> {
   const insforge = createServerInsForge(accessToken);
   const { data, error } = await insforge.auth.getCurrentUser();
   if (error || !data?.user) return null;
-  const user = data.user as AuthUser;
-  return user;
+  return data.user as RawUser;
+}
+
+async function assemble(
+  raw: RawUser,
+  accessToken: string,
+): Promise<AuthUser> {
+  const profile = await getProfileById(raw.id, accessToken);
+  return {
+    id: raw.id,
+    email: raw.email,
+    name: profile?.display_name ?? raw.name ?? null,
+    role: profile?.role ?? 'reader',
+    profile,
+  };
 }
 
 export const getCurrentUser = cache(async (): Promise<AuthUser | null> => {
   const { accessToken, refreshToken } = await getAuthCookies();
 
   if (accessToken) {
-    const user = await fetchUser(accessToken);
-    if (user) return user;
+    const raw = await fetchRawUser(accessToken);
+    if (raw) return assemble(raw, accessToken);
   }
 
   if (refreshToken) {
     const refreshed = await tryRefresh(refreshToken);
     if (refreshed) {
-      const user = await fetchUser(refreshed);
-      if (user) return user;
+      const raw = await fetchRawUser(refreshed);
+      if (raw) return assemble(raw, refreshed);
     }
   }
 
@@ -53,3 +75,12 @@ export const getCurrentUser = cache(async (): Promise<AuthUser | null> => {
   }
   return null;
 });
+
+export function hasRole(user: AuthUser | null, ...roles: UserRole[]): boolean {
+  if (!user) return false;
+  return roles.includes(user.role);
+}
+
+export function isAdmin(user: AuthUser | null): boolean {
+  return hasRole(user, 'admin');
+}

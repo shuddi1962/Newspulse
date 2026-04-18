@@ -70,14 +70,19 @@ export default async function AdminLayout({ children }: { children: ReactNode })
 
       <div className="flex flex-1 flex-col">
         <header className="flex h-16 items-center justify-between border-b border-(--border-subtle) bg-(--bg-base) px-6">
-          <div>
-            <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-(--fg-subtle)">
-              Admin
-            </p>
-            <p className="text-sm text-(--fg-default)">
-              Signed in as{' '}
-              <span className="text-(--fg-default)">{user.email}</span>
-            </p>
+          <div className="flex items-center gap-4">
+            <div>
+              <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-(--fg-subtle)">
+                Admin
+              </p>
+              <p className="text-sm text-(--fg-default)">
+                Signed in as{' '}
+                <span className="text-(--fg-default)">{user.email}</span>
+              </p>
+            </div>
+            <span className="inline-flex items-center border border-(--border-subtle) px-2 py-0.5 font-mono text-[0.65rem] uppercase tracking-[0.2em] text-(--fg-muted)">
+              {user.role}
+            </span>
           </div>
           <SignOutButton />
         </header>
