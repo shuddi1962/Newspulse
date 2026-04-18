@@ -14,6 +14,7 @@ import {
 import { getCurrentUser } from '@/lib/auth/session';
 import { env } from '@/lib/env';
 import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
 import { SignOutButton } from './_components/sign-out-button';
 
 type NavItem = {
@@ -82,9 +83,9 @@ export default async function AdminLayout({ children }: { children: ReactNode })
                 <span className="text-(--fg-default)">{user.email}</span>
               </p>
             </div>
-            <span className="inline-flex items-center border border-(--border-subtle) px-2 py-0.5 font-mono text-[0.65rem] uppercase tracking-[0.2em] text-(--fg-muted)">
+            <Badge variant={user.role === 'admin' ? 'solid' : 'neutral'}>
               {user.role}
-            </span>
+            </Badge>
           </div>
           <SignOutButton />
         </header>

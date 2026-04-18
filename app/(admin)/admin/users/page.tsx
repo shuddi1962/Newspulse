@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
+import { AlertTriangle } from 'lucide-react';
 import { requireAdmin } from '@/lib/auth/session';
 import { getAuthCookies } from '@/lib/auth/cookies';
 import { adminListUsers } from '@/lib/db/admin-users';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { UsersTable } from './_components/users-table';
 
 export const metadata: Metadata = {
@@ -34,12 +36,13 @@ export default async function AdminUsersPage() {
       </div>
 
       {result.status === 'error' ? (
-        <div
-          role="alert"
-          className="border border-(--color-signal-red) bg-(--bg-base) p-4 text-sm text-(--color-signal-red)"
-        >
-          {result.message}
-        </div>
+        <Alert variant="destructive" role="alert">
+          <AlertTriangle />
+          <div className="space-y-1">
+            <AlertTitle>Could not load users</AlertTitle>
+            <AlertDescription>{result.message}</AlertDescription>
+          </div>
+        </Alert>
       ) : (
         <UsersTable rows={result.rows} actorId={actor.id} />
       )}
