@@ -42,13 +42,18 @@ type Result<T> =
 
 export async function listArticlesForAdmin(
   accessToken: string,
+  filter?: { status?: ArticleStatus },
 ): Promise<Result<AdminArticleRow[]>> {
   const insforge = createServerInsForge(accessToken);
-  const { data, error } = await insforge.database
+  let query = insforge.database
     .from('articles')
     .select(
       'id, title, slug, status, author_id, word_count, reading_time_min, publish_at, updated_at',
-    )
+    );
+  if (filter?.status) {
+    query = query.eq('status', filter.status);
+  }
+  const { data, error } = await query
     .order('updated_at', { ascending: false })
     .limit(200);
 
@@ -56,6 +61,32 @@ export async function listArticlesForAdmin(
     return { status: 'error', message: error.message ?? 'Could not load articles.' };
   }
   return { status: 'ok', data: (data ?? []) as AdminArticleRow[] };
+}
+
+export async function countArticlesByStatus(
+  accessToken: string,
+): Promise<Result<Record<ArticleStatus, number>>> {
+  const insforge = createServerInsForge(accessToken);
+  const { data, error } = await insforge.database
+    .from('articles')
+    .select('status')
+    .limit(5000);
+  if (error) {
+    return { status: 'error', message: error.message ?? 'Could not count articles.' };
+  }
+  const counts: Record<ArticleStatus, number> = {
+    draft: 0,
+    review: 0,
+    approved: 0,
+    scheduled: 0,
+    published: 0,
+    archived: 0,
+    rejected: 0,
+  };
+  for (const row of (data ?? []) as { status: ArticleStatus }[]) {
+    counts[row.status] = (counts[row.status] ?? 0) + 1;
+  }
+  return { status: 'ok', data: counts };
 }
 
 export async function getArticleById(
@@ -148,6 +179,27 @@ export async function appendArticleRevision(
   });
   if (error) {
     return { status: 'error', message: error.message ?? 'Could not save revision.' };
+  }
+  return { status: 'ok', data: null };
+}
+
+type StatusPatch = {
+  status: ArticleStatus;
+  publish_at?: string | null;
+};
+
+export async function setArticleStatus(
+  id: string,
+  patch: StatusPatch,
+  accessToken: string,
+): Promise<Result<null>> {
+  const insforge = createServerInsForge(accessToken);
+  const { error } = await insforge.database
+    .from('articles')
+    .update(patch)
+    .eq('id', id);
+  if (error) {
+    return { status: 'error', message: error.message ?? 'Could not update status.' };
   }
   return { status: 'ok', data: null };
 }

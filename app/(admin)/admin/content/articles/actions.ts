@@ -4,13 +4,25 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { getAuthCookies } from '@/lib/auth/cookies';
 import { getCurrentUser, hasRole } from '@/lib/auth/session';
-import { createDraftSchema, estimateReadingTime, updateDraftSchema } from '@/lib/validation/article';
+import {
+  allowedActionsFor,
+  createDraftSchema,
+  estimateReadingTime,
+  targetStatusFor,
+  updateDraftSchema,
+  type ArticleStatus,
+  type WorkflowAction,
+  type WorkflowRole,
+} from '@/lib/validation/article';
 import {
   appendArticleRevision,
+  getArticleById,
   insertDraftArticle,
+  setArticleStatus,
   updateDraftArticle,
 } from '@/lib/db/articles';
 import type { ActionResult } from '@/lib/auth/actions';
+import type { UserRole } from '@/lib/db/types';
 
 function parseContentJson(raw: string): unknown {
   return JSON.parse(raw);
@@ -111,4 +123,111 @@ export async function updateDraftAction(
   revalidatePath('/admin/content/articles');
   revalidatePath(`/admin/content/articles/${parsed.data.id}/edit`);
   return { status: 'ok', data: { id: parsed.data.id } };
+}
+
+const WORKFLOW_ACTIONS: readonly WorkflowAction[] = [
+  'submit',
+  'recall',
+  'approve',
+  'reject',
+  'schedule',
+  'unschedule',
+  'publish',
+  'unpublish',
+  'archive',
+  'restore',
+];
+
+function workflowRoleFor(role: UserRole): WorkflowRole | null {
+  if (role === 'admin' || role === 'editor') return 'editor';
+  if (role === 'author') return 'author';
+  return null;
+}
+
+function isWorkflowAction(value: string): value is WorkflowAction {
+  return (WORKFLOW_ACTIONS as readonly string[]).includes(value);
+}
+
+function parsePublishAt(value: string | null): string | null {
+  if (!value) return null;
+  const ts = new Date(value);
+  if (Number.isNaN(ts.getTime())) return null;
+  return ts.toISOString();
+}
+
+export async function transitionArticleAction(
+  _prevState: ActionResult<{ id: string; status: ArticleStatus }> | null,
+  formData: FormData,
+): Promise<ActionResult<{ id: string; status: ArticleStatus }>> {
+  const id = (formData.get('id') as string | null) ?? '';
+  const actionRaw = (formData.get('action') as string | null) ?? '';
+  const publishAtRaw = (formData.get('publish_at') as string | null) ?? '';
+
+  if (!id) return { status: 'error', message: 'Missing article ID.' };
+  if (!isWorkflowAction(actionRaw)) {
+    return { status: 'error', message: 'Unknown workflow action.' };
+  }
+
+  const user = await getCurrentUser();
+  if (!user) return { status: 'error', message: 'You must be signed in.' };
+  if (!hasRole(user, 'author', 'editor', 'admin')) {
+    return { status: 'error', message: 'You do not have permission for this action.' };
+  }
+
+  const { accessToken } = await getAuthCookies();
+  if (!accessToken) return { status: 'error', message: 'Session expired. Sign in again.' };
+
+  const article = await getArticleById(id, accessToken);
+  if (!article) return { status: 'error', message: 'Article not found.' };
+
+  const workflowRole = workflowRoleFor(user.role);
+  if (!workflowRole) {
+    return { status: 'error', message: 'You do not have permission for this action.' };
+  }
+
+  const isOwn = article.author_id === user.id;
+  const allowed = allowedActionsFor(workflowRole, article.status, isOwn);
+  if (!allowed.includes(actionRaw)) {
+    return {
+      status: 'error',
+      message: `Cannot ${actionRaw} an article in status "${article.status}".`,
+    };
+  }
+
+  const target = targetStatusFor(actionRaw);
+
+  let publishAt: string | null | undefined = undefined;
+  if (actionRaw === 'schedule') {
+    const iso = parsePublishAt(publishAtRaw);
+    if (!iso) return { status: 'error', message: 'Provide a valid publish date/time.' };
+    if (new Date(iso).getTime() <= Date.now()) {
+      return { status: 'error', message: 'Publish date must be in the future.' };
+    }
+    publishAt = iso;
+  } else if (actionRaw === 'publish') {
+    publishAt = new Date().toISOString();
+  } else if (actionRaw === 'unschedule') {
+    publishAt = null;
+  }
+
+  const result = await setArticleStatus(
+    id,
+    publishAt === undefined ? { status: target } : { status: target, publish_at: publishAt },
+    accessToken,
+  );
+  if (result.status === 'error') {
+    return { status: 'error', message: result.message };
+  }
+
+  await appendArticleRevision(
+    id,
+    article.content_json,
+    user.id,
+    accessToken,
+    `status → ${target} (${actionRaw})`,
+  );
+
+  revalidatePath('/admin/content/articles');
+  revalidatePath(`/admin/content/articles/${id}/edit`);
+  return { status: 'ok', data: { id, status: target } };
 }

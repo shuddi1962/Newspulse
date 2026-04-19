@@ -70,3 +70,88 @@ export function estimateReadingTime(wordCount: number): number {
   const WORDS_PER_MINUTE = 220;
   return Math.max(1, Math.ceil(wordCount / WORDS_PER_MINUTE));
 }
+
+export type WorkflowAction =
+  | 'submit'
+  | 'recall'
+  | 'approve'
+  | 'reject'
+  | 'schedule'
+  | 'unschedule'
+  | 'publish'
+  | 'unpublish'
+  | 'archive'
+  | 'restore';
+
+export type WorkflowRole = 'author' | 'editor' | 'admin';
+
+const AUTHOR_TRANSITIONS: Record<WorkflowAction, readonly ArticleStatus[]> = {
+  submit: ['draft', 'rejected'],
+  recall: ['review'],
+  approve: [],
+  reject: [],
+  schedule: [],
+  unschedule: [],
+  publish: [],
+  unpublish: [],
+  archive: [],
+  restore: [],
+};
+
+const EDITOR_TRANSITIONS: Record<WorkflowAction, readonly ArticleStatus[]> = {
+  submit: ['draft', 'rejected'],
+  recall: ['review'],
+  approve: ['review'],
+  reject: ['review'],
+  schedule: ['approved'],
+  unschedule: ['scheduled'],
+  publish: ['approved', 'scheduled'],
+  unpublish: ['published'],
+  archive: ['draft', 'review', 'approved', 'scheduled', 'published', 'rejected'],
+  restore: ['archived'],
+};
+
+export function allowedActionsFor(
+  role: WorkflowRole,
+  status: ArticleStatus,
+  isOwnArticle: boolean,
+): WorkflowAction[] {
+  const table = role === 'author' ? AUTHOR_TRANSITIONS : EDITOR_TRANSITIONS;
+  const actions: WorkflowAction[] = [];
+  for (const [action, allowed] of Object.entries(table) as [
+    WorkflowAction,
+    readonly ArticleStatus[],
+  ][]) {
+    if (!allowed.includes(status)) continue;
+    if (role === 'author' && !isOwnArticle) continue;
+    actions.push(action);
+  }
+  return actions;
+}
+
+export function targetStatusFor(
+  action: WorkflowAction,
+): ArticleStatus {
+  switch (action) {
+    case 'submit':
+      return 'review';
+    case 'recall':
+      return 'draft';
+    case 'approve':
+      return 'approved';
+    case 'reject':
+      return 'rejected';
+    case 'schedule':
+      return 'scheduled';
+    case 'unschedule':
+      return 'approved';
+    case 'publish':
+      return 'published';
+    case 'unpublish':
+      return 'archived';
+    case 'archive':
+      return 'archived';
+    case 'restore':
+      return 'draft';
+  }
+}

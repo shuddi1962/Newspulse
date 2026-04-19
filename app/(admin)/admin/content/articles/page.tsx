@@ -4,17 +4,36 @@ import { AlertTriangle, Plus } from 'lucide-react';
 import { getAuthCookies } from '@/lib/auth/cookies';
 import { getCurrentUser, hasRole } from '@/lib/auth/session';
 import { redirect } from 'next/navigation';
-import { listArticlesForAdmin, type AdminArticleRow } from '@/lib/db/articles';
+import {
+  countArticlesByStatus,
+  listArticlesForAdmin,
+  type AdminArticleRow,
+} from '@/lib/db/articles';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { ARTICLE_STATUSES, type ArticleStatus } from '@/lib/validation/article';
 
 export const metadata: Metadata = {
   title: 'Articles',
 };
 
-export default async function AdminArticlesPage() {
+function parseStatusParam(raw: string | undefined): ArticleStatus | null {
+  if (!raw) return null;
+  return (ARTICLE_STATUSES as readonly string[]).includes(raw)
+    ? (raw as ArticleStatus)
+    : null;
+}
+
+export default async function AdminArticlesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ status?: string }>;
+}) {
+  const { status: statusRaw } = await searchParams;
+  const statusFilter = parseStatusParam(statusRaw);
+
   const user = await getCurrentUser();
   if (!user) redirect('/login?next=/admin/content/articles');
   if (!hasRole(user, 'author', 'editor', 'admin')) {
@@ -22,9 +41,17 @@ export default async function AdminArticlesPage() {
   }
 
   const { accessToken } = await getAuthCookies();
-  const result = accessToken
-    ? await listArticlesForAdmin(accessToken)
-    : ({ status: 'error', message: 'Session expired. Sign in again.' } as const);
+  const [listResult, countsResult] = accessToken
+    ? await Promise.all([
+        listArticlesForAdmin(accessToken, statusFilter ? { status: statusFilter } : undefined),
+        countArticlesByStatus(accessToken),
+      ])
+    : [
+        { status: 'error', message: 'Session expired. Sign in again.' } as const,
+        { status: 'error', message: 'Session expired.' } as const,
+      ];
+
+  const counts = countsResult.status === 'ok' ? countsResult.data : null;
 
   return (
     <div className="space-y-8">
@@ -47,30 +74,88 @@ export default async function AdminArticlesPage() {
         </Link>
       </header>
 
-      {result.status === 'error' ? (
+      <StatusFilter currentStatus={statusFilter} counts={counts} />
+
+      {listResult.status === 'error' ? (
         <Alert variant="destructive" role="alert">
           <AlertTriangle />
           <div className="space-y-1">
             <AlertTitle>Could not load articles</AlertTitle>
-            <AlertDescription>{result.message}</AlertDescription>
+            <AlertDescription>{listResult.message}</AlertDescription>
           </div>
         </Alert>
-      ) : result.data.length === 0 ? (
-        <EmptyState />
+      ) : listResult.data.length === 0 ? (
+        <EmptyState statusFilter={statusFilter} />
       ) : (
-        <ArticlesTable rows={result.data} />
+        <ArticlesTable rows={listResult.data} />
       )}
     </div>
   );
 }
 
-function EmptyState() {
+function StatusFilter({
+  currentStatus,
+  counts,
+}: {
+  currentStatus: ArticleStatus | null;
+  counts: Record<ArticleStatus, number> | null;
+}) {
+  const total = counts
+    ? Object.values(counts).reduce((sum, n) => sum + n, 0)
+    : null;
+  return (
+    <div className="flex flex-wrap gap-2">
+      <FilterChip href="/admin/content/articles" active={currentStatus === null}>
+        All{total !== null ? ` (${total})` : ''}
+      </FilterChip>
+      {ARTICLE_STATUSES.map((s) => (
+        <FilterChip
+          key={s}
+          href={`/admin/content/articles?status=${s}`}
+          active={currentStatus === s}
+        >
+          {s}
+          {counts ? ` (${counts[s] ?? 0})` : ''}
+        </FilterChip>
+      ))}
+    </div>
+  );
+}
+
+function FilterChip({
+  href,
+  active,
+  children,
+}: {
+  href: string;
+  active: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <Link
+      href={href}
+      className={cn(
+        'inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium transition-colors',
+        active
+          ? 'border-(--color-ink-black) bg-(--color-ink-black) text-(--color-paper)'
+          : 'border-(--border-default) bg-(--bg-surface) text-(--fg-muted) hover:bg-(--bg-muted)',
+      )}
+    >
+      {children}
+    </Link>
+  );
+}
+
+function EmptyState({ statusFilter }: { statusFilter: ArticleStatus | null }) {
   return (
     <div className="rounded-lg border border-dashed border-(--border-default) bg-(--bg-surface) px-6 py-16 text-center">
-      <h2 className="font-display text-lg font-semibold text-(--fg-default)">No articles yet</h2>
+      <h2 className="font-display text-lg font-semibold text-(--fg-default)">
+        {statusFilter ? `No ${statusFilter} articles` : 'No articles yet'}
+      </h2>
       <p className="mx-auto mt-2 max-w-md text-sm text-(--fg-muted)">
-        Start a draft to see it listed here. Drafts stay private to their author until
-        submitted for review.
+        {statusFilter
+          ? 'Try clearing the filter or choosing a different status.'
+          : 'Start a draft to see it listed here. Drafts stay private to their author until submitted for review.'}
       </p>
       <Link
         href="/admin/content/articles/new"
@@ -102,6 +187,7 @@ function ArticlesTable({ rows }: { rows: AdminArticleRow[] }) {
             <th className="px-4 py-3 font-medium">Title</th>
             <th className="px-4 py-3 font-medium">Status</th>
             <th className="px-4 py-3 font-medium">Words</th>
+            <th className="px-4 py-3 font-medium">Publish at</th>
             <th className="px-4 py-3 font-medium">Updated</th>
             <th className="px-4 py-3"></th>
           </tr>
@@ -122,6 +208,14 @@ function ArticlesTable({ rows }: { rows: AdminArticleRow[] }) {
                 <Badge variant={STATUS_VARIANT[row.status] ?? 'neutral'}>{row.status}</Badge>
               </td>
               <td className="px-4 py-3 text-(--fg-muted)">{row.word_count ?? 0}</td>
+              <td className="px-4 py-3 text-(--fg-muted)">
+                {row.publish_at
+                  ? new Date(row.publish_at).toLocaleString(undefined, {
+                      dateStyle: 'medium',
+                      timeStyle: 'short',
+                    })
+                  : '—'}
+              </td>
               <td className="px-4 py-3 text-(--fg-muted)">
                 {new Date(row.updated_at).toLocaleString(undefined, {
                   dateStyle: 'medium',
