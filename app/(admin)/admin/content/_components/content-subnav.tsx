@@ -2,13 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FileText, FolderTree, Tags } from 'lucide-react';
+import { FileText, FolderTree, ImageIcon, Tags } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const tabs = [
   { href: '/admin/content/articles', label: 'Articles', icon: FileText },
   { href: '/admin/content/categories', label: 'Categories', icon: FolderTree },
   { href: '/admin/content/tags', label: 'Tags', icon: Tags },
+  { href: '/admin/content/media', label: 'Media', icon: ImageIcon },
 ];
 
 export function ContentSubnav() {
