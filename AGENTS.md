@@ -36,13 +36,13 @@ This file is the single source of truth for agents (Claude Code and any successo
 | 4 | `fb8110b` | Storage buckets (`avatars`, `media`) + profile self-service page + `media_assets` upload helper with rollback |
 | 5 | `ddb73e9` | Admin user directory (`admin_list_users` RPC) + role management with self-demotion guard |
 | 6 | `604355e` | Error/404/global-error boundaries (root + admin-scoped) + UI primitives (Card, Alert, Badge, Skeleton) |
+| 3 (full-schema top-up) | (pending commit) | Migrations 0004–0015: schema extensions, content, directory, jobs, marketplace, booking, events, real estate, classifieds, ads (11 tables), newsletter+subs+payments, platform. 72 public tables total, RLS on every one. |
 
-### Known deviation from the master prompt (logged)
+### Deviation resolved (Phase 1 Step 3 full-schema)
 
-- **Master prompt Phase 1 Step 3** says "Create complete database schema in InsForge (all tables above)" — i.e. all ~60 tables up-front.
-- **Actual Phase 1 built only the foundation tables** (users/profiles, orgs, categories, tags, media, audit). Domain tables (articles, jobs, listings, events, properties, ads, etc.) are deferred to the phase that owns that feature to avoid premature infrastructure.
-- **Why this is OK**: the 20-rule contract says "no placeholder code / no premature abstraction." Building 60 tables + RLS policies before we have any of the matching UI/API is speculative. Each phase will add its own domain tables and RLS.
-- **Owner acknowledgement required**: if the owner wants the full schema up-front instead, this file should be updated and the remaining tables created in a single migration before Phase 2 starts.
+- **Original deviation**: Phase 1 Step 3 shipped foundation tables only, deferring domain tables to the phase that owned each feature (flagged 2026-04-10).
+- **Resolution (2026-04-19, owner-approved)**: the owner explicitly directed "create the full schema now, and keep going phase-by-phase" — so migrations 0004–0015 were added to complete the schema before Phase 2 begins.
+- **Verification**: `SELECT COUNT(*) FROM pg_tables WHERE schemaname='public'` returned **72** tables, all with `relrowsecurity = true`. Applied via `npx @insforge/cli db import` 0004→0015 in order; all imports returned OK.
 
 ---
 
@@ -414,8 +414,8 @@ When starting a new session or resuming work:
 
 | Date | Deviation | Reason | Status |
 |------|-----------|--------|--------|
-| 2026-04-10 (approx) | Phase 1 Step 3 shipped foundation tables only, not full schema | Premature infrastructure for unbuilt features violates rule 19 (no placeholder code) | Awaiting owner ack; can be reversed by creating all remaining tables before Phase 2 |
+| 2026-04-10 (approx) | Phase 1 Step 3 shipped foundation tables only, not full schema | Premature infrastructure for unbuilt features violates rule 19 (no placeholder code) | **Resolved 2026-04-19**: owner directed full schema up-front. Migrations 0004–0015 added: content, directory, jobs, marketplace, booking, events, real estate, classifieds, ads, newsletter+subs+payments, platform. 72 public tables total, RLS on every one. |
 
 ---
 
-*File version: 1.0. Owned by: Goodnews Daniel. Last ship: commit `604355e` (Phase 1 Step 6).*
+*File version: 1.1. Owned by: Goodnews Daniel. Last ship: migrations 0004–0015 (Phase 1 Step 3 full-schema top-up, 2026-04-19).*
