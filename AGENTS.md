@@ -22,7 +22,7 @@ This file is the single source of truth for agents (Claude Code and any successo
 | 1 | Foundation (auth, schema foundation, storage, admin shell, hardening) | 1–8 in master plan; executed as 6 local steps | **COMPLETE** (commits `9a56b4f` → `604355e`, pushed to `origin/main`) |
 | 2 | Core Content (CMS) | Master plan steps 9–20 | **COMPLETE** (Steps 9–20, commits `98af2b0` → `a168ca9`, deployed to Vercel) |
 | 3 | Marketplace Modules | 21–27 | **COMPLETE** (Steps 21–27, commit `99b24f4`, deployed to Vercel) |
-| 4 | Monetization & Growth | 28–35 | In progress — Steps 28–30 shipped |
+| 4 | Monetization & Growth | 28–35 | In progress — Steps 28–31 shipped |
 | 5 | AI & Intelligence | 36–44 | Not started |
 | 6 | Polish & Scale | 45–54 | Not started |
 
@@ -68,6 +68,7 @@ This file is the single source of truth for agents (Claude Code and any successo
 | 28 | `d512fd7` | Subscription system: `/subscribe` page with pricing tiers (Free/Premium/VIP), feature comparison table, FAQ section, header Subscribe CTA, `lib/db/subscriptions.ts` query layer with plan fetch, user subscription lookup, and subscription creation helper. Falls back to hardcoded plans when DB is empty. |
 | 29 | `7305d33` | Self-serve ad platform: `/ads` advertiser dashboard with campaign overview, spend metrics, campaign table. `/ads/create` 6-step campaign wizard (Objective → Audience → Placement → Budget → Creative → Review). `/ads/account` ad account setup/edit page. `lib/db/ads.ts` query layer covering ad accounts, campaigns, ad groups, creatives, placements, daily stats, payments, invoices. Ad Center sidebar navigation. Header "Ad Center" CTA for authenticated users. |
 | 30 | `f9af00d` | Ad serving engine: `selectAdForPlacement` with weighted rotation (bid × priority × CTR boost), frequency capping (10/day per user/session), impression/click tracking. `/api/ads/[placement]` GET endpoint for ad selection + auto-impression recording. `/api/ads/click/[adId]` GET endpoint for click tracking + redirect. `components/ad-slot.tsx` client component for rendering ads (banner, native, sticky_footer formats) with "Ad"/"Sponsored" labels, skeleton loading, graceful fallback. `getCreativeById`, `getActiveAdsCount`, `checkFrequencyCap`, `updateDailyStats` helper functions. |
+| 31 | `TBD` | Advertiser analytics dashboard: `/ads/analytics` with 8 metric cards (impressions, clicks, CTR, spend, conversions, CPC, active/total campaigns), 30-day impression bar chart (CSS-based), campaign performance table with status/CTR/spend breakdown. `/ads/campaigns` campaign management list with objective, billing model, budget, spent columns. `/ads/payments` payment history with credit balance/total spent cards, status tracking. `/ads/invoices` invoice history with period ranges, subtotals, tax, PDF download links. |
 
 ### Deviation resolved (Phase 1 Step 3 full-schema)
 
@@ -449,4 +450,4 @@ When starting a new session or resuming work:
 
 ---
 
-*File version: 1.7. Owned by: Goodnews Daniel. Last ship: Phase 4 Steps 28–30 — subscription system + self-serve ad platform + ad serving engine (f9af00d, 2026-05-05). Phase 4 IN PROGRESS.*
+*File version: 1.8. Owned by: Goodnews Daniel. Last ship: Phase 4 Steps 28–31 — subscription system + self-serve ad platform + ad serving engine + advertiser analytics (TBD, 2026-05-05). Phase 4 IN PROGRESS.*
