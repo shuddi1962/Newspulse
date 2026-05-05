@@ -156,3 +156,177 @@ export type PaymentTransaction = {
   created_at: string;
   processed_at: string | null;
 };
+
+export type AdCampaignStatus =
+  | 'draft'
+  | 'pending_review'
+  | 'active'
+  | 'paused'
+  | 'completed'
+  | 'rejected'
+  | 'archived';
+
+export type AdObjective =
+  | 'awareness'
+  | 'traffic'
+  | 'conversions'
+  | 'leads'
+  | 'app_installs'
+  | 'engagement';
+
+export type AdBillingModel = 'cpm' | 'cpc' | 'cpa' | 'flat_rate';
+
+export type AdCreativeFormat =
+  | 'banner'
+  | 'native'
+  | 'video'
+  | 'sponsored_post'
+  | 'popup'
+  | 'sticky_footer';
+
+export type AdReviewStatus = 'pending' | 'approved' | 'rejected';
+
+export type AdSlotPosition =
+  | 'header'
+  | 'sidebar'
+  | 'in_feed'
+  | 'between_articles'
+  | 'sticky_footer'
+  | 'article_top'
+  | 'article_bottom'
+  | 'homepage_hero'
+  | 'category_top'
+  | 'search_results';
+
+export type AdPaymentStatus = 'pending' | 'processing' | 'succeeded' | 'failed' | 'refunded';
+
+export type AdInvoiceStatus = 'draft' | 'open' | 'paid' | 'void' | 'uncollectible';
+
+export type AdAccount = {
+  id: string;
+  owner_id: string;
+  business_name: string;
+  business_email: string;
+  business_phone: string | null;
+  tax_id: string | null;
+  billing_address: string | null;
+  billing_city: string | null;
+  billing_country: string | null;
+  billing_postal_code: string | null;
+  currency: string;
+  credit_balance: string;
+  total_spent: string;
+  is_verified: boolean;
+  is_suspended: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+export type AdCampaign = {
+  id: string;
+  account_id: string;
+  name: string;
+  objective: AdObjective;
+  billing_model: AdBillingModel;
+  bid_amount: string;
+  daily_budget: string | null;
+  total_budget: string | null;
+  spent_amount: string;
+  currency: string;
+  start_at: string;
+  end_at: string | null;
+  targeting_json: Record<string, unknown>;
+  status: AdCampaignStatus;
+  created_at: string;
+  updated_at: string;
+};
+
+export type AdGroup = {
+  id: string;
+  campaign_id: string;
+  name: string;
+  bid_amount: string | null;
+  targeting_json: Record<string, unknown>;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+export type AdCreative = {
+  id: string;
+  group_id: string;
+  campaign_id: string;
+  account_id: string;
+  name: string;
+  creative_format: AdCreativeFormat;
+  headline: string | null;
+  body_text: string | null;
+  call_to_action: string | null;
+  image_url: string | null;
+  video_url: string | null;
+  destination_url: string;
+  tracking_url: string | null;
+  is_active: boolean;
+  review_status: AdReviewStatus;
+  rejection_reason: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type AdPlacement = {
+  id: string;
+  ad_id: string;
+  position: AdSlotPosition;
+  page_path: string | null;
+  category_id: string | null;
+  priority: number;
+  is_active: boolean;
+  created_at: string;
+};
+
+export type AdDailyStat = {
+  id: string;
+  ad_id: string;
+  campaign_id: string;
+  account_id: string;
+  stat_date: string;
+  impressions: number;
+  clicks: number;
+  conversions: number;
+  spend_amount: string;
+  revenue_amount: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export type AdPayment = {
+  id: string;
+  account_id: string;
+  amount: string;
+  currency: string;
+  payment_status: AdPaymentStatus;
+  payment_provider: string | null;
+  payment_reference: string | null;
+  failure_reason: string | null;
+  created_at: string;
+  processed_at: string | null;
+};
+
+export type AdInvoice = {
+  id: string;
+  account_id: string;
+  invoice_number: string;
+  period_start: string;
+  period_end: string;
+  subtotal: string;
+  tax_amount: string;
+  total: string;
+  currency: string;
+  invoice_status: AdInvoiceStatus;
+  pdf_url: string | null;
+  issued_at: string | null;
+  due_at: string | null;
+  paid_at: string | null;
+  created_at: string;
+  updated_at: string;
+};

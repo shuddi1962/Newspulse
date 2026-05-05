@@ -53,6 +53,12 @@ export async function SiteHeader() {
           {user ? (
             <>
               <Link
+                href="/ads"
+                className={buttonVariants({ variant: 'secondary', size: 'sm' })}
+              >
+                Ad Center
+              </Link>
+              <Link
                 href="/subscribe"
                 className={buttonVariants({ variant: 'primary', size: 'sm' })}
               >
