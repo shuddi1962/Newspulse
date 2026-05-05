@@ -3,6 +3,8 @@ import { Search as SearchIcon } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
 import { env } from '@/lib/env';
 import { getCurrentUser } from '@/lib/auth/session';
+import { detectLocale } from '@/lib/i18n/server';
+import { LocaleSelector } from './locale-selector';
 
 const navItems: Array<{ href: string; label: string }> = [
   { href: '/news', label: 'News' },
@@ -14,7 +16,7 @@ const navItems: Array<{ href: string; label: string }> = [
 ];
 
 export async function SiteHeader() {
-  const user = await getCurrentUser();
+  const [user, locale] = await Promise.all([getCurrentUser(), detectLocale()]);
 
   return (
     <header className="border-b border-(--border-subtle) bg-(--bg-base)">
@@ -39,6 +41,7 @@ export async function SiteHeader() {
           </nav>
         </div>
         <div className="flex items-center gap-3">
+          <LocaleSelector currentLocale={locale} />
           <Link
             href="/search"
             className="text-(--fg-muted) transition-colors hover:text-(--fg-default)"
