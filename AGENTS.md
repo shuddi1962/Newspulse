@@ -20,8 +20,8 @@ This file is the single source of truth for agents (Claude Code and any successo
 | Phase | Scope | Steps | Status |
 |-------|-------|-------|--------|
 | 1 | Foundation (auth, schema foundation, storage, admin shell, hardening) | 1–8 in master plan; executed as 6 local steps | **COMPLETE** (commits `9a56b4f` → `604355e`, pushed to `origin/main`) |
-| 2 | Core Content (CMS) | Master plan steps 9–20 | **IN PROGRESS** — Steps 9–13 complete |
-| 3 | Marketplace Modules | 21–27 | Not started |
+| 2 | Core Content (CMS) | Master plan steps 9–20 | **COMPLETE** (Steps 9–20, commits `98af2b0` → `a168ca9`, deployed to Vercel) |
+| 3 | Marketplace Modules | 21–27 | Not started — next up |
 | 4 | Monetization & Growth | 28–35 | Not started |
 | 5 | AI & Intelligence | 36–44 | Not started |
 | 6 | Polish & Scale | 45–54 | Not started |
@@ -47,6 +47,13 @@ This file is the single source of truth for agents (Claude Code and any successo
 | 11 | `92fec7f` | Category + tag admin (CRUD, kind filter chips, parent filtering, slug auto-gen, sub-nav) |
 | 12 | `2d1ca5a` | Media library (upload to InsForge storage + media_assets tracking, alt text edit, owner-scope filter, pagination) |
 | 13 | `316d15d` | Public homepage: breaking strip, hero + featured grid, per-category sections, latest rail, article detail page with SEO/metadata/JSON-LD/social sharing |
+| 14 | `316d15d` | Article detail pages: canonical /[category]/[slug] + fallback /article/[slug], metadata generation, JSON-LD structured data, OG/Twitter cards, related articles, author bio block |
+| 15 | `6eb0381` | Category listing pages with lead+grid layout, breadcrumb navigation, numbered pagination (12/page), empty states |
+| 16 | `961d5fe` | Search page (/search) with ILIKE-based full-text search across titles and excerpts, results grid, pagination, search icon in header |
+| 17 | `bec3041` | Comment system: server-side comment creation with auth guard, approved comments display with threading/replies, inline status messages |
+| 18 | `3fad6c7` | Video post management: /video page with featured hero card + grid, YouTube URL extraction, duration formatting, view counts |
+| 19 | `f99c89e` | RSS feeds: /rss.xml (all articles) + /rss/[category].xml (per-category), RSS 2.0 with atom links, auto-discovery in root layout metadata |
+| 20 | `a168ca9` | Multi-language framework: locale definitions (en/es/fr/ar/sw), server-side locale detection (cookie + Accept-Language), RTL support config, locale selector in header, locale-aware date formatting |
 
 ### Deviation resolved (Phase 1 Step 3 full-schema)
 
@@ -428,4 +435,4 @@ When starting a new session or resuming work:
 
 ---
 
-*File version: 1.2. Owned by: Goodnews Daniel. Last ship: Phase 2 Step 13 — public homepage (316d15d, 2026-05-05). Article detail pages (SEO/JSON-LD/social sharing) shipped in same commit as Step 13.*
+*File version: 1.3. Owned by: Goodnews Daniel. Last ship: Phase 2 Step 20 — multi-language framework (a168ca9, 2026-05-05). Phase 2 COMPLETE — 12 steps total, deployed to Vercel.*
