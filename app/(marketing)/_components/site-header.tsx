@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Search as SearchIcon } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
 import { env } from '@/lib/env';
 import { getCurrentUser } from '@/lib/auth/session';
@@ -37,6 +38,13 @@ export async function SiteHeader() {
           </nav>
         </div>
         <div className="flex items-center gap-3">
+          <Link
+            href="/search"
+            className="text-(--fg-muted) transition-colors hover:text-(--fg-default)"
+            aria-label="Search"
+          >
+            <SearchIcon className="h-5 w-5" aria-hidden />
+          </Link>
           {user ? (
             <Link
               href="/admin"

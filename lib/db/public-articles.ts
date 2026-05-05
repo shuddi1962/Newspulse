@@ -231,6 +231,55 @@ export async function listCategoryArticlesPaginated(
   };
 }
 
+export async function searchArticles(
+  query: string,
+  page = 1,
+  pageSize = 12,
+): Promise<Result<PaginatedArticles>> {
+  if (!query.trim()) {
+    return {
+      status: 'ok',
+      data: { articles: [], total: 0, page, pageSize, totalPages: 1 },
+    };
+  }
+
+  const insforge = createServerInsForge();
+  const offset = (page - 1) * pageSize;
+  const term = `%${query.trim()}%`;
+
+  const countRes = await insforge.database
+    .from('articles')
+    .select('id', { count: 'exact', head: true })
+    .eq('status', 'published')
+    .or(`title.ilike.${term},excerpt.ilike.${term}`);
+
+  if (countRes.error) return { status: 'error', message: countRes.error.message ?? 'Could not count results.' };
+  const total = countRes.count ?? 0;
+
+  const { data, error } = await insforge.database
+    .from('articles')
+    .select(CARD_COLUMNS)
+    .eq('status', 'published')
+    .or(`title.ilike.${term},excerpt.ilike.${term}`)
+    .order('publish_at', { ascending: false })
+    .range(offset, offset + pageSize - 1);
+
+  if (error) return { status: 'error', message: error.message ?? 'Could not load results.' };
+
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+
+  return {
+    status: 'ok',
+    data: {
+      articles: (data ?? []) as PublicArticleCard[],
+      total,
+      page,
+      pageSize,
+      totalPages,
+    },
+  };
+}
+
 export async function listRelatedArticles(
   article: Pick<PublicArticleCard, 'id' | 'category_id'>,
   limit = 3,
