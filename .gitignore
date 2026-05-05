@@ -87,3 +87,5 @@ skills-lock.json
 scaffold-tmp/
 .gitignore.insforge
 .gitignore.nextjs
+
+.vercel

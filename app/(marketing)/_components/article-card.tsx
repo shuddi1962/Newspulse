@@ -25,7 +25,7 @@ function formatPublishedAt(iso: string | null): string {
   });
 }
 
-function articleHref(article: PublicArticleCard, categorySlug?: string | null): string {
+export function articleHref(article: PublicArticleCard, categorySlug?: string | null): string {
   return categorySlug ? `/${categorySlug}/${article.slug}` : `/article/${article.slug}`;
 }
 

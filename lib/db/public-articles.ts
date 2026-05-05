@@ -15,6 +15,25 @@ export type PublicArticleCard = {
   author_id: string | null;
 };
 
+export type PublicArticleFull = PublicArticleCard & {
+  content_html: string | null;
+  gallery_images: string[];
+  tags: string[];
+  word_count: number | null;
+  seo_title: string | null;
+  seo_description: string | null;
+  seo_keywords: string[];
+  og_image: string | null;
+  canonical_url: string | null;
+  language: string;
+  allow_comments: boolean;
+  view_count: number;
+  share_count: number;
+  updated_at: string;
+  created_at: string;
+  is_premium: boolean;
+};
+
 export type PublicCategory = {
   id: string;
   slug: string;
@@ -23,8 +42,19 @@ export type PublicCategory = {
   sort_order: number;
 };
 
+export type PublicAuthor = {
+  id: string;
+  display_name: string;
+  username: string | null;
+  avatar_url: string | null;
+  bio: string | null;
+  website_url: string | null;
+};
+
 const CARD_COLUMNS =
   'id, title, slug, excerpt, featured_image, publish_at, is_breaking, is_featured, reading_time_min, category_id, author_id';
+
+const FULL_COLUMNS = `${CARD_COLUMNS}, content_html, gallery_images, tags, word_count, seo_title, seo_description, seo_keywords, og_image, canonical_url, language, allow_comments, view_count, share_count, updated_at, created_at, is_premium`;
 
 type Result<T> =
   | { status: 'ok'; data: T }
@@ -97,4 +127,128 @@ export async function listPublicNewsCategories(limit = 6): Promise<Result<Public
     .limit(limit);
   if (error) return { status: 'error', message: error.message ?? 'Could not load categories.' };
   return { status: 'ok', data: (data ?? []) as PublicCategory[] };
+}
+
+export async function getPublicArticleBySlug(
+  slug: string,
+): Promise<Result<PublicArticleFull | null>> {
+  const insforge = createServerInsForge();
+  const { data, error } = await insforge.database
+    .from('articles')
+    .select(FULL_COLUMNS)
+    .eq('status', 'published')
+    .eq('slug', slug)
+    .maybeSingle();
+  if (error) return { status: 'error', message: error.message ?? 'Could not load article.' };
+  return { status: 'ok', data: (data as PublicArticleFull | null) ?? null };
+}
+
+export async function getPublicCategoryById(
+  categoryId: string,
+): Promise<Result<PublicCategory | null>> {
+  const insforge = createServerInsForge();
+  const { data, error } = await insforge.database
+    .from('categories')
+    .select('id, slug, name, color, sort_order')
+    .eq('id', categoryId)
+    .maybeSingle();
+  if (error) return { status: 'error', message: error.message ?? 'Could not load category.' };
+  return { status: 'ok', data: (data as PublicCategory | null) ?? null };
+}
+
+export async function getPublicCategoryBySlug(
+  slug: string,
+): Promise<Result<PublicCategory | null>> {
+  const insforge = createServerInsForge();
+  const { data, error } = await insforge.database
+    .from('categories')
+    .select('id, slug, name, color, sort_order')
+    .eq('slug', slug)
+    .maybeSingle();
+  if (error) return { status: 'error', message: error.message ?? 'Could not load category.' };
+  return { status: 'ok', data: (data as PublicCategory | null) ?? null };
+}
+
+export async function getPublicAuthorById(
+  authorId: string,
+): Promise<Result<PublicAuthor | null>> {
+  const insforge = createServerInsForge();
+  const { data, error } = await insforge.database
+    .from('profiles')
+    .select('id, display_name, username, avatar_url, bio, website_url')
+    .eq('id', authorId)
+    .maybeSingle();
+  if (error) return { status: 'error', message: error.message ?? 'Could not load author.' };
+  return { status: 'ok', data: (data as PublicAuthor | null) ?? null };
+}
+
+export type PaginatedArticles = {
+  articles: PublicArticleCard[];
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+};
+
+export async function listCategoryArticlesPaginated(
+  categoryId: string,
+  page = 1,
+  pageSize = 12,
+): Promise<Result<PaginatedArticles>> {
+  const insforge = createServerInsForge();
+  const offset = (page - 1) * pageSize;
+
+  const countRes = await insforge.database
+    .from('articles')
+    .select('id', { count: 'exact', head: true })
+    .eq('status', 'published')
+    .eq('category_id', categoryId);
+
+  if (countRes.error) return { status: 'error', message: countRes.error.message ?? 'Could not count articles.' };
+  const total = countRes.count ?? 0;
+
+  const { data, error } = await insforge.database
+    .from('articles')
+    .select(CARD_COLUMNS)
+    .eq('status', 'published')
+    .eq('category_id', categoryId)
+    .order('publish_at', { ascending: false })
+    .range(offset, offset + pageSize - 1);
+
+  if (error) return { status: 'error', message: error.message ?? 'Could not load articles.' };
+
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+
+  return {
+    status: 'ok',
+    data: {
+      articles: (data ?? []) as PublicArticleCard[],
+      total,
+      page,
+      pageSize,
+      totalPages,
+    },
+  };
+}
+
+export async function listRelatedArticles(
+  article: Pick<PublicArticleCard, 'id' | 'category_id'>,
+  limit = 3,
+): Promise<Result<PublicArticleCard[]>> {
+  const insforge = createServerInsForge();
+  let query = insforge.database
+    .from('articles')
+    .select(CARD_COLUMNS)
+    .eq('status', 'published')
+    .neq('id', article.id);
+
+  if (article.category_id) {
+    query = query.eq('category_id', article.category_id);
+  }
+
+  const { data, error } = await query
+    .order('publish_at', { ascending: false })
+    .limit(limit);
+  if (error) return { status: 'error', message: error.message ?? 'Could not load related articles.' };
+  return { status: 'ok', data: (data ?? []) as PublicArticleCard[] };
 }
