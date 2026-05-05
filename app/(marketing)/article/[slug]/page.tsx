@@ -51,6 +51,7 @@ export default async function ArticleFallbackPage({
       author={data.author}
       related={data.related}
       categoriesById={data.categoriesById}
+      comments={data.comments}
       siteUrl={env.NEXT_PUBLIC_SITE_URL}
       siteName={env.NEXT_PUBLIC_SITE_NAME}
       articleUrl={articleUrl}

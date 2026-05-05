@@ -9,6 +9,7 @@ import {
   type PublicCategory,
   type PublicArticleCard,
 } from '@/lib/db/public-articles';
+import { listApprovedComments, type PublicComment } from '@/lib/db/comments';
 
 export type ArticlePageData = {
   article: PublicArticleFull;
@@ -16,6 +17,7 @@ export type ArticlePageData = {
   author: PublicAuthor | null;
   related: PublicArticleCard[];
   categoriesById: Map<string, PublicCategory>;
+  comments: PublicComment[];
 };
 
 export async function loadArticlePageData(
@@ -25,7 +27,7 @@ export async function loadArticlePageData(
   if (articleRes.status !== 'ok' || !articleRes.data) return null;
   const article = articleRes.data;
 
-  const [categoryRes, authorRes, relatedRes] = await Promise.all([
+  const [categoryRes, authorRes, relatedRes, commentsRes] = await Promise.all([
     article.category_id
       ? getPublicCategoryById(article.category_id)
       : Promise.resolve({ status: 'ok', data: null } as const),
@@ -33,11 +35,13 @@ export async function loadArticlePageData(
       ? getPublicAuthorById(article.author_id)
       : Promise.resolve({ status: 'ok', data: null } as const),
     listRelatedArticles({ id: article.id, category_id: article.category_id }, 3),
+    article.allow_comments ? listApprovedComments(article.id) : Promise.resolve({ status: 'ok', data: [] } as const),
   ]);
 
   const category = categoryRes.status === 'ok' ? categoryRes.data : null;
   const author = authorRes.status === 'ok' ? authorRes.data : null;
   const related = relatedRes.status === 'ok' ? relatedRes.data : [];
+  const comments = commentsRes.status === 'ok' ? commentsRes.data : [];
 
   const categoriesById = new Map<string, PublicCategory>();
   if (category) categoriesById.set(category.id, category);
@@ -58,7 +62,7 @@ export async function loadArticlePageData(
     }
   }
 
-  return { article, category, author, related, categoriesById };
+  return { article, category, author, related, categoriesById, comments };
 }
 
 export function buildArticleMetadata(

@@ -4,11 +4,14 @@ import type {
   PublicAuthor,
   PublicCategory,
 } from '@/lib/db/public-articles';
+import type { PublicComment } from '@/lib/db/comments';
 import { ArticleHeader } from './article-header';
 import { ArticleBody } from './article-body';
 import { ShareButtons } from './share-buttons';
 import { RelatedArticles } from './related-articles';
 import { ArticleJsonLd } from './article-json-ld';
+import { CommentList } from './comment-list';
+import { CommentForm } from './comment-form';
 
 type Props = {
   article: PublicArticleFull;
@@ -16,6 +19,7 @@ type Props = {
   author: PublicAuthor | null;
   related: PublicArticleCard[];
   categoriesById: Map<string, PublicCategory>;
+  comments: PublicComment[];
   siteUrl: string;
   siteName: string;
   articleUrl: string;
@@ -27,6 +31,7 @@ export function ArticleView({
   author,
   related,
   categoriesById,
+  comments,
   siteUrl,
   siteName,
   articleUrl,
@@ -95,6 +100,25 @@ export function ArticleView({
       ) : null}
 
       <RelatedArticles articles={related} categoriesById={categoriesById} />
+
+      {article.allow_comments && (
+        <section
+          id="comments"
+          className="mx-auto mt-16 w-full max-w-4xl px-6"
+          aria-labelledby="comments-heading"
+        >
+          <h2
+            id="comments-heading"
+            className="mb-6 text-2xl font-semibold tracking-tight text-(--fg-default)"
+          >
+            Comments
+          </h2>
+          <CommentForm articleId={article.id} />
+          <div className="mt-8">
+            <CommentList comments={comments} />
+          </div>
+        </section>
+      )}
     </article>
   );
 }
