@@ -88,3 +88,71 @@ export type AuditLogEntry = {
   user_agent: string | null;
   created_at: string;
 };
+
+export type UserPlan = 'free' | 'premium' | 'vip' | 'enterprise';
+
+export type SubscriptionStatus =
+  | 'trialing'
+  | 'active'
+  | 'past_due'
+  | 'cancelled'
+  | 'expired'
+  | 'paused';
+
+export type SubscriptionInterval = 'day' | 'week' | 'month' | 'quarter' | 'year';
+
+export type SubscriptionPlan = {
+  id: string;
+  code: string;
+  name: string;
+  description: string | null;
+  plan_tier: UserPlan;
+  price: string;
+  currency: string;
+  interval: SubscriptionInterval;
+  interval_count: number;
+  trial_days: number;
+  features_json: Record<string, unknown>;
+  is_active: boolean;
+  display_order: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type Subscription = {
+  id: string;
+  user_id: string;
+  plan_id: string;
+  status: SubscriptionStatus;
+  started_at: string;
+  trial_end_at: string | null;
+  current_period_start: string;
+  current_period_end: string;
+  cancel_at_period_end: boolean;
+  cancelled_at: string | null;
+  ended_at: string | null;
+  payment_provider: string | null;
+  provider_subscription_id: string | null;
+  metadata_json: Record<string, unknown>;
+  created_at: string;
+  updated_at: string;
+};
+
+export type PaymentTransaction = {
+  id: string;
+  user_id: string | null;
+  subscription_id: string | null;
+  ad_payment_id: string | null;
+  event_order_id: string | null;
+  booking_id: string | null;
+  kind: string;
+  amount: string;
+  currency: string;
+  payment_status: string;
+  provider: string | null;
+  provider_reference: string | null;
+  description: string | null;
+  metadata_json: Record<string, unknown>;
+  created_at: string;
+  processed_at: string | null;
+};

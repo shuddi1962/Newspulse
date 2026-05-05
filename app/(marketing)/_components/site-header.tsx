@@ -13,6 +13,7 @@ const navItems: Array<{ href: string; label: string }> = [
   { href: '/jobs', label: 'Jobs' },
   { href: '/marketplace', label: 'Marketplace' },
   { href: '/events', label: 'Events' },
+  { href: '/subscribe', label: 'Subscribe' },
 ];
 
 export async function SiteHeader() {
@@ -50,12 +51,20 @@ export async function SiteHeader() {
             <SearchIcon className="h-5 w-5" aria-hidden />
           </Link>
           {user ? (
-            <Link
-              href="/admin"
-              className={buttonVariants({ variant: 'secondary', size: 'sm' })}
-            >
-              Dashboard
-            </Link>
+            <>
+              <Link
+                href="/subscribe"
+                className={buttonVariants({ variant: 'primary', size: 'sm' })}
+              >
+                Subscribe
+              </Link>
+              <Link
+                href="/admin"
+                className={buttonVariants({ variant: 'secondary', size: 'sm' })}
+              >
+                Dashboard
+              </Link>
+            </>
           ) : (
             <>
               <Link
@@ -65,10 +74,10 @@ export async function SiteHeader() {
                 Sign in
               </Link>
               <Link
-                href="/signup"
+                href="/subscribe"
                 className={buttonVariants({ variant: 'primary', size: 'sm' })}
               >
-                Create account
+                Subscribe
               </Link>
             </>
           )}

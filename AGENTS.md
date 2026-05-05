@@ -22,7 +22,7 @@ This file is the single source of truth for agents (Claude Code and any successo
 | 1 | Foundation (auth, schema foundation, storage, admin shell, hardening) | 1–8 in master plan; executed as 6 local steps | **COMPLETE** (commits `9a56b4f` → `604355e`, pushed to `origin/main`) |
 | 2 | Core Content (CMS) | Master plan steps 9–20 | **COMPLETE** (Steps 9–20, commits `98af2b0` → `a168ca9`, deployed to Vercel) |
 | 3 | Marketplace Modules | 21–27 | **COMPLETE** (Steps 21–27, commit `99b24f4`, deployed to Vercel) |
-| 4 | Monetization & Growth | 28–35 | Not started — next up |
+| 4 | Monetization & Growth | 28–35 | In progress — Step 28 shipped |
 | 5 | AI & Intelligence | 36–44 | Not started |
 | 6 | Polish & Scale | 45–54 | Not started |
 
@@ -60,6 +60,12 @@ This file is the single source of truth for agents (Claude Code and any successo
 | Local step | Commit | What shipped |
 |---|---|---|
 | 21–27 | `99b24f4` | Business directory (listing + detail, search, category filter), job board (listing + detail, search, remote filter), marketplace (listing + detail), booking (page shell), events (listing + detail), real estate (listing + detail), classifieds (listing + detail). Directory and jobs have full query layers; remaining modules have page shells ready for data. |
+
+### Phase 4 local step log
+
+| Local step | Commit | What shipped |
+|---|---|---|
+| 28 | `TBD` | Subscription system: `/subscribe` page with pricing tiers (Free/Premium/VIP), feature comparison table, FAQ section, header Subscribe CTA, `lib/db/subscriptions.ts` query layer with plan fetch, user subscription lookup, and subscription creation helper. Falls back to hardcoded plans when DB is empty. |
 
 ### Deviation resolved (Phase 1 Step 3 full-schema)
 
@@ -441,4 +447,4 @@ When starting a new session or resuming work:
 
 ---
 
-*File version: 1.4. Owned by: Goodnews Daniel. Last ship: Phase 3 Steps 21–27 — marketplace modules (99b24f4, 2026-05-05). Phase 3 COMPLETE — 7 steps total, deployed to Vercel.*
+*File version: 1.5. Owned by: Goodnews Daniel. Last ship: Phase 4 Step 28 — subscription system (TBD, 2026-05-05). Phase 4 IN PROGRESS.*
