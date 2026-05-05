@@ -6,6 +6,7 @@ import { getCurrentUser } from '@/lib/auth/session';
 
 const navItems: Array<{ href: string; label: string }> = [
   { href: '/news', label: 'News' },
+  { href: '/video', label: 'Video' },
   { href: '/directory', label: 'Directory' },
   { href: '/jobs', label: 'Jobs' },
   { href: '/marketplace', label: 'Marketplace' },
