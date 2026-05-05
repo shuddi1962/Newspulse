@@ -21,8 +21,8 @@ This file is the single source of truth for agents (Claude Code and any successo
 |-------|-------|-------|--------|
 | 1 | Foundation (auth, schema foundation, storage, admin shell, hardening) | 1–8 in master plan; executed as 6 local steps | **COMPLETE** (commits `9a56b4f` → `604355e`, pushed to `origin/main`) |
 | 2 | Core Content (CMS) | Master plan steps 9–20 | **COMPLETE** (Steps 9–20, commits `98af2b0` → `a168ca9`, deployed to Vercel) |
-| 3 | Marketplace Modules | 21–27 | Not started — next up |
-| 4 | Monetization & Growth | 28–35 | Not started |
+| 3 | Marketplace Modules | 21–27 | **COMPLETE** (Steps 21–27, commit `99b24f4`, deployed to Vercel) |
+| 4 | Monetization & Growth | 28–35 | Not started — next up |
 | 5 | AI & Intelligence | 36–44 | Not started |
 | 6 | Polish & Scale | 45–54 | Not started |
 
@@ -54,6 +54,12 @@ This file is the single source of truth for agents (Claude Code and any successo
 | 18 | `3fad6c7` | Video post management: /video page with featured hero card + grid, YouTube URL extraction, duration formatting, view counts |
 | 19 | `f99c89e` | RSS feeds: /rss.xml (all articles) + /rss/[category].xml (per-category), RSS 2.0 with atom links, auto-discovery in root layout metadata |
 | 20 | `a168ca9` | Multi-language framework: locale definitions (en/es/fr/ar/sw), server-side locale detection (cookie + Accept-Language), RTL support config, locale selector in header, locale-aware date formatting |
+
+### Phase 3 local step log
+
+| Local step | Commit | What shipped |
+|---|---|---|
+| 21–27 | `99b24f4` | Business directory (listing + detail, search, category filter), job board (listing + detail, search, remote filter), marketplace (listing + detail), booking (page shell), events (listing + detail), real estate (listing + detail), classifieds (listing + detail). Directory and jobs have full query layers; remaining modules have page shells ready for data. |
 
 ### Deviation resolved (Phase 1 Step 3 full-schema)
 
@@ -435,4 +441,4 @@ When starting a new session or resuming work:
 
 ---
 
-*File version: 1.3. Owned by: Goodnews Daniel. Last ship: Phase 2 Step 20 — multi-language framework (a168ca9, 2026-05-05). Phase 2 COMPLETE — 12 steps total, deployed to Vercel.*
+*File version: 1.4. Owned by: Goodnews Daniel. Last ship: Phase 3 Steps 21–27 — marketplace modules (99b24f4, 2026-05-05). Phase 3 COMPLETE — 7 steps total, deployed to Vercel.*
