@@ -129,6 +129,56 @@ export async function listPublicNewsCategories(limit = 6): Promise<Result<Public
   return { status: 'ok', data: (data ?? []) as PublicCategory[] };
 }
 
+export type RssArticle = {
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  content_html: string | null;
+  publish_at: string | null;
+  category_slug: string | null;
+  category_name: string | null;
+  author_display_name: string | null;
+};
+
+export async function listArticlesForRss(
+  limit = 20,
+  categoryId?: string,
+): Promise<Result<RssArticle[]>> {
+  const insforge = createServerInsForge();
+  let query = insforge.database
+    .from('articles')
+    .select(
+      'title, slug, excerpt, content_html, publish_at, category_id, author_id, categories!articles_category_id_fkey(slug, name), profiles!articles_author_id_fkey(display_name)',
+    )
+    .eq('status', 'published')
+    .order('publish_at', { ascending: false })
+    .limit(limit);
+
+  if (categoryId) {
+    query = query.eq('category_id', categoryId);
+  }
+
+  const { data, error } = await query;
+  if (error) return { status: 'error', message: error.message ?? 'Could not load articles for RSS.' };
+
+  const articles = (data ?? []).map((row: Record<string, unknown>) => {
+    const categories = row.categories as { slug: string; name: string } | null;
+    const profiles = row.profiles as { display_name: string | null } | null;
+    return {
+      title: row.title as string,
+      slug: row.slug as string,
+      excerpt: (row.excerpt as string) ?? null,
+      content_html: (row.content_html as string) ?? null,
+      publish_at: (row.publish_at as string) ?? null,
+      category_slug: categories?.slug ?? null,
+      category_name: categories?.name ?? null,
+      author_display_name: profiles?.display_name ?? null,
+    } as RssArticle;
+  });
+
+  return { status: 'ok', data: articles };
+}
+
 export async function getPublicArticleBySlug(
   slug: string,
 ): Promise<Result<PublicArticleFull | null>> {
