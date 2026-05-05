@@ -66,7 +66,7 @@ This file is the single source of truth for agents (Claude Code and any successo
 | Local step | Commit | What shipped |
 |---|---|---|
 | 28 | `d512fd7` | Subscription system: `/subscribe` page with pricing tiers (Free/Premium/VIP), feature comparison table, FAQ section, header Subscribe CTA, `lib/db/subscriptions.ts` query layer with plan fetch, user subscription lookup, and subscription creation helper. Falls back to hardcoded plans when DB is empty. |
-| 29 | `TBD` | Self-serve ad platform: `/ads` advertiser dashboard with campaign overview, spend metrics, campaign table. `/ads/create` 6-step campaign wizard (Objective → Audience → Placement → Budget → Creative → Review). `/ads/account` ad account setup/edit page. `lib/db/ads.ts` query layer covering ad accounts, campaigns, ad groups, creatives, placements, daily stats, payments, invoices. Ad Center sidebar navigation. Header "Ad Center" CTA for authenticated users. |
+| 29 | `7305d33` | Self-serve ad platform: `/ads` advertiser dashboard with campaign overview, spend metrics, campaign table. `/ads/create` 6-step campaign wizard (Objective → Audience → Placement → Budget → Creative → Review). `/ads/account` ad account setup/edit page. `lib/db/ads.ts` query layer covering ad accounts, campaigns, ad groups, creatives, placements, daily stats, payments, invoices. Ad Center sidebar navigation. Header "Ad Center" CTA for authenticated users. |
 
 ### Deviation resolved (Phase 1 Step 3 full-schema)
 
@@ -448,4 +448,4 @@ When starting a new session or resuming work:
 
 ---
 
-*File version: 1.6. Owned by: Goodnews Daniel. Last ship: Phase 4 Steps 28–29 — subscription system + self-serve ad platform (TBD, 2026-05-05). Phase 4 IN PROGRESS.*
+*File version: 1.6. Owned by: Goodnews Daniel. Last ship: Phase 4 Steps 28–29 — subscription system + self-serve ad platform (7305d33, 2026-05-05). Phase 4 IN PROGRESS.*
