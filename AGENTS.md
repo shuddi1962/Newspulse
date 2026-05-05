@@ -65,7 +65,7 @@ This file is the single source of truth for agents (Claude Code and any successo
 
 | Local step | Commit | What shipped |
 |---|---|---|
-| 28 | `TBD` | Subscription system: `/subscribe` page with pricing tiers (Free/Premium/VIP), feature comparison table, FAQ section, header Subscribe CTA, `lib/db/subscriptions.ts` query layer with plan fetch, user subscription lookup, and subscription creation helper. Falls back to hardcoded plans when DB is empty. |
+| 28 | `d512fd7` | Subscription system: `/subscribe` page with pricing tiers (Free/Premium/VIP), feature comparison table, FAQ section, header Subscribe CTA, `lib/db/subscriptions.ts` query layer with plan fetch, user subscription lookup, and subscription creation helper. Falls back to hardcoded plans when DB is empty. |
 
 ### Deviation resolved (Phase 1 Step 3 full-schema)
 
@@ -447,4 +447,4 @@ When starting a new session or resuming work:
 
 ---
 
-*File version: 1.5. Owned by: Goodnews Daniel. Last ship: Phase 4 Step 28 — subscription system (TBD, 2026-05-05). Phase 4 IN PROGRESS.*
+*File version: 1.5. Owned by: Goodnews Daniel. Last ship: Phase 4 Step 28 — subscription system (d512fd7, 2026-05-05). Phase 4 IN PROGRESS.*
