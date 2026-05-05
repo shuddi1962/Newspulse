@@ -20,7 +20,7 @@ This file is the single source of truth for agents (Claude Code and any successo
 | Phase | Scope | Steps | Status |
 |-------|-------|-------|--------|
 | 1 | Foundation (auth, schema foundation, storage, admin shell, hardening) | 1–8 in master plan; executed as 6 local steps | **COMPLETE** (commits `9a56b4f` → `604355e`, pushed to `origin/main`) |
-| 2 | Core Content (CMS) | Master plan steps 9–20 | **NOT STARTED** — next up |
+| 2 | Core Content (CMS) | Master plan steps 9–20 | **IN PROGRESS** — Steps 9–13 complete |
 | 3 | Marketplace Modules | 21–27 | Not started |
 | 4 | Monetization & Growth | 28–35 | Not started |
 | 5 | AI & Intelligence | 36–44 | Not started |
@@ -36,7 +36,17 @@ This file is the single source of truth for agents (Claude Code and any successo
 | 4 | `fb8110b` | Storage buckets (`avatars`, `media`) + profile self-service page + `media_assets` upload helper with rollback |
 | 5 | `ddb73e9` | Admin user directory (`admin_list_users` RPC) + role management with self-demotion guard |
 | 6 | `604355e` | Error/404/global-error boundaries (root + admin-scoped) + UI primitives (Card, Alert, Badge, Skeleton) |
-| 3 (full-schema top-up) | (pending commit) | Migrations 0004–0015: schema extensions, content, directory, jobs, marketplace, booking, events, real estate, classifieds, ads (11 tables), newsletter+subs+payments, platform. 72 public tables total, RLS on every one. |
+| 3 (full-schema top-up) | `f7f4d40` | Migrations 0004–0015: schema extensions, content, directory, jobs, marketplace, booking, events, real estate, classifieds, ads (11 tables), newsletter+subs+payments, platform. 72 public tables total, RLS on every one. |
+
+### Phase 2 local step log
+
+| Local step | Commit | What shipped |
+|---|---|---|
+| 9 | `98af2b0` | Tiptap v2 rich editor + article draft CRUD (create/edit/list) + server actions |
+| 10 | `5a801cd` | Editorial workflow state machine (draft → review → approved → scheduled → published), workflow panel, status filter with counts |
+| 11 | `92fec7f` | Category + tag admin (CRUD, kind filter chips, parent filtering, slug auto-gen, sub-nav) |
+| 12 | `2d1ca5a` | Media library (upload to InsForge storage + media_assets tracking, alt text edit, owner-scope filter, pagination) |
+| 13 | `316d15d` | Public homepage: breaking strip, hero + featured grid, per-category sections, latest rail, article detail page with SEO/metadata/JSON-LD/social sharing |
 
 ### Deviation resolved (Phase 1 Step 3 full-schema)
 
@@ -418,4 +428,4 @@ When starting a new session or resuming work:
 
 ---
 
-*File version: 1.1. Owned by: Goodnews Daniel. Last ship: migrations 0004–0015 (Phase 1 Step 3 full-schema top-up, 2026-04-19).*
+*File version: 1.2. Owned by: Goodnews Daniel. Last ship: Phase 2 Step 13 — public homepage (316d15d, 2026-05-05). Article detail pages (SEO/JSON-LD/social sharing) shipped in same commit as Step 13.*
