@@ -6,13 +6,19 @@ import { Button } from '@/components/ui/button';
 
 export function CookieConsent() {
   const [visible, setVisible] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
     const consent = localStorage.getItem('cookie_consent');
     if (!consent) {
       setVisible(true);
     }
-  }, []);
+  }, [mounted]);
 
   function accept() {
     localStorage.setItem('cookie_consent', 'accepted');

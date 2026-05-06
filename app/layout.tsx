@@ -121,8 +121,6 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
-          <ServiceWorkerRegistration />
-          <CookieConsent />
           <Toaster
             position="top-right"
             closeButton
