@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { getAuthCookies } from '@/lib/auth/cookies';
 import { createComment } from '@/lib/db/comments';
+import { moderateCommentAction } from './moderate-comment';
 
 type ActionState =
   | { status: 'success'; message: string }
@@ -24,12 +25,19 @@ export async function createCommentAction(
     return { status: 'error', message: 'Comment is too long (max 5,000 characters).' };
   }
 
-  const cookies = getAuthCookies();
+  const cookies = await getAuthCookies();
   if (!cookies?.accessToken) {
     return { status: 'error', message: 'You must be signed in to comment.' };
   }
 
-  const result = await createComment(articleId, content, cookies.accessToken);
+  const moderation = await moderateCommentAction(content);
+  const status = moderation.verdict === 'safe' ? 'approved' : moderation.verdict === 'spam' || moderation.verdict === 'toxic' ? 'rejected' : 'pending';
+
+  if (moderation.verdict === 'toxic') {
+    return { status: 'error', message: 'Your comment contains inappropriate language. Please revise.' };
+  }
+
+  const result = await createComment(articleId, content, cookies.accessToken, null, status);
 
   if (result.status === 'error') {
     if (result.message.includes('auth') || result.message.includes('login')) {
@@ -40,5 +48,9 @@ export async function createCommentAction(
 
   revalidatePath(`/[category]/[slug]`, 'page');
   revalidatePath(`/article/[slug]`, 'page');
+
+  if (status === 'approved') {
+    return { status: 'success', message: 'Comment posted successfully.' };
+  }
   return { status: 'success', message: 'Comment submitted and awaiting approval.' };
 }

@@ -55,6 +55,7 @@ export async function createComment(
   content: string,
   accessToken: string,
   parentId?: string | null,
+  status?: string,
 ): Promise<Result<PublicComment>> {
   const insforge = createServerInsForge(accessToken);
   const { data, error } = await insforge.database
@@ -63,6 +64,7 @@ export async function createComment(
       article_id: articleId,
       content: content.trim(),
       parent_id: parentId ?? null,
+      status: status ?? 'pending',
     })
     .select(
       'id, article_id, user_id, parent_id, content, status, likes_count, created_at, profiles!comments_user_id_fkey(display_name)',

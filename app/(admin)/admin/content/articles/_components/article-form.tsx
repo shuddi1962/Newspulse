@@ -15,6 +15,7 @@ import { cn } from '@/lib/utils';
 import { slugifyTitle } from '@/lib/validation/article';
 import type { ActionResult } from '@/lib/auth/actions';
 import { createDraftAction, updateDraftAction } from '../actions';
+import { AIWriterPanel } from '@/components/ai-writer-panel';
 
 type Mode = 'create' | 'edit';
 
@@ -135,6 +136,21 @@ export function ArticleForm({ mode, initial, showSavedBanner }: Props) {
         </div>
 
         <aside className="space-y-6">
+          <AIWriterPanel
+            onInsertContent={(html) => {
+              editorHandle.current?.setContent(html);
+            }}
+            onSetTitle={(t) => {
+              setTitle(t);
+              if (!slugTouched) setSlug(slugifyTitle(t));
+            }}
+            onSetExcerpt={(e) => setExcerpt(e)}
+            onSetTags={() => {}}
+            currentContent={editorHandle.current?.getHTML() ?? ''}
+            currentTitle={title}
+            currentExcerpt={excerpt}
+          />
+
           <div className="space-y-2">
             <Label htmlFor="article-slug">Slug</Label>
             <Input

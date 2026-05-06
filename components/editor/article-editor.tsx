@@ -40,6 +40,7 @@ export type ArticleEditorHandle = {
   getHTML: () => string;
   getText: () => string;
   getCharacterCount: () => number;
+  setContent: (html: string) => void;
 };
 
 type ArticleEditorProps = {
@@ -101,6 +102,7 @@ export function ArticleEditor({
       getHTML: () => editor?.getHTML() ?? '',
       getText: () => editor?.getText() ?? '',
       getCharacterCount: () => editor?.storage.characterCount?.characters() ?? 0,
+      setContent: (html: string) => editor?.commands.setContent(html),
     }),
     [editor],
   );
