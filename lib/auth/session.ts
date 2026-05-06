@@ -55,7 +55,7 @@ async function assemble(
   };
 }
 
-export const getCurrentUser = cache(async (): Promise<AuthUser | null> => {
+export const getCurrentUser = async (): Promise<AuthUser | null> => {
   const { accessToken, refreshToken } = await getAuthCookies();
 
   if (accessToken) {
