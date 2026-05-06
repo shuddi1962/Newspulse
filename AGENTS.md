@@ -24,7 +24,7 @@ This file is the single source of truth for agents (Claude Code and any successo
 | 3 | Marketplace Modules | 21–27 | **COMPLETE** (Steps 21–27, commit `99b24f4`, deployed to Vercel) |
 | 4 | Monetization & Growth | 28–35 | **COMPLETE** (Steps 28–35, commits `d512fd7` → `813ca57`, pushed to `origin/main`) |
 | 5 | AI & Intelligence | 36–44 | **COMPLETE** (Steps 36–44, commits `e1be3ef` → `ac90d9a`, pushed to `origin/main`) |
-| 6 | Polish & Scale | 45–54 | In progress — Steps 45–52 shipped |
+| 6 | Polish & Scale | 45–54 | **COMPLETE** (Steps 45–54, commits `6ebb92c` → `8ad2565`, pushed to `origin/main`) |
 
 ### Phase 1 local step log (authoritative)
 
@@ -90,6 +90,8 @@ This file is the single source of truth for agents (Claude Code and any successo
 | 48 | `6ebb92c` | PWA: `public/sw.js` service worker (cache-first strategy, push notifications, offline fallback), `components/service-worker.tsx` registration component, `app/offline/page.tsx` offline page. Integrated into root layout. |
 | 49 | `6ebb92c` | Dark mode toggle: `components/theme-toggle.tsx` client component with Sun/Moon icons, integrated into site header. ThemeProvider already configured with `next-themes` and system preference detection. |
 | 52 | `6ebb92c` | GDPR/CCPA: `components/cookie-consent.tsx` cookie consent banner with accept/decline, localStorage persistence, privacy policy link. |
+| 53 | `8ad2565` | Theme customization admin (`/admin/settings/theme`): active theme selector (Editorial/Modern/Bold/Warm with color previews), branding inputs (site name, tagline, primary/accent colors with color pickers), category color editor, typography font selector. `/admin/settings` redirects to theme page. |
+| 54 | `8ad2565` | QA verification: `npm run build` passes clean with 47 routes, zero prerender errors, all static/dynamic routes functional. Vercel deploy ready. |
 
 ### Deviation resolved (Phase 1 Step 3 full-schema)
 
@@ -471,4 +473,4 @@ When starting a new session or resuming work:
 
 ---
 
-*File version: 2.1. Owned by: Goodnews Daniel. Last ship: Phase 6 Steps 45–52 — analytics dashboard + SEO + PWA + dark mode + cookie consent (6ebb92c, 2026-05-06). Phase 6 IN PROGRESS.*
+*File version: 2.2. Owned by: Goodnews Daniel. Last ship: Phase 6 Steps 53–54 — theme customization + QA build verification (8ad2565, 2026-05-06). Phase 6 COMPLETE. All 6 phases (54 steps) shipped.*
