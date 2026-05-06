@@ -91,6 +91,11 @@ export function ArticleCard({
       <div>
         <div className="mb-2 flex flex-wrap items-center gap-2">
           {article.is_breaking ? <Badge variant="destructive">Breaking</Badge> : null}
+          {article.is_premium ? (
+            <Badge variant="outline" className="border-(--color-cat-lifestyle) text-(--color-cat-lifestyle)">
+              Premium
+            </Badge>
+          ) : null}
           {categoryName ? (
             <Link
               href={`/${categorySlug}`}

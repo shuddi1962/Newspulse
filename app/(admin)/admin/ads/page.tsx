@@ -13,16 +13,6 @@ const REVIEW_STATUS_COLORS: Record<string, string> = {
   rejected: 'bg-(--signal-red)/10 text-(--signal-red)',
 };
 
-const CAMPAIGN_STATUS_COLORS: Record<string, string> = {
-  draft: 'text-(--fg-muted)',
-  pending_review: 'text-(--color-cat-lifestyle)',
-  active: 'text-(--color-forest-green)',
-  paused: 'text-(--fg-subtle)',
-  completed: 'text-(--color-ocean-blue)',
-  rejected: 'text-(--signal-red)',
-  archived: 'text-(--fg-subtle)',
-};
-
 const FORMAT_LABELS: Record<string, string> = {
   banner: 'Display Banner',
   native: 'Native Article',
@@ -35,7 +25,7 @@ const FORMAT_LABELS: Record<string, string> = {
 async function getPendingAds() {
   const insforge = createServerInsForge();
 
-  const { data: creatives, error } = await insforge.database
+  const { data, error } = await insforge.database
     .from('ads')
     .select(
       'id, name, creative_format, headline, body_text, call_to_action, image_url, destination_url, review_status, rejection_reason, created_at, account_id, campaign_id, ad_campaigns(name), ad_accounts(business_name)',
@@ -58,15 +48,15 @@ async function getPendingAds() {
     created_at: string;
     account_id: string;
     campaign_id: string;
-    ad_campaigns: { name: string } | null;
-    ad_accounts: { business_name: string } | null;
+    ad_campaigns: { name: string }[];
+    ad_accounts: { business_name: string }[];
   }>;
 }
 
 async function getRecentlyReviewed() {
   const insforge = createServerInsForge();
 
-  const { data: creatives, error } = await insforge.database
+  const { data, error } = await insforge.database
     .from('ads')
     .select(
       'id, name, creative_format, headline, review_status, rejection_reason, updated_at, ad_accounts(business_name)',
@@ -84,7 +74,7 @@ async function getRecentlyReviewed() {
     review_status: string;
     rejection_reason: string | null;
     updated_at: string;
-    ad_accounts: { business_name: string } | null;
+    ad_accounts: { business_name: string }[];
   }>;
 }
 
@@ -138,8 +128,8 @@ export default async function AdReviewPage() {
                 <div>
                   <h3 className="text-base font-semibold text-(--fg-default)">{ad.name}</h3>
                   <p className="text-sm text-(--fg-muted)">
-                    {ad.ad_accounts?.business_name ?? 'Unknown advertiser'}
-                    {ad.ad_campaigns?.name ? ` — ${ad.ad_campaigns.name}` : ''}
+                    {ad.ad_accounts?.[0]?.business_name ?? 'Unknown advertiser'}
+                    {ad.ad_campaigns?.[0]?.name ? ` — ${ad.ad_campaigns[0].name}` : ''}
                   </p>
                 </div>
                 <span className={`rounded-md px-2 py-0.5 text-xs font-medium ${REVIEW_STATUS_COLORS[ad.review_status] ?? ''}`}>
@@ -214,7 +204,7 @@ export default async function AdReviewPage() {
                       {FORMAT_LABELS[ad.creative_format] ?? ad.creative_format}
                     </td>
                     <td className="px-4 py-3 text-(--fg-muted)">
-                      {ad.ad_accounts?.business_name ?? '—'}
+                      {ad.ad_accounts?.[0]?.business_name ?? '—'}
                     </td>
                     <td className="px-4 py-3">
                       <span className={`rounded-md px-2 py-0.5 text-xs font-medium ${REVIEW_STATUS_COLORS[ad.review_status] ?? ''}`}>

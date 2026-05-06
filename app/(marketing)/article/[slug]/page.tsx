@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import { env } from '@/lib/env';
+import { checkPaywall } from '@/lib/db/paywall';
 import { ArticleView } from '../../_components/article-view';
 import {
   buildArticleMetadata,
@@ -43,6 +44,7 @@ export default async function ArticleFallbackPage({
   }
 
   const articleUrl = `${env.NEXT_PUBLIC_SITE_URL}/article/${data.article.slug}`;
+  const paywall = await checkPaywall(data.article.is_premium ?? false);
 
   return (
     <ArticleView
@@ -55,6 +57,7 @@ export default async function ArticleFallbackPage({
       siteUrl={env.NEXT_PUBLIC_SITE_URL}
       siteName={env.NEXT_PUBLIC_SITE_NAME}
       articleUrl={articleUrl}
+      paywall={paywall}
     />
   );
 }

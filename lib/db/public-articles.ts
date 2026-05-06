@@ -10,6 +10,7 @@ export type PublicArticleCard = {
   publish_at: string | null;
   is_breaking: boolean;
   is_featured: boolean;
+  is_premium: boolean;
   reading_time_min: number | null;
   category_id: string | null;
   author_id: string | null;

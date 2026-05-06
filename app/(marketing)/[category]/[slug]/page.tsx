@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import { env } from '@/lib/env';
 import { getPublicCategoryBySlug } from '@/lib/db/public-articles';
+import { checkPaywall } from '@/lib/db/paywall';
 import { ArticleView } from '../../_components/article-view';
 import {
   buildArticleMetadata,
@@ -59,6 +60,8 @@ export default async function ArticleCategoryPage({
     data.category,
   )}`;
 
+  const paywall = await checkPaywall(data.article.is_premium ?? false);
+
   return (
     <ArticleView
       article={data.article}
@@ -70,6 +73,7 @@ export default async function ArticleCategoryPage({
       siteUrl={env.NEXT_PUBLIC_SITE_URL}
       siteName={env.NEXT_PUBLIC_SITE_NAME}
       articleUrl={articleUrl}
+      paywall={paywall}
     />
   );
 }

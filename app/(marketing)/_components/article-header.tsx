@@ -27,6 +27,11 @@ export function ArticleHeader({ article, category, author }: Props) {
     <header className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-6 pt-12 pb-8">
       <div className="flex flex-wrap items-center gap-3">
         {article.is_breaking ? <Badge variant="destructive">Breaking</Badge> : null}
+        {article.is_premium ? (
+          <Badge variant="outline" className="border-(--color-cat-lifestyle) text-(--color-cat-lifestyle)">
+            Premium
+          </Badge>
+        ) : null}
         {category ? (
           <Link
             href={`/${category.slug}`}
