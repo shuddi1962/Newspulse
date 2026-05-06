@@ -43,6 +43,7 @@ const SIZE_MAP: Record<string, SizeConfig> = {
 };
 
 function getSessionId(): string {
+  if (typeof window === 'undefined') return '';
   let sid = sessionStorage.getItem('ad_session_id');
   if (!sid) {
     sid = crypto.randomUUID();
