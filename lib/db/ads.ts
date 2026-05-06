@@ -1052,3 +1052,64 @@ export async function getActiveAdsCount(): Promise<Result<number>> {
 
   return { status: 'ok', data: (data ?? []).length };
 }
+
+export async function getAdOptimizationSuggestions(
+  accountId: string,
+): Promise<Result<Array<{ adId: string; name: string; suggestion: string; priority: 'high' | 'medium' | 'low' }>>> {
+  const insforge = createServerInsForge();
+
+  const { data: creatives, error } = await insforge.database
+    .from('ads')
+    .select('id, name, account_id, campaign_id, impressions_count, clicks_count, is_active, review_status')
+    .eq('account_id', accountId)
+    .eq('review_status', 'approved')
+    .eq('is_active', true);
+
+  if (error) return { status: 'error', message: error.message ?? 'Could not load ads.' };
+
+  const suggestions: Array<{ adId: string; name: string; suggestion: string; priority: 'high' | 'medium' | 'low' }> = [];
+
+  for (const ad of creatives ?? []) {
+    const impressions = (ad as Record<string, unknown>).impressions_count as number ?? 0;
+    const clicks = (ad as Record<string, unknown>).clicks_count as number ?? 0;
+    const ctr = impressions > 0 ? clicks / impressions : 0;
+
+    if (impressions > 1000 && ctr < 0.005) {
+      suggestions.push({
+        adId: ad.id,
+        name: ad.name,
+        suggestion: 'CTR is below 0.5% after 1,000+ impressions. Consider refreshing the creative or adjusting targeting.',
+        priority: 'high',
+      });
+    }
+
+    if (impressions > 5000 && ctr < 0.002) {
+      suggestions.push({
+        adId: ad.id,
+        name: ad.name,
+        suggestion: 'Very low CTR (under 0.2%) after significant exposure. Recommend pausing and testing new creative.',
+        priority: 'high',
+      });
+    }
+
+    if (impressions > 0 && ctr > 0.03) {
+      suggestions.push({
+        adId: ad.id,
+        name: ad.name,
+        suggestion: `Strong CTR of ${(ctr * 100).toFixed(1)}%. Consider increasing budget to scale this winner.`,
+        priority: 'medium',
+      });
+    }
+
+    if (impressions === 0) {
+      suggestions.push({
+        adId: ad.id,
+        name: ad.name,
+        suggestion: 'Ad has zero impressions. Check targeting settings and bid competitiveness.',
+        priority: 'medium',
+      });
+    }
+  }
+
+  return { status: 'ok', data: suggestions };
+}

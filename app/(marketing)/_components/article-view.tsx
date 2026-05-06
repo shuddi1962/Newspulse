@@ -14,6 +14,7 @@ import { ArticleJsonLd } from './article-json-ld';
 import { CommentList } from './comment-list';
 import { CommentForm } from './comment-form';
 import { PaywallOverlay } from '@/components/paywall-overlay';
+import { TextToSpeech } from '@/components/text-to-speech';
 
 type Props = {
   article: PublicArticleFull;
@@ -54,6 +55,12 @@ export function ArticleView({
         articleUrl={articleUrl}
       />
       <ArticleHeader article={article} category={category} author={author} />
+
+      {!showPaywall && (
+        <div className="mx-auto w-full max-w-4xl px-6">
+          <TextToSpeech content={article.content_html ?? ''} title={article.title} />
+        </div>
+      )}
 
       {showPaywall ? (
         <>

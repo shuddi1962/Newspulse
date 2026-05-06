@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { Megaphone, TrendingUp, Eye, MousePointer, DollarSign, ArrowRight } from 'lucide-react';
+import { Megaphone, TrendingUp, Eye, DollarSign, ArrowRight, Sparkles } from 'lucide-react';
 import { getCurrentUser } from '@/lib/auth/session';
-import { getAdAccountByOwnerId, listCampaignsByAccount } from '@/lib/db/ads';
+import { getAdAccountByOwnerId, listCampaignsByAccount, getAdOptimizationSuggestions } from '@/lib/db/ads';
 import type { AdCampaign } from '@/lib/db/types';
 
 export const metadata: Metadata = {
@@ -180,6 +180,8 @@ export default async function AdsDashboardPage() {
           </table>
         </div>
       )}
+
+      {account && <OptimizationSuggestions accountId={account.id} />}
     </div>
   );
 }
@@ -204,6 +206,39 @@ function StatCard({
         </div>
       </div>
       <p className="text-2xl font-semibold tracking-tight text-(--fg-base)">{value}</p>
+    </div>
+  );
+}
+
+async function OptimizationSuggestions({ accountId }: { accountId: string }) {
+  const res = await getAdOptimizationSuggestions(accountId);
+  if (res.status === 'error' || res.data.length === 0) return null;
+
+  const PRIORITY_COLORS: Record<string, string> = {
+    high: 'text-(--signal-red)',
+    medium: 'text-(--color-cat-lifestyle)',
+    low: 'text-(--color-ocean-blue)',
+  };
+
+  return (
+    <div className="mt-8 rounded-lg border border-(--border-subtle) bg-(--bg-surface) p-6">
+      <div className="mb-4 flex items-center gap-2">
+        <Sparkles className="h-5 w-5 text-(--color-ocean-blue)" />
+        <h2 className="text-lg font-semibold text-(--fg-base)">AI Optimization Tips</h2>
+      </div>
+      <div className="space-y-3">
+        {res.data.map((s) => (
+          <div key={s.adId} className="flex items-start gap-3 rounded-lg border border-(--border-subtle) bg-(--bg-surface-subtle) p-4">
+            <span className={`mt-0.5 text-xs font-semibold ${PRIORITY_COLORS[s.priority] ?? ''}`}>
+              [{s.priority.toUpperCase()}]
+            </span>
+            <div>
+              <p className="text-sm font-medium text-(--fg-base)">{s.name}</p>
+              <p className="text-sm text-(--fg-muted)">{s.suggestion}</p>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
