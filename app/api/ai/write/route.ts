@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { requireAdmin } from '@/lib/auth/session';
+import { getCurrentUser } from '@/lib/auth/session';
 import {
   generateDraft,
   rewriteContent,
@@ -10,7 +10,10 @@ import {
 } from '@/lib/ai/writer';
 
 export async function POST(req: NextRequest) {
-  await requireAdmin();
+  const user = await getCurrentUser();
+  if (!user || user.role !== 'admin') {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+  }
 
   try {
     const body = await req.json();

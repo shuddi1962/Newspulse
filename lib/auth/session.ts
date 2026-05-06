@@ -1,5 +1,4 @@
 import 'server-only';
-import { cache } from 'react';
 import { redirect } from 'next/navigation';
 import { createServerInsForge } from '@/lib/insforge/server';
 import {
@@ -75,7 +74,7 @@ export const getCurrentUser = async (): Promise<AuthUser | null> => {
     await clearAuthCookies();
   }
   return null;
-});
+};
 
 export function hasRole(user: AuthUser | null, ...roles: UserRole[]): boolean {
   if (!user) return false;
