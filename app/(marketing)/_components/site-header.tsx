@@ -14,6 +14,7 @@ const navItems: Array<{ href: string; label: string }> = [
   { href: '/marketplace', label: 'Marketplace' },
   { href: '/events', label: 'Events' },
   { href: '/subscribe', label: 'Subscribe' },
+  { href: '/advertise', label: 'Advertise' },
 ];
 
 export async function SiteHeader() {

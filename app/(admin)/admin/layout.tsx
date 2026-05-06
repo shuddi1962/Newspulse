@@ -10,6 +10,8 @@ import {
   Settings,
   UserCircle2,
   Users,
+  Megaphone,
+  Mail,
 } from 'lucide-react';
 import { getCurrentUser } from '@/lib/auth/session';
 import { env } from '@/lib/env';
@@ -28,6 +30,8 @@ const navItems: NavItem[] = [
   { href: '/admin/content', label: 'Content', icon: Newspaper },
   { href: '/admin/pages', label: 'Pages', icon: FileText },
   { href: '/admin/users', label: 'Users', icon: Users },
+  { href: '/admin/ads', label: 'Ad Review', icon: Megaphone },
+  { href: '/admin/newsletter', label: 'Newsletter', icon: Mail },
   { href: '/admin/schedule', label: 'Schedule', icon: CalendarClock },
   { href: '/admin/analytics', label: 'Analytics', icon: BarChart3 },
   { href: '/admin/profile', label: 'Profile', icon: UserCircle2 },
