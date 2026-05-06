@@ -22,7 +22,7 @@ This file is the single source of truth for agents (Claude Code and any successo
 | 1 | Foundation (auth, schema foundation, storage, admin shell, hardening) | 1–8 in master plan; executed as 6 local steps | **COMPLETE** (commits `9a56b4f` → `604355e`, pushed to `origin/main`) |
 | 2 | Core Content (CMS) | Master plan steps 9–20 | **COMPLETE** (Steps 9–20, commits `98af2b0` → `a168ca9`, deployed to Vercel) |
 | 3 | Marketplace Modules | 21–27 | **COMPLETE** (Steps 21–27, commit `99b24f4`, deployed to Vercel) |
-| 4 | Monetization & Growth | 28–35 | In progress — Steps 28–31 shipped |
+| 4 | Monetization & Growth | 28–35 | **COMPLETE** (Steps 28–35, commits `d512fd7` → `813ca57`, pushed to `origin/main`) |
 | 5 | AI & Intelligence | 36–44 | Not started |
 | 6 | Polish & Scale | 45–54 | Not started |
 
@@ -69,6 +69,10 @@ This file is the single source of truth for agents (Claude Code and any successo
 | 29 | `7305d33` | Self-serve ad platform: `/ads` advertiser dashboard with campaign overview, spend metrics, campaign table. `/ads/create` 6-step campaign wizard (Objective → Audience → Placement → Budget → Creative → Review). `/ads/account` ad account setup/edit page. `lib/db/ads.ts` query layer covering ad accounts, campaigns, ad groups, creatives, placements, daily stats, payments, invoices. Ad Center sidebar navigation. Header "Ad Center" CTA for authenticated users. |
 | 30 | `f9af00d` | Ad serving engine: `selectAdForPlacement` with weighted rotation (bid × priority × CTR boost), frequency capping (10/day per user/session), impression/click tracking. `/api/ads/[placement]` GET endpoint for ad selection + auto-impression recording. `/api/ads/click/[adId]` GET endpoint for click tracking + redirect. `components/ad-slot.tsx` client component for rendering ads (banner, native, sticky_footer formats) with "Ad"/"Sponsored" labels, skeleton loading, graceful fallback. `getCreativeById`, `getActiveAdsCount`, `checkFrequencyCap`, `updateDailyStats` helper functions. |
 | 31 | `368474f` | Advertiser analytics dashboard: `/ads/analytics` with 8 metric cards (impressions, clicks, CTR, spend, conversions, CPC, active/total campaigns), 30-day impression bar chart (CSS-based), campaign performance table with status/CTR/spend breakdown. `/ads/campaigns` campaign management list with objective, billing model, budget, spent columns. `/ads/payments` payment history with credit balance/total spent cards, status tracking. `/ads/invoices` invoice history with period ranges, subtotals, tax, PDF download links. |
+| 32 | `3eb824b` | Public `/advertise` landing page: hero with CTAs, audience stats (2.4M+ readers, 18M+ page views), 6 ad format showcases, 6 targeting options, self-serve vs managed pricing comparison, 3 case studies, how-it-works steps, feature comparison table, FAQ section, media kit download CTA. Header "Advertise" nav link. Admin ad review queue (`/admin/ads`): pending review cards with creative preview, approve/reject server actions with rejection reason, recently reviewed table. Admin sidebar "Ad Review" + "Newsletter" nav items. |
+| 33 | _(bundled with 32)_ | _(See Step 32)_ |
+| 34 | `813ca57` | Newsletter engine admin (`/admin/newsletter`): subscriber stats (total/confirmed/pending/unsubscribed), recent subscribers table with status badges, campaigns table with open/click metrics. `lib/db/newsletter.ts` query layer: `getSubscribers`, `getSubscriberStats`, `addSubscriber`, `updateSubscriberStatus`, `getCampaigns`, `getCampaign`, `createCampaign`, `updateCampaign`, `sendCampaign`. |
+| 35 | `813ca57` | Dynamic paywall: `lib/db/paywall.ts` `checkPaywall()` server function checks `is_premium` flag + active subscription (skips for admin/editor/author roles). `components/paywall-overlay.tsx` client component with gradient cutoff, subscription CTA, feature list. Article view gates full content behind paywall for non-subscribers; shows excerpt + overlay. "Premium" badge on article cards + article header. `PublicArticleCard` type extended with `is_premium`. |
 
 ### Deviation resolved (Phase 1 Step 3 full-schema)
 
@@ -450,4 +454,4 @@ When starting a new session or resuming work:
 
 ---
 
-*File version: 1.8. Owned by: Goodnews Daniel. Last ship: Phase 4 Steps 28–31 — subscription system + self-serve ad platform + ad serving engine + advertiser analytics (368474f, 2026-05-05). Phase 4 IN PROGRESS.*
+*File version: 1.9. Owned by: Goodnews Daniel. Last ship: Phase 4 Steps 32–35 — /advertise landing page + admin ad review + newsletter engine + dynamic paywall (813ca57, 2026-05-06). Phase 4 COMPLETE.*
