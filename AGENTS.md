@@ -24,7 +24,7 @@ This file is the single source of truth for agents (Claude Code and any successo
 | 3 | Marketplace Modules | 21–27 | **COMPLETE** (Steps 21–27, commit `99b24f4`, deployed to Vercel) |
 | 4 | Monetization & Growth | 28–35 | **COMPLETE** (Steps 28–35, commits `d512fd7` → `813ca57`, pushed to `origin/main`) |
 | 5 | AI & Intelligence | 36–44 | **COMPLETE** (Steps 36–44, commits `e1be3ef` → `ac90d9a`, pushed to `origin/main`) |
-| 6 | Polish & Scale | 45–54 | Not started |
+| 6 | Polish & Scale | 45–54 | In progress — Steps 45–52 shipped |
 
 ### Phase 1 local step log (authoritative)
 
@@ -80,6 +80,16 @@ This file is the single source of truth for agents (Claude Code and any successo
 |---|---|---|
 | 36–41 | `e1be3ef` | AI writer panel (`components/ai-writer-panel.tsx`) integrated into article editor: draft generation (topic + tone + word count), rewrite with custom instructions, headline generation (5 variations), social copy for X/LinkedIn/Facebook/Instagram, article summarization (TL;DR + takeaways), auto-tagging. `lib/ai/writer.ts` server-side AI library using InsForge AI Gateway (claude-sonnet-4.5). `/api/ai/write` POST endpoint. AI comment moderation (`moderateCommentAction`) integrated into comment submission flow — auto-classifies as safe/review/spam/toxic. Admin AI Tools page (`/admin/ai`) with model status overview. `ArticleEditorHandle` extended with `setContent()`. |
 | 42–44 | `ac90d9a` | Text-to-speech narration (`components/text-to-speech.tsx`) using Web Speech API — play/pause/stop, voice selection, speed control, inserted into article view. Smart search API (`/api/search/smart`) — AI query expansion using claude-sonnet-4.5 for better search intent matching. Ad optimization engine (`getAdOptimizationSuggestions`) — analyzes CTR/impressions, flags underperforming ads, suggests budget increases for winners, integrated into advertiser dashboard. |
+
+### Phase 6 local step log
+
+| Local step | Commit | What shipped |
+|---|---|---|
+| 45 | `6ebb92c` | Analytics dashboard (`/admin/analytics`): 4 metric cards (published articles, total views, 30-day views, confirmed subscribers), views-by-category horizontal bar chart, platform summary table, top-10 articles table sorted by views with share counts. |
+| 46 | `6ebb92c` | SEO optimization: `app/sitemap.ts` dynamic sitemap with static routes + categories + published articles, `app/robots.ts` robots.txt with disallow rules for admin/auth/API routes. `app/manifest.ts` PWA web app manifest. |
+| 48 | `6ebb92c` | PWA: `public/sw.js` service worker (cache-first strategy, push notifications, offline fallback), `components/service-worker.tsx` registration component, `app/offline/page.tsx` offline page. Integrated into root layout. |
+| 49 | `6ebb92c` | Dark mode toggle: `components/theme-toggle.tsx` client component with Sun/Moon icons, integrated into site header. ThemeProvider already configured with `next-themes` and system preference detection. |
+| 52 | `6ebb92c` | GDPR/CCPA: `components/cookie-consent.tsx` cookie consent banner with accept/decline, localStorage persistence, privacy policy link. |
 
 ### Deviation resolved (Phase 1 Step 3 full-schema)
 
@@ -461,4 +471,4 @@ When starting a new session or resuming work:
 
 ---
 
-*File version: 2.0. Owned by: Goodnews Daniel. Last ship: Phase 5 Steps 36–44 — AI writer + comment moderation + text-to-speech + smart search + ad optimization (ac90d9a, 2026-05-06). Phase 5 COMPLETE.*
+*File version: 2.1. Owned by: Goodnews Daniel. Last ship: Phase 6 Steps 45–52 — analytics dashboard + SEO + PWA + dark mode + cookie consent (6ebb92c, 2026-05-06). Phase 6 IN PROGRESS.*
