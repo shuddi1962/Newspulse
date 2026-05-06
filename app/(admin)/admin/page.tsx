@@ -1,7 +1,23 @@
 import type { Metadata } from 'next';
 import { getCurrentUser } from '@/lib/auth/session';
 import Link from 'next/link';
-import { FileText, Bookmark, BarChart3, TrendingUp } from 'lucide-react';
+import {
+  FileText,
+  FolderTree,
+  ImageIcon,
+  Tags,
+  Megaphone,
+  Mail,
+  BarChart3,
+  TrendingUp,
+  CalendarClock,
+  Users,
+  Settings,
+  Plus,
+} from 'lucide-react';
+import { listArticlesForAdmin as getArticles } from '@/lib/db/articles';
+import { listCategories as getCategories } from '@/lib/db/categories';
+import { listMedia as getMediaAssets } from '@/lib/db/media';
 
 export const metadata: Metadata = {
   title: 'Dashboard — NewsPulse PRO',
@@ -10,6 +26,27 @@ export const metadata: Metadata = {
 export default async function AdminOverviewPage() {
   const user = await getCurrentUser();
   const displayName = user?.name?.trim() || user?.email?.split('@')[0] || 'there';
+
+  // Fetch real stats
+  const [articles, categories, media] = await Promise.all([
+    getArticles().catch(() => []),
+    getCategories('news').catch(() => []),
+    getMediaAssets().catch(() => []),
+  ]);
+
+  const stats = [
+    { label: 'Articles', count: articles.length, href: '/admin/content/articles', icon: FileText },
+    { label: 'Categories', count: categories.length, href: '/admin/content/categories', icon: FolderTree },
+    { label: 'Media Files', count: media.length, href: '/admin/content/media', icon: ImageIcon },
+    { label: 'Tags', count: 0, href: '/admin/content/tags', icon: Tags },
+  ];
+
+  const quickActions = [
+    { label: 'New Article', href: '/admin/content/articles/new', icon: FileText },
+    { label: 'New Page', href: '/admin/pages/new', icon: Plus },
+    { label: 'Upload Media', href: '/admin/content/media', icon: ImageIcon },
+    { label: 'View Analytics', href: '/admin/analytics', icon: BarChart3 },
+  ];
 
   return (
     <div className="space-y-8">
@@ -23,71 +60,83 @@ export default async function AdminOverviewPage() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-6">
-        <div className="rounded-lg border border-gray-200 bg-white p-4">
-          <p className="text-xs text-gray-500">Total Posts</p>
-          <p className="mt-2 text-2xl font-bold text-gray-900">2,847</p>
-          <p className="mt-1 text-xs font-medium text-green-600">+12%</p>
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        {stats.map((stat) => (
+          <Link
+            key={stat.href}
+            href={stat.href}
+            className="rounded-lg border border-gray-200 bg-white p-4 transition-colors hover:border-gray-300 hover:bg-gray-50"
+          >
+            <div className="flex items-center gap-2">
+              <stat.icon className="h-4 w-4 text-gray-500" />
+              <p className="text-xs text-gray-500">{stat.label}</p>
+            </div>
+            <p className="mt-2 text-2xl font-bold text-gray-900">{stat.count}</p>
+          </Link>
+        ))}
+      </div>
+
+      {/* Recent Articles */}
+      <div className="rounded-lg border border-gray-200 bg-white p-6">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="font-display text-lg font-semibold text-gray-900">
+            Recent Articles
+          </h2>
+          <Link
+            href="/admin/content/articles"
+            className="text-sm text-ink-black hover:underline"
+          >
+            View all
+          </Link>
         </div>
-        <div className="rounded-lg border border-gray-200 bg-white p-4">
-          <p className="text-xs text-gray-500">Active Listings</p>
-          <p className="mt-2 text-2xl font-bold text-gray-900">1,234</p>
-          <p className="mt-1 text-xs font-medium text-green-600">+23%</p>
-        </div>
-        <div className="rounded-lg border border-gray-200 bg-white p-4">
-          <p className="text-xs text-gray-500">Job Posts</p>
-          <p className="mt-2 text-2xl font-bold text-gray-900">456</p>
-          <p className="mt-1 text-xs font-medium text-green-600">+18%</p>
-        </div>
-        <div className="rounded-lg border border-gray-200 bg-white p-4">
-          <p className="text-xs text-gray-500">Bookings Today</p>
-          <p className="mt-2 text-2xl font-bold text-gray-900">89</p>
-          <p className="mt-1 text-xs font-medium text-green-600">+31%</p>
-        </div>
-        <div className="rounded-lg border border-gray-200 bg-white p-4">
-          <p className="text-xs text-gray-500">Subscribers</p>
-          <p className="mt-2 text-2xl font-bold text-gray-900">34.5K</p>
-          <p className="mt-1 text-xs font-medium text-green-600">+8%</p>
-        </div>
-        <div className="rounded-lg border border-gray-200 bg-white p-4">
-          <p className="text-xs text-gray-500">Revenue</p>
-          <p className="mt-2 text-2xl font-bold text-gray-900">$24,847</p>
-          <p className="mt-1 text-xs font-medium text-green-600">+22%</p>
-        </div>
+        {articles.length === 0 ? (
+          <p className="py-8 text-center text-sm text-gray-500">
+            No articles yet.{' '}
+            <Link href="/admin/content/articles/new" className="text-ink-black underline">
+              Create your first article
+            </Link>
+          </p>
+        ) : (
+          <div className="space-y-3">
+            {articles.slice(0, 5).map((article) => (
+              <div
+                key={article.id}
+                className="flex items-center justify-between rounded-lg border border-gray-100 p-3"
+              >
+                <div>
+                  <p className="text-sm font-medium text-gray-900">{article.title}</p>
+                  <p className="text-xs text-gray-500">
+                    {new Date(article.created_at).toLocaleDateString()}
+                  </p>
+                </div>
+                <Link
+                  href={`/admin/content/articles/${article.id}/edit`}
+                  className="text-sm text-ink-black hover:underline"
+                >
+                  Edit
+                </Link>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Quick Actions */}
       <div className="rounded-lg border border-gray-200 bg-white p-6">
-        <h2 className="mb-4 font-display text-lg font-semibold text-gray-900">Quick Actions</h2>
-        <div className="space-y-2">
-          <Link
-            href="/admin/content/articles/new"
-            className="flex items-center gap-3 rounded-lg border border-gray-200 p-3 text-sm font-medium text-gray-700 transition-colors hover:border-gray-300 hover:bg-gray-50"
-          >
-            <FileText className="h-4 w-4 text-gray-500" />
-            New Article
-          </Link>
-          <Link
-            href="/admin/content/categories/new"
-            className="flex items-center gap-3 rounded-lg border border-gray-200 p-3 text-sm font-medium text-gray-700 transition-colors hover:border-gray-300 hover:bg-gray-50"
-          >
-            <Bookmark className="h-4 w-4 text-gray-500" />
-            New Directory Listing
-          </Link>
-          <Link
-            href="/admin/analytics"
-            className="flex items-center gap-3 rounded-lg border border-gray-200 p-3 text-sm font-medium text-gray-700 transition-colors hover:border-gray-300 hover:bg-gray-50"
-          >
-            <BarChart3 className="h-4 w-4 text-gray-500" />
-            View Analytics
-          </Link>
-          <Link
-            href="/admin/ads"
-            className="flex items-center gap-3 rounded-lg border border-gray-200 p-3 text-sm font-medium text-gray-700 transition-colors hover:border-gray-300 hover:bg-gray-50"
-          >
-            <TrendingUp className="h-4 w-4 text-gray-500" />
-            Manage Ads
-          </Link>
+        <h2 className="mb-4 font-display text-lg font-semibold text-gray-900">
+          Quick Actions
+        </h2>
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          {quickActions.map((action) => (
+            <Link
+              key={action.href}
+              href={action.href}
+              className="flex items-center gap-3 rounded-lg border border-gray-200 p-3 text-sm font-medium text-gray-700 transition-colors hover:border-gray-300 hover:bg-gray-50"
+            >
+              <action.icon className="h-4 w-4 text-gray-500" />
+              {action.label}
+            </Link>
+          ))}
         </div>
       </div>
     </div>
