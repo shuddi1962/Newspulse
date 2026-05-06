@@ -19,6 +19,8 @@ import { env } from '@/lib/env';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { SignOutButton } from './_components/sign-out-button';
+import { NotificationDropdown } from './_components/notification-dropdown';
+import { QuickActionsDropdown } from './_components/quick-actions-dropdown';
 
 type NavItem = {
   href: string;
@@ -93,6 +95,8 @@ export default async function AdminLayout({ children }: { children: ReactNode })
               {user.role}
             </Badge>
           </div>
+          <NotificationDropdown />
+          <QuickActionsDropdown />
           <SignOutButton />
         </header>
         <div className="flex-1 p-6">{children}</div>
