@@ -5,6 +5,7 @@ import { env } from '@/lib/env';
 import { getCurrentUser } from '@/lib/auth/session';
 import { detectLocale } from '@/lib/i18n/server';
 import { LocaleSelector } from './locale-selector';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 const navItems: Array<{ href: string; label: string }> = [
   { href: '/news', label: 'News' },
@@ -43,6 +44,7 @@ export async function SiteHeader() {
           </nav>
         </div>
         <div className="flex items-center gap-3">
+          <ThemeToggle />
           <LocaleSelector currentLocale={locale} />
           <Link
             href="/search"

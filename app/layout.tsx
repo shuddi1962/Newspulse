@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next';
 import { Fraunces, Instrument_Sans, JetBrains_Mono } from 'next/font/google';
 import { Toaster } from 'sonner';
 import { ThemeProvider } from '@/components/providers/theme-provider';
+import { ServiceWorkerRegistration } from '@/components/service-worker';
+import { CookieConsent } from '@/components/cookie-consent';
 import './globals.css';
 
 const fraunces = Fraunces({
@@ -119,6 +121,8 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <ServiceWorkerRegistration />
+          <CookieConsent />
           <Toaster
             position="top-right"
             closeButton
