@@ -89,3 +89,4 @@ scaffold-tmp/
 .gitignore.nextjs
 
 .vercel
+.env*.local
