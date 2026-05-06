@@ -66,24 +66,32 @@
 
 :root {
   --bg-page: var(--color-paper);
+  --bg-base: var(--color-paper-white);
   --bg-surface: var(--color-paper-white);
   --bg-surface-subtle: var(--color-paper-cool);
+  --bg-muted: var(--color-gray-100);
   --fg-base: var(--color-ink-black);
+  --fg-default: var(--color-ink-black);
   --fg-muted: var(--color-gray-600);
   --fg-subtle: var(--color-gray-500);
   --border-subtle: var(--color-gray-200);
+  --border-default: var(--color-gray-300);
   --border-strong: var(--color-gray-300);
   color-scheme: light;
 }
 
 :root[data-theme="dark"] {
   --bg-page: var(--color-ink-black);
+  --bg-base: var(--color-ink-dark);
   --bg-surface: var(--color-ink-dark);
   --bg-surface-subtle: #111827;
+  --bg-muted: #1f2937;
   --fg-base: var(--color-paper);
+  --fg-default: var(--color-paper);
   --fg-muted: var(--color-gray-400);
   --fg-subtle: var(--color-gray-500);
   --border-subtle: #263244;
+  --border-default: #374151;
   --border-strong: var(--color-gray-700);
   color-scheme: dark;
 }
@@ -91,12 +99,16 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg-page: var(--color-ink-black);
+    --bg-base: var(--color-ink-dark);
     --bg-surface: var(--color-ink-dark);
     --bg-surface-subtle: #111827;
+    --bg-muted: #1f2937;
     --fg-base: var(--color-paper);
+    --fg-default: var(--color-paper);
     --fg-muted: var(--color-gray-400);
     --fg-subtle: var(--color-gray-500);
     --border-subtle: #263244;
+    --border-default: #374151;
     --border-strong: var(--color-gray-700);
     color-scheme: dark;
   }
