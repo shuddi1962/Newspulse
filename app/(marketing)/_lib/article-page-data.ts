@@ -35,7 +35,7 @@ export async function loadArticlePageData(
       ? getPublicAuthorById(article.author_id)
       : Promise.resolve({ status: 'ok', data: null } as const),
     listRelatedArticles({ id: article.id, category_id: article.category_id }, 3),
-    article.allow_comments ? listApprovedComments(article.id) : Promise.resolve({ status: 'ok', data: [] } as const),
+    article.allow_comments ? listApprovedComments(article.id) : Promise.resolve({ status: 'ok', data: [] as PublicComment[] } as const),
   ]);
 
   const category = categoryRes.status === 'ok' ? categoryRes.data : null;
@@ -67,7 +67,7 @@ export async function loadArticlePageData(
 
 export function buildArticleMetadata(
   data: ArticlePageData,
-  siteUrl: string,
+  _siteUrl: string,
   siteName: string,
   articleUrl: string,
 ) {

@@ -24,8 +24,9 @@ export function getLocale(code: string | undefined): LocaleConfig {
 
 export function getSupportedLocale(acceptLanguage: string | undefined): Locale {
   if (!acceptLanguage) return DEFAULT_LOCALE;
-  const preferred = acceptLanguage.split(',').map((lang) => lang.trim().split(';')[0]);
+  const preferred = acceptLanguage.split(',').map((lang) => lang.trim().split(';')[0]).filter(Boolean);
   for (const lang of preferred) {
+    if (!lang) continue;
     const code = lang.toLowerCase().split('-')[0] as Locale;
     if (LOCALES.some((l) => l.code === code)) return code;
   }

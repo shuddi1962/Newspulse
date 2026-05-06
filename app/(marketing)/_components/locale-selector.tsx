@@ -19,7 +19,8 @@ export function LocaleSelector({ currentLocale }: Props) {
     });
   }
 
-  const current = LOCALES.find((l) => l.code === currentLocale) ?? LOCALES[0];
+  const current = LOCALES.find((l) => l.code === currentLocale);
+  if (!current) return null;
 
   return (
     <div className="relative">

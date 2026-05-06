@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ShoppingBag, Search as SearchIcon, MapPin, DollarSign } from 'lucide-react';
+import { ShoppingBag, Search as SearchIcon } from 'lucide-react';
 import { env } from '@/lib/env';
 
 export const revalidate = 60;

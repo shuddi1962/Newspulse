@@ -165,7 +165,6 @@ export default function CreateCampaignPage() {
 
       <div className="mb-8 flex items-center gap-2 overflow-x-auto pb-2">
         {steps.map((step, idx) => {
-          const Icon = step.icon;
           const isComplete = idx < currentStep;
           const isCurrent = idx === currentStep;
 

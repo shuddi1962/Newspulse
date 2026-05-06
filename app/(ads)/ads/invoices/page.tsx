@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
 import { ExternalLink } from 'lucide-react';
 import { getCurrentUser } from '@/lib/auth/session';
 import { getAdAccountByOwnerId, listInvoicesByAccount } from '@/lib/db/ads';

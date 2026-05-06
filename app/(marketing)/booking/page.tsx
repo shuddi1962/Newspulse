@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Calendar, Search as SearchIcon } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 import { env } from '@/lib/env';
 
 export const revalidate = 60;

@@ -1,18 +1,14 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 import { env } from '@/lib/env';
-
-type Params = { slug: string };
 
 export const revalidate = 60;
 
-export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
+export function generateMetadata(): Metadata {
   return { title: `Property — ${env.NEXT_PUBLIC_SITE_NAME}` };
 }
 
-export default async function PropertyDetailPage({ params }: { params: Promise<Params> }) {
-  const { slug } = await params;
+export default async function PropertyDetailPage() {
   return (
     <main className="mx-auto w-full max-w-screen-2xl px-6 py-10">
       <nav className="mb-6 text-xs text-(--fg-subtle)" aria-label="Breadcrumb">

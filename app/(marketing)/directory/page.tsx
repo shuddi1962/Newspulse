@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Search as SearchIcon, MapPin, Star, ExternalLink, Verified } from 'lucide-react';
+import { Search as SearchIcon, MapPin, Star, Verified } from 'lucide-react';
 import { env } from '@/lib/env';
 import { listDirectoryCategories, listActiveListings, formatRating } from '@/lib/db/directory';
 import type { DirectoryListing } from '@/lib/db/directory';
@@ -56,7 +56,7 @@ export default async function DirectoryPage({
         </p>
       </header>
 
-      <SearchBar initialQ={q} initialCity={city} initialCategory={category} categories={categories} />
+      <SearchBar initialQ={q} initialCity={city} />
 
       {categories.length > 0 && (
         <CategoryFilter categories={categories} activeCategory={category} />
@@ -90,13 +90,9 @@ export default async function DirectoryPage({
 function SearchBar({
   initialQ,
   initialCity,
-  initialCategory,
-  categories,
 }: {
   initialQ: string;
   initialCity: string;
-  initialCategory: string;
-  categories: Array<{ id: string; name: string }>;
 }) {
   return (
     <form action="/directory" method="GET" className="mb-6">

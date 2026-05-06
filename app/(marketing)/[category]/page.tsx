@@ -6,7 +6,6 @@ import { env } from '@/lib/env';
 import {
   getPublicCategoryBySlug,
   listCategoryArticlesPaginated,
-  type PublicCategory,
   type PublicArticleCard,
 } from '@/lib/db/public-articles';
 import { ArticleCard, articleHref } from '../_components/article-card';
@@ -92,6 +91,7 @@ function ArticleGrid({ articles }: { articles: PublicArticleCard[] }) {
   if (articles.length === 0) return null;
 
   const lead = articles[0];
+  if (!lead) return null;
   const rest = articles.slice(1);
 
   return (
@@ -225,7 +225,7 @@ function PageLink({
   disabled?: boolean;
   active?: boolean;
   'aria-label'?: string;
-  'aria-current'?: string;
+  'aria-current'?: 'page' | 'step' | 'location' | 'date' | 'time' | true | false;
   children: React.ReactNode;
 }) {
   if (disabled) {

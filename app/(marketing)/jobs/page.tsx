@@ -23,12 +23,11 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
   const remote = sp.remote === 'true';
   const page = Math.max(1, Number(sp.page) || 1);
 
-  const [categoriesRes, jobsRes] = await Promise.all([
+  const [_, jobsRes] = await Promise.all([
     listJobCategories(),
     listActiveJobs(page, PAGE_SIZE, category || undefined, q || undefined, remote || undefined),
   ]);
 
-  const categories = categoriesRes.status === 'ok' ? categoriesRes.data : [];
   const paginated = jobsRes.status === 'ok' ? jobsRes.data : { jobs: [], total: 0, page, pageSize: PAGE_SIZE, totalPages: 1 };
 
   return (

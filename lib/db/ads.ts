@@ -663,7 +663,6 @@ export async function selectAdForPlacement(params: {
     return { status: 'ok', data: null };
   }
 
-  const creativeIds = creatives.map((c: Record<string, unknown>) => c.id as string);
   const campaignIds = [...new Set(creatives.map((c: Record<string, unknown>) => c.campaign_id as string))];
 
   const { data: campaigns, error: campaignError } = await insforge.database
@@ -751,13 +750,13 @@ export async function selectAdForPlacement(params: {
 
   for (const c of eligibleCreatives) {
     const adId = c.id as string;
-    const { data: todayImpressions } = await insforge.database
+    const { count: todayImpressions } = await insforge.database
       .from('ad_impressions')
       .select('id', { count: 'exact', head: true })
       .eq('ad_id', adId)
       .gte('created_at', todayStart);
 
-    const { data: todayClicks } = await insforge.database
+    const { count: todayClicks } = await insforge.database
       .from('ad_clicks')
       .select('id', { count: 'exact', head: true })
       .eq('ad_id', adId)
@@ -793,10 +792,14 @@ export async function selectAdForPlacement(params: {
     return { creative: c, weight: Math.max(weight, 1) };
   });
 
+  if (weightedCreatives.length === 0) {
+    return { status: 'ok', data: null };
+  }
+
   const totalWeight = weightedCreatives.reduce((sum, wc) => sum + wc.weight, 0);
   let random = Math.random() * totalWeight;
 
-  let selectedCreative = weightedCreatives[0].creative;
+  let selectedCreative = weightedCreatives[0]!.creative;
   for (const wc of weightedCreatives) {
     random -= wc.weight;
     if (random <= 0) {
@@ -966,7 +969,7 @@ export async function updateDailyStats(params: {
 
   const insforge = createServerInsForge();
 
-  const { data: impressions, error: impError } = await insforge.database
+  const { count: impressions, error: impError } = await insforge.database
     .from('ad_impressions')
     .select('id', { count: 'exact', head: true })
     .eq('ad_id', adId)
@@ -977,7 +980,7 @@ export async function updateDailyStats(params: {
     return { status: 'error', message: impError.message ?? 'Could not count impressions.' };
   }
 
-  const { data: clicks, error: clickError } = await insforge.database
+  const { count: clicks, error: clickError } = await insforge.database
     .from('ad_clicks')
     .select('id', { count: 'exact', head: true })
     .eq('ad_id', adId)

@@ -94,25 +94,3 @@ export function ShareButtons({ url, title, excerpt }: Props) {
     </div>
   );
 }
-
-function IconLink({
-  href,
-  label,
-  children,
-}: {
-  href: string;
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={label}
-      className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-(--border-default) text-(--fg-muted) transition-colors hover:bg-(--bg-muted) hover:text-(--fg-default)"
-    >
-      {children}
-    </a>
-  );
-}

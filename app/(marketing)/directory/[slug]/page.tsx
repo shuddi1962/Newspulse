@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { MapPin, Phone, Mail, Globe, Star, Verified, Clock } from 'lucide-react';
+import { MapPin, Phone, Mail, Globe, Star, Verified } from 'lucide-react';
 import { env } from '@/lib/env';
 import { getListingBySlug, formatRating } from '@/lib/db/directory';
 

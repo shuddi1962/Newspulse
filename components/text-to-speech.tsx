@@ -25,7 +25,7 @@ export function TextToSpeech({ content, title, className }: TextToSpeechProps) {
       if (available.length > 0) {
         setVoices(available);
         const english = available.find((v) => v.lang.startsWith('en'));
-        setSelectedVoice(english ?? available[0]);
+        setSelectedVoice(english ?? available[0] ?? null);
       }
     };
 

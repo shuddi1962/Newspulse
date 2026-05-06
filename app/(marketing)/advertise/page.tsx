@@ -14,8 +14,6 @@ import {
   Mail,
   Check,
   X,
-  ChevronDown,
-  Download,
   Megaphone,
   TrendingUp,
   Eye,

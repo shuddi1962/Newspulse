@@ -213,7 +213,7 @@ function PageLink({
   disabled?: boolean;
   active?: boolean;
   'aria-label'?: string;
-  'aria-current'?: string;
+  'aria-current'?: 'page' | 'step' | 'location' | 'date' | 'time' | true | false;
   children: React.ReactNode;
 }) {
   if (disabled) {
