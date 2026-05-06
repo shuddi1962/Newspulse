@@ -6,7 +6,8 @@ export async function getProfileById(
   userId: string,
   accessToken?: string,
 ): Promise<Profile | null> {
-  const insforge = createServerInsForge(accessToken);
+  // Use service key to bypass RLS for profile lookup
+  const insforge = createServerInsForge();
   const { data, error } = await insforge.database
     .from('profiles')
     .select('*')
