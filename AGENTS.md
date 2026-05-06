@@ -23,7 +23,7 @@ This file is the single source of truth for agents (Claude Code and any successo
 | 2 | Core Content (CMS) | Master plan steps 9–20 | **COMPLETE** (Steps 9–20, commits `98af2b0` → `a168ca9`, deployed to Vercel) |
 | 3 | Marketplace Modules | 21–27 | **COMPLETE** (Steps 21–27, commit `99b24f4`, deployed to Vercel) |
 | 4 | Monetization & Growth | 28–35 | **COMPLETE** (Steps 28–35, commits `d512fd7` → `813ca57`, pushed to `origin/main`) |
-| 5 | AI & Intelligence | 36–44 | Not started |
+| 5 | AI & Intelligence | 36–44 | **COMPLETE** (Steps 36–44, commits `e1be3ef` → `ac90d9a`, pushed to `origin/main`) |
 | 6 | Polish & Scale | 45–54 | Not started |
 
 ### Phase 1 local step log (authoritative)
@@ -73,6 +73,13 @@ This file is the single source of truth for agents (Claude Code and any successo
 | 33 | _(bundled with 32)_ | _(See Step 32)_ |
 | 34 | `813ca57` | Newsletter engine admin (`/admin/newsletter`): subscriber stats (total/confirmed/pending/unsubscribed), recent subscribers table with status badges, campaigns table with open/click metrics. `lib/db/newsletter.ts` query layer: `getSubscribers`, `getSubscriberStats`, `addSubscriber`, `updateSubscriberStatus`, `getCampaigns`, `getCampaign`, `createCampaign`, `updateCampaign`, `sendCampaign`. |
 | 35 | `813ca57` | Dynamic paywall: `lib/db/paywall.ts` `checkPaywall()` server function checks `is_premium` flag + active subscription (skips for admin/editor/author roles). `components/paywall-overlay.tsx` client component with gradient cutoff, subscription CTA, feature list. Article view gates full content behind paywall for non-subscribers; shows excerpt + overlay. "Premium" badge on article cards + article header. `PublicArticleCard` type extended with `is_premium`. |
+
+### Phase 5 local step log
+
+| Local step | Commit | What shipped |
+|---|---|---|
+| 36–41 | `e1be3ef` | AI writer panel (`components/ai-writer-panel.tsx`) integrated into article editor: draft generation (topic + tone + word count), rewrite with custom instructions, headline generation (5 variations), social copy for X/LinkedIn/Facebook/Instagram, article summarization (TL;DR + takeaways), auto-tagging. `lib/ai/writer.ts` server-side AI library using InsForge AI Gateway (claude-sonnet-4.5). `/api/ai/write` POST endpoint. AI comment moderation (`moderateCommentAction`) integrated into comment submission flow — auto-classifies as safe/review/spam/toxic. Admin AI Tools page (`/admin/ai`) with model status overview. `ArticleEditorHandle` extended with `setContent()`. |
+| 42–44 | `ac90d9a` | Text-to-speech narration (`components/text-to-speech.tsx`) using Web Speech API — play/pause/stop, voice selection, speed control, inserted into article view. Smart search API (`/api/search/smart`) — AI query expansion using claude-sonnet-4.5 for better search intent matching. Ad optimization engine (`getAdOptimizationSuggestions`) — analyzes CTR/impressions, flags underperforming ads, suggests budget increases for winners, integrated into advertiser dashboard. |
 
 ### Deviation resolved (Phase 1 Step 3 full-schema)
 
@@ -454,4 +461,4 @@ When starting a new session or resuming work:
 
 ---
 
-*File version: 1.9. Owned by: Goodnews Daniel. Last ship: Phase 4 Steps 32–35 — /advertise landing page + admin ad review + newsletter engine + dynamic paywall (813ca57, 2026-05-06). Phase 4 COMPLETE.*
+*File version: 2.0. Owned by: Goodnews Daniel. Last ship: Phase 5 Steps 36–44 — AI writer + comment moderation + text-to-speech + smart search + ad optimization (ac90d9a, 2026-05-06). Phase 5 COMPLETE.*
