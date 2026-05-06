@@ -87,8 +87,14 @@ export default async function AdminLayout({ children }: { children: ReactNode })
                 Admin
               </p>
               <p className="text-sm text-(--fg-default)">
-                Signed in as{' '}
-                <span className="text-(--fg-default)">{user.email}</span>
+                {user ? (
+                  <>
+                    Signed in as{' '}
+                    <span className="text-(--fg-default)">{user.email}</span>
+                  </>
+                ) : (
+                  'Not signed in'
+                )}
               </p>
             </div>
             <Badge variant={user.role === 'admin' ? 'solid' : 'neutral'}>
