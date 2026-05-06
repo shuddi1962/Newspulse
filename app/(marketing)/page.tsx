@@ -74,17 +74,18 @@ export default async function Home() {
         ) : (
           <>
             {hero ? (
-              <section className="mb-12 grid gap-8 border-b border-(--border-subtle) pb-12 lg:grid-cols-5">
-                <div className="lg:col-span-3">
+              <section className="mb-16 grid gap-6 border-b border-(--border-subtle) pb-16 lg:grid-cols-12 lg:gap-8">
+                <div className="lg:col-span-8">
                   <ArticleCard
                     article={hero}
                     categorySlug={resolveCategory(hero).slug}
                     categoryName={resolveCategory(hero).name}
                     size="hero"
+                    className="h-full"
                   />
                 </div>
-                <div className="grid gap-6 lg:col-span-2">
-                  {featuredRest.slice(0, 2).map((article) => {
+                <div className="flex flex-col gap-6 lg:col-span-4">
+                  {featuredRest.slice(0, 3).map((article) => {
                     const c = resolveCategory(article);
                     return (
                       <ArticleCard
@@ -92,7 +93,8 @@ export default async function Home() {
                         article={article}
                         categorySlug={c.slug}
                         categoryName={c.name}
-                        size="md"
+                        size="sm"
+                        className="flex-1"
                       />
                     );
                   })}
@@ -130,18 +132,23 @@ export default async function Home() {
 
             {latestRail.length > 0 ? (
               <section className="border-t border-(--border-subtle) py-12">
-                <header className="mb-6 flex items-end justify-between">
-                  <h2 className="font-display text-2xl font-semibold tracking-tight text-(--fg-default)">
-                    Latest
-                  </h2>
+                <header className="mb-8 flex items-end justify-between">
+                  <div>
+                    <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-(--fg-subtle)">
+                      Latest
+                    </p>
+                    <h2 className="mt-2 font-display text-2xl font-semibold tracking-tight text-(--fg-default)">
+                      Recent Stories
+                    </h2>
+                  </div>
                   <Link
                     href="/news"
-                    className="text-sm font-medium text-(--fg-muted) hover:text-(--fg-default)"
+                    className="text-sm font-medium text-(--fg-muted) transition-colors hover:text-(--fg-default)"
                   >
-                    All stories →
+                    View all →
                   </Link>
                 </header>
-                <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                   {latestRail.map((article) => {
                     const c = resolveCategory(article);
                     return (
