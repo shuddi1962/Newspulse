@@ -152,13 +152,11 @@ export default async function MarketplacePage({ searchParams }: { searchParams: 
                   Featured
                 </span>
               )}
-              <button
-                className="absolute right-3 top-3 rounded-full bg-white/80 p-1.5 backdrop-blur-sm transition-colors hover:bg-white"
-                aria-label="Save item"
-                onClick={(e) => e.preventDefault()}
+              <div
+                className="absolute right-3 top-3 rounded-full bg-white/80 p-1.5 backdrop-blur-sm"
               >
                 <Heart className="h-4 w-4 text-(--fg-muted)" />
-              </button>
+              </div>
             </div>
             <div className="p-4">
               <h3 className="line-clamp-2 text-base font-semibold leading-tight text-(--fg-default) group-hover:underline">

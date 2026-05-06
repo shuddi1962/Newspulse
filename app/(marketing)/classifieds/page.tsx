@@ -152,13 +152,11 @@ export default async function ClassifiedsPage({ searchParams }: { searchParams: 
                 <h3 className="line-clamp-2 text-sm font-semibold leading-tight text-(--fg-default)">
                   {ad.title}
                 </h3>
-                <button
-                  className="shrink-0 rounded-full p-1 transition-colors hover:bg-(--bg-muted)"
-                  aria-label="Save ad"
-                  onClick={(e) => e.preventDefault()}
+                <div
+                  className="shrink-0 rounded-full p-1"
                 >
                   <Heart className="h-4 w-4 text-(--fg-subtle)" />
-                </button>
+                </div>
               </div>
               <div className="flex items-center gap-3 text-xs text-(--fg-subtle)">
                 <span className="rounded-full bg-(--color-cat-lifestyle) bg-opacity-10 px-2 py-0.5 text-[0.65rem] font-medium uppercase tracking-wider text-(--color-cat-lifestyle)">

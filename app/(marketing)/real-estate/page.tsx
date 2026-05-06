@@ -164,13 +164,11 @@ export default async function RealEstatePage({ searchParams }: { searchParams: P
               <span className="absolute right-3 top-3 rounded bg-black/60 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wider text-white backdrop-blur-sm">
                 {property.type}
               </span>
-              <button
-                className="absolute right-3 bottom-3 rounded-full bg-white/80 p-1.5 backdrop-blur-sm transition-colors hover:bg-white"
-                aria-label="Save property"
-                onClick={(e) => e.preventDefault()}
+              <div
+                className="absolute right-3 bottom-3 rounded-full bg-white/80 p-1.5 backdrop-blur-sm"
               >
                 <Heart className="h-4 w-4 text-(--fg-muted)" />
-              </button>
+              </div>
             </div>
             <div className="p-4">
               <p className="text-xl font-bold text-(--fg-default)">{property.price}</p>
