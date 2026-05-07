@@ -3,14 +3,14 @@
 import { useActionState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createPage, updatePage } from '../actions';
-import type { Page } from '@/types/database';
+import type { Page } from '@/lib/db/types';
 
 const initialState: { error?: string; success?: boolean } = {};
 
 export default function PageForm({ page }: { page?: Page }) {
   const router = useRouter();
   const [state, formAction, pending] = useActionState(
-    async (prevState: typeof initialState, formData: FormData) => {
+    async (_prevState: typeof initialState, formData: FormData) => {
       const title = formData.get('title') as string;
       const slug = formData.get('slug') as string;
       const meta_title = formData.get('meta_title') as string;

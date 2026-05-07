@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { Settings, ArrowLeft } from 'lucide-react';
 
 export const metadata = {
   title: 'Settings — NewsPulse PRO',

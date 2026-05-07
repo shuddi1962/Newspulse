@@ -3,15 +3,14 @@ import { createServerInsForge } from '@/lib/insforge/server';
 import type { Profile } from '@/lib/db/types';
 
 export async function getProfileById(
-  userId: string,
-  accessToken?: string,
+  profileId: string,
+  accessToken: string,
 ): Promise<Profile | null> {
-  // Use service key to bypass RLS for profile lookup
-  const insforge = createServerInsForge();
+  const insforge = createServerInsForge(accessToken);
   const { data, error } = await insforge.database
     .from('profiles')
     .select('*')
-    .eq('id', userId)
+    .eq('id', profileId)
     .maybeSingle();
 
   if (error || !data) return null;

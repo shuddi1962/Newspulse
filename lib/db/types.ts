@@ -77,6 +77,18 @@ export type MediaAsset = {
   created_at: string;
 };
 
+export type Page = {
+  id: string;
+  title: string;
+  slug: string;
+  meta_title: string | null;
+  meta_description: string | null;
+  content_html: string | null;
+  status: string;
+  created_at: string;
+  updated_at: string;
+};
+
 export type AuditLogEntry = {
   id: string;
   actor_id: string | null;

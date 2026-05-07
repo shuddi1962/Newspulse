@@ -9,7 +9,7 @@ const initialState: { error?: string; success?: boolean } = {};
 export default function SettingsForm({ settings }: { settings?: Record<string, unknown> }) {
   const router = useRouter();
   const [, formAction, pending] = useActionState(
-    async (prevState: typeof initialState, formData: FormData) => {
+    async (_prevState: typeof initialState, formData: FormData) => {
       try {
         await updateSettings('general', {
           siteName: formData.get('site_name'),

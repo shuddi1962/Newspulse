@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { FileText, Plus, Pencil, Trash2 } from 'lucide-react';
+import { FileText, Plus, Pencil } from 'lucide-react';
 import { getPages } from '@/lib/db/pages';
 import { DeletePageButton } from './_components/delete-button';
 

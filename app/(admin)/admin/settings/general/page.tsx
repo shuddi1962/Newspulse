@@ -1,4 +1,4 @@
-import { getSettings, updateSettings } from '@/lib/db/settings';
+import { getSettings } from '@/lib/db/settings';
 import SettingsForm from '../_components/settings-form';
 
 export const metadata = {

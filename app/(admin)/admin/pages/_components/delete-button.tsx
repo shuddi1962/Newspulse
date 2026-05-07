@@ -12,7 +12,7 @@ export function DeletePageButton({ id, title }: { id: string; title: string }) {
       await deletePage(id);
       router.refresh();
     },
-    {}
+    undefined
   );
 
   return (

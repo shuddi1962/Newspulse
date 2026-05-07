@@ -1,9 +1,9 @@
 import { createServerInsForge } from '@/lib/insforge/server';
-import type { Page } from '@/types/database';
+import type { Page } from '@/lib/db/types';
 
 export async function getPages() {
-  const insforge = await createServerInsforge();
-  const { data, error } = await insforge
+  const insforge = await createServerInsForge();
+  const { data, error } = await insforge.database
     .from('pages')
     .select('*')
     .order('created_at', { ascending: false });
@@ -12,8 +12,8 @@ export async function getPages() {
 }
 
 export async function getPageBySlug(slug: string) {
-  const insforge = await createServerInsforge();
-  const { data, error } = await insforge
+  const insforge = await createServerInsForge();
+  const { data, error } = await insforge.database
     .from('pages')
     .select('*')
     .eq('slug', slug)
@@ -23,8 +23,8 @@ export async function getPageBySlug(slug: string) {
 }
 
 export async function createPage(page: Partial<Page>) {
-  const insforge = await createServerInsforge();
-  const { data, error } = await insforge
+  const insforge = await createServerInsForge();
+  const { data, error } = await insforge.database
     .from('pages')
     .insert(page)
     .select()
@@ -34,8 +34,8 @@ export async function createPage(page: Partial<Page>) {
 }
 
 export async function updatePage(id: string, updates: Partial<Page>) {
-  const insforge = await createServerInsforge();
-  const { data, error } = await insforge
+  const insforge = await createServerInsForge();
+  const { data, error } = await insforge.database
     .from('pages')
     .update(updates)
     .eq('id', id)
@@ -46,8 +46,8 @@ export async function updatePage(id: string, updates: Partial<Page>) {
 }
 
 export async function deletePage(id: string) {
-  const insforge = await createServerInsforge();
-  const { error } = await insforge
+  const insforge = await createServerInsForge();
+  const { error } = await insforge.database
     .from('pages')
     .delete()
     .eq('id', id);

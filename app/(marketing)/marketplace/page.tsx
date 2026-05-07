@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Search as SearchIcon, Tag, MapPin, Heart, ShoppingCart } from 'lucide-react';
+import { Search as SearchIcon, Tag, MapPin, Heart } from 'lucide-react';
 import { env } from '@/lib/env';
 
 export const revalidate = 60;

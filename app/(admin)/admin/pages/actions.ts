@@ -3,40 +3,44 @@
 import { createServerInsForge } from '@/lib/insforge/server';
 import { revalidatePath } from 'next/cache';
 
-export async function createPage(formData: FormData) {
-  const insforge = await createServerInsforge();
-  const title = formData.get('title') as string;
-  const slug = formData.get('slug') as string;
-  const meta_title = formData.get('meta_title') as string;
-  const meta_description = formData.get('meta_description') as string;
-  const content_html = formData.get('content_html') as string;
-  const status = formData.get('status') as string;
+type PageData = {
+  title: string;
+  slug: string;
+  meta_title: string;
+  meta_description: string;
+  content_html: string;
+  status: string;
+};
 
-  const { error } = await insforge.from('pages').insert({
-    title,
-    slug,
-    meta_title,
-    meta_description,
-    content_html,
-    status,
+export async function createPage(data: PageData) {
+  const insforge = await createServerInsForge();
+
+  const { error } = await insforge.database.from('pages').insert({
+    title: data.title,
+    slug: data.slug,
+    meta_title: data.meta_title,
+    meta_description: data.meta_description,
+    content_html: data.content_html,
+    status: data.status,
   });
 
   if (error) throw error;
   revalidatePath('/admin/pages');
 }
 
-export async function updatePage(id: string, formData: FormData) {
-  const insforge = await createServerInsforge();
-  const title = formData.get('title') as string;
-  const slug = formData.get('slug') as string;
-  const meta_title = formData.get('meta_title') as string;
-  const meta_description = formData.get('meta_description') as string;
-  const content_html = formData.get('content_html') as string;
-  const status = formData.get('status') as string;
+export async function updatePage(id: string, data: PageData) {
+  const insforge = await createServerInsForge();
 
-  const { error } = await insforge
+  const { error } = await insforge.database
     .from('pages')
-    .update({ title, slug, meta_title, meta_description, content_html, status })
+    .update({
+      title: data.title,
+      slug: data.slug,
+      meta_title: data.meta_title,
+      meta_description: data.meta_description,
+      content_html: data.content_html,
+      status: data.status,
+    })
     .eq('id', id);
 
   if (error) throw error;
@@ -44,8 +48,8 @@ export async function updatePage(id: string, formData: FormData) {
 }
 
 export async function deletePage(id: string) {
-  const insforge = await createServerInsforge();
-  const { error } = await insforge.from('pages').delete().eq('id', id);
+  const insforge = await createServerInsForge();
+  const { error } = await insforge.database.from('pages').delete().eq('id', id);
   if (error) throw error;
   revalidatePath('/admin/pages');
 }

@@ -1,18 +1,13 @@
 import type { Metadata } from 'next';
-import { getCurrentUser } from '@/lib/auth/session';
+import { requireAdmin } from '@/lib/auth/session';
+import { getAuthCookies } from '@/lib/auth/cookies';
 import Link from 'next/link';
 import {
   FileText,
   FolderTree,
   ImageIcon,
   Tags,
-  Megaphone,
-  Mail,
   BarChart3,
-  TrendingUp,
-  CalendarClock,
-  Users,
-  Settings,
   Plus,
 } from 'lucide-react';
 import { listArticlesForAdmin as getArticles } from '@/lib/db/articles';
@@ -24,15 +19,20 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminOverviewPage() {
-  const user = await getCurrentUser();
+  const user = await requireAdmin();
   const displayName = user?.name?.trim() || user?.email?.split('@')[0] || 'there';
 
-  // Fetch real stats
-  const [articles, categories, media] = await Promise.all([
-    getArticles().catch(() => []),
-    getCategories('news').catch(() => []),
-    getMediaAssets().catch(() => []),
+  const { accessToken } = await getAuthCookies();
+
+  const [articlesResult, categoriesResult, mediaResult] = await Promise.all([
+    accessToken ? getArticles(accessToken) : Promise.resolve({ status: 'error' as const, message: 'No session' }),
+    accessToken ? getCategories(accessToken, { kind: 'news' }) : Promise.resolve({ status: 'error' as const, message: 'No session' }),
+    accessToken ? getMediaAssets(accessToken) : Promise.resolve({ status: 'error' as const, message: 'No session' }),
   ]);
+
+  const articles = articlesResult.status === 'ok' ? articlesResult.data : [];
+  const categories = categoriesResult.status === 'ok' ? categoriesResult.data : [];
+  const media = mediaResult.status === 'ok' ? mediaResult.data.rows : [];
 
   const stats = [
     { label: 'Articles', count: articles.length, href: '/admin/content/articles', icon: FileText },
@@ -106,12 +106,12 @@ export default async function AdminOverviewPage() {
                 <div>
                   <p className="text-sm font-medium text-gray-900">{article.title}</p>
                   <p className="text-xs text-gray-500">
-                    {new Date(article.created_at).toLocaleDateString()}
+                    {new Date(article.updated_at).toLocaleDateString()}
                   </p>
                 </div>
                 <Link
                   href={`/admin/content/articles/${article.id}/edit`}
-                  className="text-sm text-ink-black hover:underline"
+                  className="text-sm text-inherit hover:underline"
                 >
                   Edit
                 </Link>
