@@ -1,11 +1,7 @@
 import 'server-only';
 import { redirect } from 'next/navigation';
 import { createServerInsForge } from '@/lib/insforge/server';
-import {
-  clearAuthCookies,
-  getAuthCookies,
-  setAuthCookies,
-} from '@/lib/auth/cookies';
+import { getAuthCookies } from '@/lib/auth/cookies';
 import { getProfileById } from '@/lib/db/profiles';
 import type { Profile, UserRole } from '@/lib/db/types';
 
@@ -29,7 +25,6 @@ async function tryRefresh(refreshToken: string): Promise<string | null> {
   if (error || !data?.accessToken || !data?.refreshToken) {
     return null;
   }
-  await setAuthCookies(data.accessToken, data.refreshToken);
   return data.accessToken;
 }
 
@@ -70,9 +65,6 @@ export const getCurrentUser = async (): Promise<AuthUser | null> => {
     }
   }
 
-  if (accessToken || refreshToken) {
-    await clearAuthCookies();
-  }
   return null;
 };
 
