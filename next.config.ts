@@ -41,7 +41,11 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     optimizePackageImports: ['lucide-react', 'date-fns'],
+    // Limit to 1 worker — prevents OOM on low-memory machines during static
+    // generation of 100+ admin + public pages.
+    cpus: 1,
   },
+  staticPageGenerationTimeout: 300,
 };
 
 export default nextConfig;

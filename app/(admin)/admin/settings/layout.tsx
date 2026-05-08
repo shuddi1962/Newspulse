@@ -7,8 +7,14 @@ export const metadata = {
 const settingsNav = [
   { href: '/admin/settings', label: 'Theme', description: 'Customize colors and branding' },
   { href: '/admin/settings/general', label: 'General', description: 'Site name, tagline, timezone' },
+  { href: '/admin/settings/application', label: 'Application', description: 'Cache, performance, CDN' },
   { href: '/admin/settings/seo', label: 'SEO', description: 'Meta tags, social sharing' },
   { href: '/admin/settings/social', label: 'Social Media', description: 'Connect social accounts' },
+  { href: '/admin/settings/social-api', label: 'Social API', description: 'API keys for platforms' },
+  { href: '/admin/settings/mail', label: 'Mail', description: 'SMTP and email templates' },
+  { href: '/admin/settings/space', label: 'Storage', description: 'Cloud storage credentials' },
+  { href: '/admin/settings/font', label: 'Fonts', description: 'Typography and font manager' },
+  { href: '/admin/settings/language', label: 'Language', description: 'Multi-language setup' },
 ];
 
 export default function SettingsLayout({

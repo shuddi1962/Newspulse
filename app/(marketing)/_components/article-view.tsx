@@ -15,6 +15,7 @@ import { CommentList } from './comment-list';
 import { CommentForm } from './comment-form';
 import { PaywallOverlay } from '@/components/paywall-overlay';
 import { TextToSpeech } from '@/components/text-to-speech';
+import { ReadingProgress } from './reading-progress';
 
 type Props = {
   article: PublicArticleFull;
@@ -46,6 +47,7 @@ export function ArticleView({
 
   return (
     <article className="bg-(--bg-base) pb-20">
+      <ReadingProgress />
       <ArticleJsonLd
         article={article}
         author={author}

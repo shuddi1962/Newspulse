@@ -48,6 +48,27 @@
   --ease-out: cubic-bezier(0.4, 0, 0.2, 1);
   --duration-fast: 150ms;
   --duration-normal: 200ms;
+
+  /* -- v2 Admin (News365-style) ------------------------------------------ */
+  --color-navy: #0f1419;
+  --color-navy-light: #1a2332;
+  --color-navy-muted: #2d3748;
+  --color-crimson: #e63946;
+  --color-crimson-light: #ff6b74;
+  --color-crimson-dark: #c1121f;
+  --color-admin-bg: #f8f9fa;
+  --color-admin-card: #ffffff;
+  --color-admin-border: #e9ecef;
+  --color-admin-text: #1a202c;
+  --color-admin-text-muted: #718096;
+
+  /* -- v2 Public Gazette ------------------------------------------------- */
+  --color-gazette-accent: var(--color-crimson);
+  --color-gazette-heading: var(--color-ink-black);
+  --color-gazette-body: #0f1419;
+  --color-gazette-muted: #6b7280;
+  --color-gazette-border: #e5e7eb;
+  --color-gazette-card-radius: 4px;
 }
 
 /* Font families must be @theme inline because they reference the CSS variables
@@ -179,6 +200,43 @@ a {
 :root[data-theme="dark"] ::selection {
   background: var(--color-paper);
   color: var(--color-ink-black);
+}
+
+/* ============================================================================
+   Form utilities — used across admin settings pages
+   ============================================================================ */
+
+.field-input {
+  width: 100%;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-base);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--fg-default);
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+
+.field-input::placeholder {
+  color: var(--fg-subtle);
+}
+
+.field-input:focus {
+  border-color: var(--color-ink-black);
+  outline: none;
+}
+
+select.field-input {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2rem;
+}
+
+textarea.field-input {
+  resize: vertical;
+  min-height: 80px;
 }
 
 /* ============================================================================
@@ -352,4 +410,31 @@ a {
 .article-prose th {
   background: var(--bg-surface-subtle);
   font-weight: 600;
+}
+
+/* ============================================================================
+   Animations — custom keyframes
+   ============================================================================ */
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 40s linear infinite;
+}
+
+/* ============================================================================
+   Toast/Sonner overrides
+   ============================================================================ */
+
+[data-sonner-toaster] {
+  --normal-bg: var(--bg-base);
+  --normal-border: var(--border-default);
+  --normal-text: var(--fg-base);
 }

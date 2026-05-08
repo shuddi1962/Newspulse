@@ -461,7 +461,8 @@ When starting a new session or resuming work:
 7. **Execute** — one local step per commit, commit message format: `[scope] feat: Phase N Step M — short description`.
 8. **Verify** — typecheck + lint + build must all pass clean. For UI work, smoke-test the actual page in a browser (can't be skipped by "types compiled" alone).
 9. **Update §2** in this file when a local step ships, and update the *Deviation log* if anything strayed from the master prompt.
-10. **Push to `origin/main`** only after owner confirmation (confirmed standing: each committed step is pushed immediately).
+10. **Update `memory/MEMORY.md`** — append every action taken during the session to the Session Log table. This ensures full session continuity across context resets.
+11. **Push to `origin/main`** only after owner confirmation (confirmed standing: each committed step is pushed immediately).
 
 ---
 

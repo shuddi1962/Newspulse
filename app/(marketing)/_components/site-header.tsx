@@ -1,11 +1,13 @@
 import Link from 'next/link';
-import { Search as SearchIcon } from 'lucide-react';
+import { ChevronDown, Menu } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
 import { env } from '@/lib/env';
 import { getCurrentUser } from '@/lib/auth/session';
 import { detectLocale } from '@/lib/i18n/server';
 import { LocaleSelector } from './locale-selector';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { MegaMenu } from './mega-menu';
+import { LiveSearch } from './live-search';
 
 const navItems: Array<{ href: string; label: string }> = [
   { href: '/news', label: 'News' },
@@ -22,7 +24,7 @@ export async function SiteHeader() {
   const [user, locale] = await Promise.all([getCurrentUser(), detectLocale()]);
 
   return (
-    <header className="border-b border-(--border-subtle) bg-(--bg-base)">
+    <header className="sticky top-0 z-50 border-b border-(--border-subtle) bg-(--bg-base/95) backdrop-blur-sm">
       <div className="mx-auto flex h-16 w-full max-w-screen-2xl items-center justify-between px-6">
         <div className="flex items-center gap-10">
           <Link
@@ -31,28 +33,38 @@ export async function SiteHeader() {
           >
             {env.NEXT_PUBLIC_SITE_NAME}
           </Link>
-          <nav aria-label="Primary" className="hidden items-center gap-6 md:flex">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-sm text-(--fg-muted) transition-colors hover:text-(--fg-default)"
-              >
-                {item.label}
-              </Link>
-            ))}
+          <nav aria-label="Primary" className="hidden items-center gap-1 md:flex">
+            {navItems.map((item) => {
+              if (item.href === '/news') {
+                return (
+                  <div key={item.href} className="group relative">
+                    <Link
+                      href={item.href}
+                      className="flex items-center gap-1 rounded-md px-3 py-2 text-sm text-(--fg-muted) transition-colors hover:bg-(--bg-muted) hover:text-(--fg-default)"
+                    >
+                      {item.label}
+                      <ChevronDown className="h-3 w-3" />
+                    </Link>
+                    <MegaMenu />
+                  </div>
+                );
+              }
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="rounded-md px-3 py-2 text-sm text-(--fg-muted) transition-colors hover:bg-(--bg-muted) hover:text-(--fg-default)"
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
           </nav>
         </div>
         <div className="flex items-center gap-3">
           <ThemeToggle />
           <LocaleSelector currentLocale={locale} />
-          <Link
-            href="/search"
-            className="text-(--fg-muted) transition-colors hover:text-(--fg-default)"
-            aria-label="Search"
-          >
-            <SearchIcon className="h-5 w-5" aria-hidden />
-          </Link>
+          <LiveSearch />
           {user ? (
             <>
               <Link
@@ -90,6 +102,12 @@ export async function SiteHeader() {
               </Link>
             </>
           )}
+          <button
+            className="flex items-center rounded-md p-2 text-(--fg-muted) hover:bg-(--bg-muted) md:hidden"
+            aria-label="Open menu"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
         </div>
       </div>
     </header>

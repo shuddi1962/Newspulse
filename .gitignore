@@ -90,3 +90,5 @@ scaffold-tmp/
 
 .vercel
 .env*.local
+.env.vercel
+.env.vercel.prod
