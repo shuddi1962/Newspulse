@@ -244,26 +244,26 @@ export function Sidebar({ user }: SidebarProps) {
 
   const sidebarContent = (
     <div className="flex h-full flex-col bg-[var(--color-navy)]">
-      <div className="flex h-16 items-center justify-between border-b border-blue-800/30 px-4">
+      <div className="flex h-16 items-center justify-between border-b border-white/20 px-4">
         {!collapsed ? (
           <Link href="/admin/dashboard" className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/15">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/20">
               <Newspaper className="h-4 w-4 text-white" />
             </div>
             <span className="text-base font-bold tracking-tight text-white">
-              News<span className="text-blue-400">Pulse</span>
+              News<span className="text-blue-200">Pulse</span>
             </span>
           </Link>
         ) : (
           <Link href="/admin/dashboard" className="mx-auto">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/15">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/20">
               <Newspaper className="h-4 w-4 text-white" />
             </div>
           </Link>
         )}
         <button
           onClick={toggleCollapse}
-          className="hidden rounded p-1 text-blue-300 hover:bg-white/10 hover:text-white md:block"
+          className="hidden rounded p-1 text-white/60 hover:bg-white/15 hover:text-white md:block"
           aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
           {collapsed ? <PanelRightOpen className="h-4 w-4" /> : <PanelRightClose className="h-4 w-4" />}
@@ -283,8 +283,8 @@ export function Sidebar({ user }: SidebarProps) {
                   className={cn(
                     'flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors',
                     active
-                      ? 'border-l-2 border-[var(--color-crimson)] bg-blue-800/40 text-white'
-                      : 'text-blue-200 hover:bg-white/5 hover:text-white',
+                      ? 'border-l-2 border-white bg-white/20 text-white'
+                      : 'text-white/80 hover:bg-white/10 hover:text-white',
                   )}
                   title={collapsed ? item.label : undefined}
                 >
@@ -297,7 +297,7 @@ export function Sidebar({ user }: SidebarProps) {
                   )}
                 </button>
                 {open && !collapsed && (
-                  <div className="ml-4 mt-0.5 space-y-0.5 border-l border-blue-800/30 pl-2">
+                  <div className="ml-4 mt-0.5 space-y-0.5 border-l border-white/20 pl-2">
                     {item.children.map((child) => (
                       <Link
                         key={child.href}
@@ -305,8 +305,8 @@ export function Sidebar({ user }: SidebarProps) {
                         className={cn(
                           'flex items-center gap-2 rounded-md px-3 py-1.5 text-sm transition-colors',
                           isActive(child.href)
-                            ? 'border-l-2 border-[var(--color-crimson)] bg-blue-800/40 text-white'
-                            : 'text-blue-200 hover:bg-white/5 hover:text-white',
+                            ? 'border-l-2 border-white bg-white/20 text-white'
+                            : 'text-white/80 hover:bg-white/10 hover:text-white',
                         )}
                       >
                         {child.icon && <child.icon className="h-3.5 w-3.5 shrink-0" />}
@@ -326,8 +326,8 @@ export function Sidebar({ user }: SidebarProps) {
               className={cn(
                 'mb-0.5 flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors',
                 active
-                  ? 'border-l-2 border-[var(--color-crimson)] bg-blue-800/40 text-white'
-                  : 'text-blue-200 hover:bg-white/5 hover:text-white',
+                  ? 'border-l-2 border-white bg-white/20 text-white'
+                  : 'text-white/80 hover:bg-white/10 hover:text-white',
               )}
               title={collapsed ? item.label : undefined}
             >
@@ -338,7 +338,7 @@ export function Sidebar({ user }: SidebarProps) {
         })}
       </div>
 
-      <div className="border-t border-blue-800/30 p-4">
+      <div className="border-t border-white/20 p-4">
         {!collapsed ? (
           <div className="flex items-center gap-3">
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--color-crimson)] text-xs font-bold text-white">
@@ -346,7 +346,7 @@ export function Sidebar({ user }: SidebarProps) {
             </div>
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-medium text-white">{user.name ?? 'Admin'}</p>
-              <p className="text-xs text-blue-300 capitalize">{user.role}</p>
+              <p className="text-xs text-white/70 capitalize">{user.role}</p>
             </div>
             <button
               onClick={() => {
@@ -361,7 +361,7 @@ export function Sidebar({ user }: SidebarProps) {
                 });
               }}
               disabled={isPending}
-              className="rounded p-1.5 text-blue-300 hover:bg-white/10 hover:text-white disabled:opacity-50"
+              className="rounded p-1.5 text-white/60 hover:bg-white/15 hover:text-white disabled:opacity-50"
               aria-label="Sign out"
             >
               <LogOut className="h-4 w-4" />
@@ -385,7 +385,7 @@ export function Sidebar({ user }: SidebarProps) {
                 });
               }}
               disabled={isPending}
-              className="rounded p-1.5 text-blue-300 hover:bg-white/10 hover:text-white disabled:opacity-50"
+              className="rounded p-1.5 text-white/60 hover:bg-white/15 hover:text-white disabled:opacity-50"
               aria-label="Sign out"
             >
               <LogOut className="h-4 w-4" />
@@ -416,7 +416,7 @@ export function Sidebar({ user }: SidebarProps) {
 
       <button
         onClick={() => setMobileOpen(true)}
-        className="fixed left-4 top-4 z-20 rounded-md border border-blue-800/30 bg-[var(--color-navy)] p-2 text-white md:hidden"
+        className="fixed left-4 top-4 z-20 rounded-md border border-white/20 bg-[var(--color-navy)] p-2 text-white md:hidden"
         aria-label="Open menu"
       >
         <Menu className="h-5 w-5" />

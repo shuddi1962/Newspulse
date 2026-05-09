@@ -49,10 +49,10 @@
   --duration-fast: 150ms;
   --duration-normal: 200ms;
 
-  /* -- v2 Admin (Modern Blue theme) --------------------------------------- */
-  --color-navy: #0a2540;
-  --color-navy-light: #1a365d;
-  --color-navy-muted: #2d4a7a;
+  /* -- v2 Admin (Light Blue theme) ---------------------------------------- */
+  --color-navy: #2563eb;
+  --color-navy-light: #3b82f6;
+  --color-navy-muted: #60a5fa;
   --color-crimson: #2563eb;
   --color-crimson-light: #60a5fa;
   --color-crimson-dark: #1d4ed8;
