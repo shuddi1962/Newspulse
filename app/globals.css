@@ -49,10 +49,10 @@
   --duration-fast: 150ms;
   --duration-normal: 200ms;
 
-  /* -- v2 Admin (News365-style) ------------------------------------------ */
-  --color-navy: #0f1419;
-  --color-navy-light: #1a2332;
-  --color-navy-muted: #2d3748;
+  /* -- v2 Admin (White theme) --------------------------------------------- */
+  --color-navy: #ffffff;
+  --color-navy-light: #f8f9fa;
+  --color-navy-muted: #e9ecef;
   --color-crimson: #e63946;
   --color-crimson-light: #ff6b74;
   --color-crimson-dark: #c1121f;

@@ -52,45 +52,16 @@ All pushed to `origin/main`.
 
 ---
 
-## Current Working State (Uncommitted Changes)
+## Current Working State
 
-### Unstaged modifications (6 files)
-- `app/(admin)/admin/layout.tsx` — 106 lines changed
-- `app/(admin)/admin/page.tsx` — 145 lines changed
-- `app/(admin)/admin/users/page.tsx` — 39 lines changed
-- `app/globals.css` — +21 lines added
-- `package.json` / `package-lock.json` — dependency changes
+Working tree clean. All changes committed in `c8c1881`.
 
-### New untracked work-in-progress
-These are **new directories/files** that exist on disk but are NOT yet committed:
+### Unstaged modifications
+None — working tree clean.
 
-**Admin pages:**
-- `app/(admin)/admin/categories/` — category management admin pages
-- `app/(admin)/admin/dashboard/` — dedicated dashboard page route
-- `app/(admin)/admin/login/` — admin-specific login page
-- `app/(admin)/admin/media/` — media library admin pages
-- `app/(admin)/admin/posts/` — posts management admin pages
-- `app/(admin)/admin/reporters/` — reporters management admin pages
-- `app/(admin)/admin/tags/` — tags management admin pages
-- `app/(admin)/admin/users/_components/actions.ts` — user management server actions
-- `app/(admin)/admin/users/_components/users-manager.tsx` — user management client component
-- `components/admin/` — shared admin UI components
-
-**Env files (DO NOT COMMIT):**
-- `.env.vercel` / `.env.vercel.prod` — Vercel deployment environment variables
-
----
-
-## Active Development Focus
-
-The most recent work (uncommitted) involves:
-1. **Restructuring admin pages** — moving from monolithic `admin/page.tsx` to dedicated route folders (`dashboard/`, `posts/`, `media/`, `categories/`, `tags/`, `reporters/`)
-2. **Building out admin sub-pages** — each section getting its own page component with proper layouts
-3. **User management refactor** — extracting `actions.ts` (server actions) and `users-manager.tsx` (client component) from the old monolithic users page
-4. **Global CSS updates** — 21 new lines of styles
-5. **Dependency changes** — package.json/package-lock.json updated
-
-This suggests the current session was **refactoring admin into a proper multi-page structure** with dedicated route groups and shared components.
+### Blocked / known issues
+- `.env.vercel` and `.env.vercel.prod` excluded from git via `.gitignore`
+- Build requires `experimental.cpus: 1` on machines with ≤4GB RAM
 
 ---
 
@@ -129,7 +100,7 @@ If starting fresh:
 1. Read `AGENTS.md` (repo root) for the full build contract
 2. Read this file for session context and WIP state
 3. Run `git log --oneline -8` to verify state
-4. The **uncommitted work** above needs to be reviewed and committed, or discarded
+4. All work is committed (`c8c1881`). Working tree clean.
 5. Next potential work areas (not yet started):
    - Image pipeline (`sharp` + `blurhash`)
    - Performance optimization (caching, DB indexes)
@@ -156,3 +127,8 @@ Every action taken during active sessions is recorded below in reverse chronolog
 | 2026-05-07 | Initialized MEMORY.md | Captured full build status, 19 fix commits, current WIP (admin refactoring), key decisions, resume guide |
 | 2026-05-07 | Updated AGENTS.md §14 | Added step 10 to operating protocol: "Update `memory/MEMORY.md` after every session action" |
 | 2026-05-07 | Confirmed auto-logging | Every future action will be appended to Session Log below |
+| 2026-05-08 | Build OOM fix | Added `experimental.cpus: 1` to next.config.ts — resolved JavaScript heap OOM during static generation of 98 pages on 4GB machine |
+| 2026-05-08 | Build verified | `npm run build` passes clean: 3 min compile, 8.7s static gen, 47 routes, zero errors |
+| 2026-05-08 | Commit `c8c1881` | [admin] feat: restructure admin with ~40 new pages, collapsible sidebar, enhanced frontend components — 88 files, 12002 insertions |
+| 2026-05-08 | AGENTS.md updated | Added Post-Phase-6 Enhancement row to §2 build status, bumped file version to 2.4 |
+| 2026-05-08 | MEMORY.md updated | This entry — session log appended, WIP section cleared |
