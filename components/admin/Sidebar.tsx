@@ -284,13 +284,13 @@ export function Sidebar({ user }: SidebarProps) {
                     'flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors',
                     active
                       ? 'border-l-2 border-white bg-white/20 text-white'
-                      : 'text-white/80 hover:bg-white/10 hover:text-white',
+                      : 'text-white hover:bg-white/10',
                   )}
                   title={collapsed ? item.label : undefined}
                 >
-                  <item.icon className="h-4 w-4 shrink-0" />
+                  <item.icon className="h-4 w-4 shrink-0 text-white" />
                   {!collapsed && (
-                    <span className="flex-1 text-left text-xs font-medium uppercase tracking-wider">{item.label}</span>
+                    <span className="flex-1 text-left text-xs font-medium uppercase tracking-wider text-white">{item.label}</span>
                   )}
                 </button>
                 {open && !collapsed && (
@@ -303,11 +303,11 @@ export function Sidebar({ user }: SidebarProps) {
                           'flex items-center gap-2 rounded-md px-3 py-1.5 text-sm transition-colors',
                           isActive(child.href)
                             ? 'border-l-2 border-white bg-white/20 text-white'
-                            : 'text-white/80 hover:bg-white/10 hover:text-white',
+                            : 'text-white hover:bg-white/10',
                         )}
                       >
-                        {child.icon && <child.icon className="h-3.5 w-3.5 shrink-0" />}
-                        <span>{child.label}</span>
+                        {child.icon && <child.icon className="h-3.5 w-3.5 shrink-0 text-white" />}
+                        <span className="text-white">{child.label}</span>
                       </Link>
                     ))}
                   </div>
@@ -324,12 +324,12 @@ export function Sidebar({ user }: SidebarProps) {
                 'mb-0.5 flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors',
                 active
                   ? 'border-l-2 border-white bg-white/20 text-white'
-                  : 'text-white/80 hover:bg-white/10 hover:text-white',
+                  : 'text-white hover:bg-white/10',
               )}
               title={collapsed ? item.label : undefined}
             >
-              <item.icon className="h-4 w-4 shrink-0" />
-              {!collapsed && <span className="text-xs font-medium uppercase tracking-wider">{item.label}</span>}
+              <item.icon className="h-4 w-4 shrink-0 text-white" />
+              {!collapsed && <span className="text-xs font-medium uppercase tracking-wider text-white">{item.label}</span>}
             </Link>
           );
         })}
