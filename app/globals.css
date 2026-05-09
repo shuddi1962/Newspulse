@@ -49,18 +49,18 @@
   --duration-fast: 150ms;
   --duration-normal: 200ms;
 
-  /* -- v2 Admin (White theme) --------------------------------------------- */
-  --color-navy: #ffffff;
-  --color-navy-light: #f8f9fa;
-  --color-navy-muted: #e9ecef;
-  --color-crimson: #e63946;
-  --color-crimson-light: #ff6b74;
-  --color-crimson-dark: #c1121f;
-  --color-admin-bg: #f8f9fa;
+  /* -- v2 Admin (Modern Blue theme) --------------------------------------- */
+  --color-navy: #0a2540;
+  --color-navy-light: #1a365d;
+  --color-navy-muted: #2d4a7a;
+  --color-crimson: #2563eb;
+  --color-crimson-light: #60a5fa;
+  --color-crimson-dark: #1d4ed8;
+  --color-admin-bg: #f0f4f8;
   --color-admin-card: #ffffff;
-  --color-admin-border: #e9ecef;
-  --color-admin-text: #1a202c;
-  --color-admin-text-muted: #718096;
+  --color-admin-border: #e2e8f0;
+  --color-admin-text: #0f172a;
+  --color-admin-text-muted: #64748b;
 
   /* -- v2 Public Gazette ------------------------------------------------- */
   --color-gazette-accent: var(--color-crimson);

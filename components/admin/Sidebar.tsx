@@ -16,7 +16,7 @@ import {
   Rss, Archive, Eye, Search,
   Monitor, Palette, Languages, Database,
   Shield, Cookie, Bot, UserCheck,
-  Zap,   Sparkles, Share2, CalendarDays,
+  Zap, Sparkles, Share2, CalendarDays,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { signOutAction } from '@/lib/auth/actions';
@@ -244,27 +244,33 @@ export function Sidebar({ user }: SidebarProps) {
 
   const sidebarContent = (
     <div className="flex h-full flex-col bg-[var(--color-navy)]">
-      <div className="flex h-16 items-center justify-between border-b border-gray-200 px-4">
-        {!collapsed && (
-          <Link href="/admin/dashboard" className="font-display text-lg font-bold tracking-tight text-gray-900">
-            N<span className="text-[var(--color-crimson)]">365</span>
+      <div className="flex h-16 items-center justify-between border-b border-blue-800/30 px-4">
+        {!collapsed ? (
+          <Link href="/admin/dashboard" className="flex items-center gap-2.5">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/15">
+              <Newspaper className="h-4 w-4 text-white" />
+            </div>
+            <span className="text-base font-bold tracking-tight text-white">
+              News<span className="text-blue-400">Pulse</span>
+            </span>
           </Link>
-        )}
-        {collapsed && (
-          <Link href="/admin/dashboard" className="mx-auto text-lg font-bold text-gray-900">
-            N<span className="text-[var(--color-crimson)]">3</span>
+        ) : (
+          <Link href="/admin/dashboard" className="mx-auto">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/15">
+              <Newspaper className="h-4 w-4 text-white" />
+            </div>
           </Link>
         )}
         <button
           onClick={toggleCollapse}
-          className="hidden rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-700 md:block"
+          className="hidden rounded p-1 text-blue-300 hover:bg-white/10 hover:text-white md:block"
           aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
           {collapsed ? <PanelRightOpen className="h-4 w-4" /> : <PanelRightClose className="h-4 w-4" />}
         </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto overflow-x-hidden px-2 py-4 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden px-2 py-4 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/10">
         {navItems.map((item) => {
           const active = isActive(item.href) || isChildActive(item.children);
           const open = expandedGroups[item.label] ?? active;
@@ -277,8 +283,8 @@ export function Sidebar({ user }: SidebarProps) {
                   className={cn(
                     'flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors',
                     active
-                      ? 'border-l-2 border-[var(--color-crimson)] bg-gray-100 text-gray-900'
-                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+                      ? 'border-l-2 border-[var(--color-crimson)] bg-blue-800/40 text-white'
+                      : 'text-blue-200 hover:bg-white/5 hover:text-white',
                   )}
                   title={collapsed ? item.label : undefined}
                 >
@@ -291,7 +297,7 @@ export function Sidebar({ user }: SidebarProps) {
                   )}
                 </button>
                 {open && !collapsed && (
-                  <div className="ml-4 mt-0.5 space-y-0.5 border-l border-gray-200 pl-2">
+                  <div className="ml-4 mt-0.5 space-y-0.5 border-l border-blue-800/30 pl-2">
                     {item.children.map((child) => (
                       <Link
                         key={child.href}
@@ -299,8 +305,8 @@ export function Sidebar({ user }: SidebarProps) {
                         className={cn(
                           'flex items-center gap-2 rounded-md px-3 py-1.5 text-sm transition-colors',
                           isActive(child.href)
-                            ? 'border-l-2 border-[var(--color-crimson)] bg-gray-100 text-gray-900'
-                            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+                            ? 'border-l-2 border-[var(--color-crimson)] bg-blue-800/40 text-white'
+                            : 'text-blue-200 hover:bg-white/5 hover:text-white',
                         )}
                       >
                         {child.icon && <child.icon className="h-3.5 w-3.5 shrink-0" />}
@@ -320,8 +326,8 @@ export function Sidebar({ user }: SidebarProps) {
               className={cn(
                 'mb-0.5 flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors',
                 active
-                  ? 'border-l-2 border-[var(--color-crimson)] bg-gray-100 text-gray-900'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+                  ? 'border-l-2 border-[var(--color-crimson)] bg-blue-800/40 text-white'
+                  : 'text-blue-200 hover:bg-white/5 hover:text-white',
               )}
               title={collapsed ? item.label : undefined}
             >
@@ -332,15 +338,15 @@ export function Sidebar({ user }: SidebarProps) {
         })}
       </div>
 
-      <div className="border-t border-gray-200 p-4">
+      <div className="border-t border-blue-800/30 p-4">
         {!collapsed ? (
           <div className="flex items-center gap-3">
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--color-crimson)] text-xs font-bold text-white">
               {user.name?.charAt(0)?.toUpperCase() ?? 'A'}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-medium text-gray-900">{user.name ?? 'Admin'}</p>
-              <p className="text-xs text-gray-500 capitalize">{user.role}</p>
+              <p className="truncate text-sm font-medium text-white">{user.name ?? 'Admin'}</p>
+              <p className="text-xs text-blue-300 capitalize">{user.role}</p>
             </div>
             <button
               onClick={() => {
@@ -355,7 +361,7 @@ export function Sidebar({ user }: SidebarProps) {
                 });
               }}
               disabled={isPending}
-              className="rounded p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
+              className="rounded p-1.5 text-blue-300 hover:bg-white/10 hover:text-white disabled:opacity-50"
               aria-label="Sign out"
             >
               <LogOut className="h-4 w-4" />
@@ -379,7 +385,7 @@ export function Sidebar({ user }: SidebarProps) {
                 });
               }}
               disabled={isPending}
-              className="rounded p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
+              className="rounded p-1.5 text-blue-300 hover:bg-white/10 hover:text-white disabled:opacity-50"
               aria-label="Sign out"
             >
               <LogOut className="h-4 w-4" />
@@ -410,7 +416,7 @@ export function Sidebar({ user }: SidebarProps) {
 
       <button
         onClick={() => setMobileOpen(true)}
-        className="fixed left-4 top-4 z-20 rounded-md border border-gray-200 bg-white p-2 text-gray-700 md:hidden"
+        className="fixed left-4 top-4 z-20 rounded-md border border-blue-800/30 bg-[var(--color-navy)] p-2 text-white md:hidden"
         aria-label="Open menu"
       >
         <Menu className="h-5 w-5" />

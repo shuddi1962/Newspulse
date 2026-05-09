@@ -31,34 +31,34 @@ export function Topbar({ user }: TopbarProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-[var(--color-admin-border)] bg-white px-6">
+    <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-gray-200 bg-white/80 backdrop-blur-sm px-6">
       <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm">
         {breadcrumbs.map((crumb, i) => (
           <span key={crumb.href} className="flex items-center gap-2">
             {i > 0 && <span className="text-gray-300">/</span>}
             {i < breadcrumbs.length - 1 ? (
-              <Link href={crumb.href} className="text-[var(--color-admin-text-muted)] hover:text-[var(--color-admin-text)]">
+              <Link href={crumb.href} className="text-gray-500 hover:text-gray-800 transition-colors">
                 {crumb.label}
               </Link>
             ) : (
-              <span className="font-medium text-[var(--color-admin-text)]">{crumb.label}</span>
+              <span className="font-semibold text-gray-900">{crumb.label}</span>
             )}
           </span>
         ))}
       </nav>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
         <Link
           href="/"
           target="_blank"
-          className="flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-[var(--color-admin-text-muted)] transition-colors hover:bg-gray-100 hover:text-[var(--color-admin-text)]"
+          className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-1.5 text-sm text-gray-500 transition-colors hover:bg-gray-50 hover:text-gray-800"
         >
           <ExternalLink className="h-4 w-4" />
           <span className="hidden sm:inline">View Site</span>
         </Link>
 
         <button
-          className="relative rounded-md p-2 text-[var(--color-admin-text-muted)] transition-colors hover:bg-gray-100 hover:text-[var(--color-admin-text)]"
+          className="relative rounded-lg p-2 text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-800"
           aria-label="Notifications"
         >
           <Bell className="h-5 w-5" />
@@ -70,24 +70,28 @@ export function Topbar({ user }: TopbarProps) {
         <div className="relative">
           <button
             onClick={() => setDropdownOpen(!dropdownOpen)}
-            className="flex items-center gap-2 rounded-md p-1.5 transition-colors hover:bg-gray-100"
+            className="flex items-center gap-2 rounded-lg p-1.5 transition-colors hover:bg-gray-100"
           >
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-crimson)] text-xs font-bold text-white">
               {user.name?.charAt(0)?.toUpperCase() ?? 'A'}
             </div>
-            <ChevronDown className="h-4 w-4 text-[var(--color-admin-text-muted)]" />
+            <div className="hidden sm:block text-left">
+              <p className="text-sm font-medium text-gray-900 leading-tight">{user.name ?? 'Admin'}</p>
+              <p className="text-xs text-gray-500">{user.email}</p>
+            </div>
+            <ChevronDown className="h-4 w-4 text-gray-400 hidden sm:block" />
           </button>
           {dropdownOpen && (
             <>
               <div className="fixed inset-0 z-10" onClick={() => setDropdownOpen(false)} />
-              <div className="absolute right-0 top-full z-20 mt-1 w-48 rounded-lg border border-[var(--color-admin-border)] bg-white py-1 shadow-lg">
-                <div className="border-b border-[var(--color-admin-border)] px-4 py-2">
-                  <p className="text-sm font-medium text-[var(--color-admin-text)]">{user.name ?? 'Admin'}</p>
-                  <p className="text-xs text-[var(--color-admin-text-muted)]">{user.email}</p>
+              <div className="absolute right-0 top-full z-20 mt-1 w-56 rounded-xl border border-gray-200 bg-white py-1 shadow-lg">
+                <div className="border-b border-gray-100 px-4 py-3">
+                  <p className="text-sm font-semibold text-gray-900">{user.name ?? 'Admin'}</p>
+                  <p className="text-xs text-gray-500">{user.email}</p>
                 </div>
                 <Link
                   href="/admin/settings/general"
-                  className="flex items-center gap-2 px-4 py-2 text-sm text-[var(--color-admin-text)] hover:bg-gray-50"
+                  className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                   onClick={() => setDropdownOpen(false)}
                 >
                   <Settings className="h-4 w-4" /> Settings
@@ -105,7 +109,7 @@ export function Topbar({ user }: TopbarProps) {
                     });
                   }}
                   disabled={isPending}
-                  className="flex w-full items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-50 disabled:opacity-50"
+                  className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
                 >
                   <LogOut className="h-4 w-4" /> Sign Out
                 </button>

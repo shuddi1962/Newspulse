@@ -110,7 +110,7 @@ export function DataTable<T extends Record<string, unknown>>({
                 placeholder="Search..."
                 value={search}
                 onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-                className="w-full rounded-md border border-gray-200 py-2 pl-10 pr-3 text-sm text-[var(--color-admin-text)] placeholder:text-gray-400 focus:border-[var(--color-crimson)] focus:outline-none"
+                className="w-full rounded-lg border border-gray-200 py-2 pl-10 pr-3 text-sm text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500/20"
               />
             </div>
           )}
@@ -136,10 +136,10 @@ export function DataTable<T extends Record<string, unknown>>({
         </div>
       )}
 
-      <div className="overflow-x-auto rounded-lg border border-[var(--color-admin-border)]">
+      <div className="overflow-x-auto rounded-xl border border-gray-200">
         <table className="w-full text-left text-sm">
           <thead>
-            <tr className="border-b border-[var(--color-admin-border)] bg-gray-50">
+            <tr className="border-b border-gray-100 bg-gray-50/80">
               {selectable && (
                 <th className="px-4 py-3">
                   <input
@@ -153,7 +153,7 @@ export function DataTable<T extends Record<string, unknown>>({
               {columns.map((col) => (
                 <th
                   key={col.key}
-                  className={cn('px-4 py-3 font-medium text-[var(--color-admin-text-muted)]', col.sortable !== false && 'cursor-pointer hover:text-[var(--color-admin-text)]', col.className)}
+                  className={cn('px-4 py-3 text-xs font-medium uppercase tracking-wider text-gray-500', col.sortable !== false && 'cursor-pointer hover:text-gray-700', col.className)}
                   onClick={() => col.sortable !== false && toggleSort(col.key)}
                 >
                   <span className="flex items-center gap-1">
@@ -179,8 +179,8 @@ export function DataTable<T extends Record<string, unknown>>({
                   key={String(row[idKey]) ?? i}
                   onClick={() => onRowClick?.(row)}
                   className={cn(
-                    'border-b border-[var(--color-admin-border)] transition-colors last:border-0',
-                    onRowClick && 'cursor-pointer hover:bg-gray-50',
+                    'border-b border-gray-100 transition-colors last:border-0',
+                    onRowClick && 'cursor-pointer hover:bg-blue-50/50',
                   )}
                 >
                   {selectable && (
@@ -194,7 +194,7 @@ export function DataTable<T extends Record<string, unknown>>({
                     </td>
                   )}
                   {columns.map((col) => (
-                    <td key={col.key} className={cn('px-4 py-3 text-[var(--color-admin-text)]', col.className)}>
+                    <td key={col.key} className={cn('px-4 py-3 text-gray-700', col.className)}>
                       {col.render ? col.render(row) : String(row[col.key] ?? '')}
                     </td>
                   ))}
@@ -246,7 +246,7 @@ export function DataTable<T extends Record<string, unknown>>({
                   className={cn(
                     'flex h-8 w-8 items-center justify-center rounded-md text-sm',
                     page === pageNum
-                      ? 'bg-[var(--color-crimson)] text-white'
+                      ? 'bg-blue-600 text-white'
                       : 'text-gray-500 hover:bg-gray-100',
                   )}
                 >
