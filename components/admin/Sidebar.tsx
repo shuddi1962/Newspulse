@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import {
-  LayoutDashboard, FileText, Image, Menu, ChevronDown,
+  LayoutDashboard, FileText, Image, Menu,
   Newspaper, Tags, UserPlus, Mail,
   Video, FilePlus, Globe, BookOpen,
   Megaphone, Hammer, LogOut, PanelRightClose,
@@ -290,10 +290,7 @@ export function Sidebar({ user }: SidebarProps) {
                 >
                   <item.icon className="h-4 w-4 shrink-0" />
                   {!collapsed && (
-                    <>
-                      <span className="flex-1 text-left text-xs font-medium uppercase tracking-wider">{item.label}</span>
-                      <ChevronDown className={cn('h-3 w-3 transition-transform', open && 'rotate-180')} />
-                    </>
+                    <span className="flex-1 text-left text-xs font-medium uppercase tracking-wider">{item.label}</span>
                   )}
                 </button>
                 {open && !collapsed && (

@@ -50,9 +50,9 @@
   --duration-normal: 200ms;
 
   /* -- v2 Admin (Light Blue theme) ---------------------------------------- */
-  --color-navy: #2563eb;
-  --color-navy-light: #3b82f6;
-  --color-navy-muted: #60a5fa;
+  --color-navy: #0000ff;
+  --color-navy-light: #3333ff;
+  --color-navy-muted: #6666ff;
   --color-crimson: #2563eb;
   --color-crimson-light: #60a5fa;
   --color-crimson-dark: #1d4ed8;
