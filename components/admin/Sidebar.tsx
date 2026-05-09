@@ -148,18 +148,6 @@ const navItems: NavItem[] = [
     ],
   },
   {
-    label: 'Settings', icon: Settings,
-    children: [
-      { label: 'Software Setup', href: '/admin/settings', icon: Server },
-      { label: 'Application', href: '/admin/settings/application', icon: Settings },
-      { label: 'Social API', href: '/admin/settings/social-api', icon: Share2 },
-      { label: 'Mail Setup', href: '/admin/settings/mail', icon: Mail },
-      { label: 'Space Credentials', href: '/admin/settings/space', icon: Database },
-      { label: 'Font Settings', href: '/admin/settings/font', icon: Palette },
-      { label: 'Language Setup', href: '/admin/settings/language', icon: Languages },
-    ],
-  },
-  {
     label: 'Users', icon: Users,
     children: [
       { label: 'Role List', href: '/admin/users/roles', icon: Shield },
@@ -200,6 +188,7 @@ const navItems: NavItem[] = [
   { label: 'Tags', href: '/admin/tags', icon: Tags },
   { label: 'Options', href: '/admin/options', icon: Hammer },
   { label: 'Schedule', href: '/admin/schedule', icon: CalendarDays },
+  { label: 'Settings', href: '/admin/settings', icon: Settings },
   { label: 'Quick Guide', href: '/admin/guideline', icon: BookOpen },
   { label: 'Update Guides', href: '/admin/update-guides', icon: TrendingUp },
 ];
@@ -342,8 +331,8 @@ export function Sidebar({ user }: SidebarProps) {
               {user.name?.charAt(0)?.toUpperCase() ?? 'A'}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-medium text-white">{user.name ?? 'Admin'}</p>
-              <p className="text-xs text-white/70 capitalize">{user.role}</p>
+              <div className="truncate text-sm font-medium text-white">{user.name ?? 'Admin'}</div>
+              <div className="text-xs text-white/70 capitalize">{user.role}</div>
             </div>
             <button
               onClick={() => {
