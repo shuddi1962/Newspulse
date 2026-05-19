@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import { SiteHeader } from '@/app/(marketing)/_components/site-header';
-import { SiteFooter } from '@/app/(marketing)/_components/site-footer';
+import { SiteHeader } from '@/components/layout/SiteHeader';
+import { SiteFooter } from '@/components/layout/SiteFooter';
 import { getCurrentUser } from '@/lib/auth/session';
 import { getAdAccountByOwnerId } from '@/lib/db/ads';
 import { redirect } from 'next/navigation';
@@ -17,7 +17,7 @@ export default async function AdsLayout({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <SiteHeader />
+      <SiteHeader activeNav="home" />
       <div className="flex min-h-[calc(100vh-4rem)] flex-1">
         <AdsSidebar hasAccount={hasAccount} />
         <main className="flex-1 overflow-y-auto">{children}</main>
