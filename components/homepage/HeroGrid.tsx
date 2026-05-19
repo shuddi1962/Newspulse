@@ -43,11 +43,11 @@ export function HeroGrid({ articles }: HeroGridProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-6 lg:p-8">
           <CategoryTag label={main.category} color={main.categoryColor} />
-          <h2 className="mt-4 font-display text-2xl font-bold leading-tight text-white transition-colors group-hover:text-[#e63946]/80 sm:text-3xl lg:text-[32px]">
+          <h2 className="mt-3 font-display text-xl font-semibold leading-tight text-white transition-colors group-hover:text-[#e63946]/80 sm:text-2xl lg:text-[28px] line-clamp-3">
             {main.title}
           </h2>
           {main.author && main.date && (
-            <p className="mt-3 text-sm text-gray-300">
+            <p className="mt-2 text-xs text-gray-300">
               By {main.author} &middot; {main.date}
               {main.reads && <span> &middot; {main.reads} reads</span>}
             </p>
@@ -71,11 +71,11 @@ export function HeroGrid({ articles }: HeroGridProps) {
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-4 lg:p-5">
             <CategoryTag label={topRight.category} color={topRight.categoryColor} />
-            <h3 className="mt-2 font-display text-base font-bold leading-snug text-white transition-colors group-hover:text-[#e63946]/80 lg:text-lg">
+            <h3 className="mt-2 font-display text-sm font-semibold leading-snug text-white transition-colors group-hover:text-[#e63946]/80 lg:text-base line-clamp-2">
               {topRight.title}
             </h3>
             {topRight.date && (
-              <p className="mt-1.5 text-xs text-gray-300">{topRight.date}</p>
+              <p className="mt-1 text-xs text-gray-300">{topRight.date}</p>
             )}
           </div>
         </Link>
@@ -96,7 +96,7 @@ export function HeroGrid({ articles }: HeroGridProps) {
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-3">
               <CategoryTag label={bottomLeft.category} color={bottomLeft.categoryColor} />
-              <h3 className="mt-1.5 font-display text-xs font-bold leading-snug text-white transition-colors group-hover:text-[#e63946]/80 lg:text-sm">
+              <h3 className="mt-1 font-display text-xs font-semibold leading-snug text-white transition-colors group-hover:text-[#e63946]/80 lg:text-sm line-clamp-2">
                 {bottomLeft.title}
               </h3>
             </div>
@@ -117,7 +117,7 @@ export function HeroGrid({ articles }: HeroGridProps) {
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-3">
               <CategoryTag label={bottomRight.category} color={bottomRight.categoryColor} />
-              <h3 className="mt-1.5 font-display text-xs font-bold leading-snug text-white transition-colors group-hover:text-[#e63946]/80 lg:text-sm">
+              <h3 className="mt-1 font-display text-xs font-semibold leading-snug text-white transition-colors group-hover:text-[#e63946]/80 lg:text-sm line-clamp-2">
                 {bottomRight.title}
               </h3>
             </div>

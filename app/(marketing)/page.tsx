@@ -346,7 +346,7 @@ export default function HomePage() {
               </div>
               <div className="mt-4">
                 <CategoryTag label={item.category} />
-                <h3 className="mt-3 font-display text-lg font-bold leading-snug text-[#0f1419] transition-colors group-hover:text-[#e63946]">
+                <h3 className="mt-2 font-display text-base font-semibold leading-snug text-[#0f1419] transition-colors group-hover:text-[#e63946] line-clamp-2">
                   {item.title}
                 </h3>
                 <p className="mt-2 text-sm text-gray-500">By {item.author}</p>
@@ -399,7 +399,7 @@ export default function HomePage() {
                       <p className="text-xs text-gray-500">{item.role}</p>
                     </div>
                   </div>
-                  <h3 className="font-display text-base font-bold leading-snug text-[#0f1419] transition-colors group-hover:text-[#e63946]">
+                  <h3 className="font-display text-sm font-semibold leading-snug text-[#0f1419] transition-colors group-hover:text-[#e63946] line-clamp-3">
                     {item.title}
                   </h3>
                 </Link>
@@ -454,7 +454,7 @@ export default function HomePage() {
                   <div className="mt-4">
                     <CategoryTag label={article.category} color={article.categoryColor} />
                     <Link href={`/news/${article.slug}`}>
-                      <h3 className="mt-3 font-display text-lg font-bold leading-snug text-[#0f1419] transition-colors group-hover:text-[#e63946]">
+                      <h3 className="mt-2 font-display text-base font-semibold leading-snug text-[#0f1419] transition-colors group-hover:text-[#e63946] line-clamp-2">
                         {article.title}
                       </h3>
                     </Link>
@@ -473,9 +473,9 @@ export default function HomePage() {
       {/* Video Section - Full Width */}
       <section className="bg-[#0f1419] py-10">
         <div className="px-4 md:px-8 lg:px-12">
-          <div className="mb-6 flex items-center gap-3">
-            <div className="h-7 w-1 bg-[#e63946]" />
-            <h2 className="font-display text-xl font-bold tracking-tight text-white sm:text-2xl">Latest Videos</h2>
+          <div className="mb-5 flex items-center gap-3">
+            <div className="h-5 w-0.5 bg-[#e63946]" />
+            <h2 className="font-display text-lg font-semibold tracking-tight text-white sm:text-xl">Latest Videos</h2>
           </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {videoItems.map((item) => (
@@ -498,7 +498,7 @@ export default function HomePage() {
                     {item.duration}
                   </div>
                 </div>
-                <h3 className="mt-3 font-display text-sm font-bold leading-snug text-white transition-colors group-hover:text-[#e63946]">
+                <h3 className="mt-2 font-display text-sm font-semibold leading-snug text-white transition-colors group-hover:text-[#e63946] line-clamp-2">
                   {item.title}
                 </h3>
               </Link>
@@ -510,8 +510,8 @@ export default function HomePage() {
       {/* Newsletter CTA - Full Width */}
       <section className="bg-[#e63946] py-14">
         <div className="mx-auto max-w-2xl px-4 text-center">
-          <h2 className="font-display text-3xl font-bold text-white sm:text-4xl">Stay Ahead With NewsPulse PRO</h2>
-          <p className="mt-4 text-lg text-white/80">
+          <h2 className="font-display text-2xl font-semibold text-white sm:text-3xl">Stay Ahead With NewsPulse PRO</h2>
+          <p className="mt-3 text-base text-white/80">
             Join 50,000+ subscribers who get our daily newsletter with the top stories, exclusive analysis, and breaking news alerts.
           </p>
           <div className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row">

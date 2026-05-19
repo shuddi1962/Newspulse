@@ -17,7 +17,7 @@ interface LatestListProps {
 export function LatestList({ articles, className }: LatestListProps) {
   return (
     <section className={className}>
-      <SectionHeading title="Latest Stories" />
+      <SectionHeading title="Latest Stories" subtitle="Recent news and updates" />
       <div>
         {articles.map((article) => (
           <ListArticle key={article.slug} {...article} />

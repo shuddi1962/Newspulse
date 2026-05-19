@@ -24,7 +24,7 @@ export function ListArticle({
   className = '',
 }: ListArticleProps) {
   return (
-    <article className={`grid grid-cols-[120px_1fr] gap-5 border-b border-gray-100 py-5 ${className}`}>
+    <article className={`grid grid-cols-[100px_1fr] gap-4 border-b border-gray-100 py-4 ${className}`}>
       <Link href={`/news/${slug}`} className="group block overflow-hidden">
         <div className="relative h-20 w-full overflow-hidden">
           <Image
@@ -38,11 +38,11 @@ export function ListArticle({
       <div>
         <CategoryTag label={category} />
         <Link href={`/news/${slug}`}>
-          <h3 className="mt-2 font-display text-base font-bold leading-snug text-[#0f1419] transition-colors hover:text-[#e63946]">
+          <h3 className="mt-1.5 font-display text-sm font-semibold leading-snug text-[#0f1419] transition-colors hover:text-[#e63946] line-clamp-2">
             {title}
           </h3>
         </Link>
-        <p className="mt-1.5 text-sm text-gray-500">
+        <p className="mt-1 text-xs text-gray-500">
           {author} &middot; {date} &middot; {reads} reads
         </p>
       </div>

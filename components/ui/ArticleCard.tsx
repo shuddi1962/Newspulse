@@ -26,7 +26,7 @@ export function ArticleCard({
   return (
     <article className={`group ${className}`}>
       <Link href={`/news/${slug}`} className="block overflow-hidden">
-        <div className="relative h-[200px] overflow-hidden">
+        <div className="relative h-[180px] overflow-hidden">
           <Image
             src={image}
             alt=""
@@ -35,15 +35,15 @@ export function ArticleCard({
           />
         </div>
       </Link>
-      <div className="mt-4">
+      <div className="mt-3">
         <CategoryTag label={category} color={categoryColor} />
         <Link href={`/news/${slug}`}>
-          <h3 className="mt-3 font-display text-lg font-bold leading-snug text-[#0f1419] transition-colors group-hover:text-[#e63946]">
+          <h3 className="mt-2 font-display text-base font-semibold leading-snug text-[#0f1419] transition-colors group-hover:text-[#e63946] line-clamp-2">
             {title}
           </h3>
         </Link>
-        <p className="mt-2 text-sm text-gray-500">
-          By {author} &middot; {date}
+        <p className="mt-1.5 text-sm text-gray-500">
+          {author} &middot; {date}
         </p>
       </div>
     </article>
