@@ -122,7 +122,7 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
             <Link
               key={cat}
               href={`/${cat.toLowerCase()}`}
-              className="whitespace-nowrap border-r border-white/15 px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors hover:bg-black/15"
+              className="whitespace-nowrap border-r border-white/15 px-4 py-2.5 text-xs font-bold transition-colors hover:bg-black/15"
               style={{ color: '#ffffff' }}
             >
               {cat}
