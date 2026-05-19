@@ -71,63 +71,66 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
         </div>
       </div>
 
-      {/* Main Nav */}
-      <div className="bg-[#0f1419]">
-        <div className="px-4 md:px-8 lg:px-12">
-          <div className="flex items-center justify-between" style={{ minHeight: '64px' }}>
-            <Link href="/" className="flex flex-col shrink-0 mr-4">
-              <span className="font-display text-2xl font-bold leading-none text-white">
-                NewsPulse<span className="text-[#e63946]">PRO</span>
-              </span>
-              <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: '#9ca3af' }}>
-                Editorial authority for the modern web
-              </span>
-            </Link>
+      {/* Sticky Nav + Category Bar */}
+      <div className="sticky top-0 z-50">
+        {/* Main Nav */}
+        <div className="bg-[#0f1419]">
+          <div className="px-4 md:px-8 lg:px-12">
+            <div className="flex items-center justify-between" style={{ minHeight: '64px' }}>
+              <Link href="/" className="flex flex-col shrink-0 mr-4">
+                <span className="font-display text-2xl font-bold leading-none text-white">
+                  NewsPulse<span className="text-[#e63946]">PRO</span>
+                </span>
+                <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: '#9ca3af' }}>
+                  Editorial authority for the modern web
+                </span>
+              </Link>
 
-            <nav className="flex items-center gap-5 flex-wrap">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  className="text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap shrink-0"
-                  style={{
-                    color: '#ffffff',
-                    borderBottom: isActive(link.label) ? '2px solid #e63946' : '2px solid transparent',
-                    paddingBottom: '2px',
-                  }}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
+              <nav className="flex items-center gap-5 flex-wrap">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.label}
+                    href={link.href}
+                    className="text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap shrink-0"
+                    style={{
+                      color: '#ffffff',
+                      borderBottom: isActive(link.label) ? '2px solid #e63946' : '2px solid transparent',
+                      paddingBottom: '2px',
+                    }}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
 
-            <div className="flex items-center shrink-0 ml-3">
-              <div className="relative flex items-center">
-                <input
-                  type="text"
-                  placeholder="Search news, topics, categories..."
-                  className="w-[200px] md:w-[260px] lg:w-[320px] h-9 bg-white/10 border border-white/20 pl-9 pr-3 text-xs text-white placeholder-white/40 outline-none transition-all focus:w-[260px] md:focus:w-[340px] focus:border-white/40 focus:bg-white/15"
-                />
-                <Search className="absolute left-2.5 h-4 w-4" style={{ color: '#9ca3af' }} />
+              <div className="flex items-center shrink-0 ml-3">
+                <div className="relative flex items-center">
+                  <input
+                    type="text"
+                    placeholder="Search news, topics, categories..."
+                    className="w-[200px] md:w-[260px] lg:w-[320px] h-9 bg-white/10 border border-white/20 pl-9 pr-3 text-xs text-white placeholder-white/40 outline-none transition-all focus:w-[260px] md:focus:w-[340px] focus:border-white/40 focus:bg-white/15"
+                  />
+                  <Search className="absolute left-2.5 h-4 w-4" style={{ color: '#9ca3af' }} />
+                </div>
+              </div>
               </div>
             </div>
-            </div>
           </div>
-        </div>
 
-      {/* Category Bar */}
-      <div className="bg-[#e63946]">
-        <div className="flex overflow-x-auto px-4 md:px-8 lg:px-12">
-          {catLinks.map((cat) => (
-            <Link
-              key={cat}
-              href={`/${cat.toLowerCase()}`}
-              className="whitespace-nowrap border-r border-white/15 px-4 py-2.5 text-xs font-bold transition-colors hover:bg-black/15"
-              style={{ color: '#ffffff' }}
-            >
-              {cat}
-            </Link>
-          ))}
+        {/* Category Bar */}
+        <div className="bg-[#e63946]">
+          <div className="flex overflow-x-auto px-4 md:px-8 lg:px-12">
+            {catLinks.map((cat) => (
+              <Link
+                key={cat}
+                href={`/${cat.toLowerCase()}`}
+                className="whitespace-nowrap border-r border-white/15 px-4 py-2.5 text-xs font-bold transition-colors hover:bg-black/15"
+                style={{ color: '#ffffff' }}
+              >
+                {cat}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
 
