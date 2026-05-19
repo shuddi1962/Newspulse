@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { CategoryTag } from './CategoryTag';
+import { cn } from '@/lib/utils';
 
 interface ListArticleProps {
   image: string;
@@ -24,9 +25,9 @@ export function ListArticle({
   className,
 }: ListArticleProps) {
   return (
-    <article className={cn('grid grid-cols-[90px_1fr] gap-3 border-b border-[#e5e7eb] py-3', className)}>
+    <article className={cn('grid grid-cols-[100px_1fr] gap-4 border-b border-[#e5e7eb] py-4', className)}>
       <Link href={`/news/${slug}`} className="group block overflow-hidden">
-        <div className="relative h-16 w-full overflow-hidden">
+        <div className="relative h-20 w-full overflow-hidden">
           <Image
             src={image}
             alt=""
@@ -38,18 +39,14 @@ export function ListArticle({
       <div>
         <CategoryTag label={category} />
         <Link href={`/news/${slug}`}>
-          <h3 className="mt-1.5 text-[12px] font-bold leading-snug text-[#1a202c] transition-colors hover:text-[#e63946]">
+          <h3 className="mt-2 text-sm font-bold leading-snug text-[#1a202c] transition-colors hover:text-[#e63946]">
             {title}
           </h3>
         </Link>
-        <p className="mt-1 text-[10px] text-[#6b7280]">
+        <p className="mt-1.5 text-[11px] text-[#6b7280]">
           {author} &middot; {date} &middot; {reads} reads
         </p>
       </div>
     </article>
   );
-}
-
-function cn(...classes: (string | undefined | false | null)[]) {
-  return classes.filter(Boolean).join(' ');
 }

@@ -1,5 +1,3 @@
-import { SiteHeader } from '@/components/layout/SiteHeader';
-import { SiteFooter } from '@/components/layout/SiteFooter';
 import { HeroGrid } from '@/components/homepage/HeroGrid';
 import { CategorySection } from '@/components/homepage/CategorySection';
 import { LatestList } from '@/components/homepage/LatestList';
@@ -184,41 +182,35 @@ const popularTags = [
 
 export default function HomePage() {
   return (
-    <>
-      <SiteHeader activeNav="home" />
+    <main className="w-full px-5 py-6">
+      {/* Hero Grid */}
+      <HeroGrid articles={heroArticles} />
 
-      <main className="mx-auto max-w-[1200px] px-5 py-6">
-        {/* Hero Grid */}
-        <HeroGrid articles={heroArticles} />
-
-        {/* Main Content + Sidebar */}
-        <div className="grid grid-cols-1 items-start gap-7 lg:grid-cols-[1fr_320px]">
-          {/* Left: Article sections */}
-          <div className="flex flex-col gap-8">
-            <CategorySection
-              title="Software Industry"
-              tabs={['Crypto', 'Ecommerce', 'Education']}
-              articles={softwareArticles}
-            />
-            <CategorySection
-              title="Business & Economy"
-              tabs={['Nigeria', 'Africa', 'Global']}
-              articles={businessArticles}
-            />
-            <LatestList articles={latestArticles} />
-          </div>
-
-          {/* Right: Sidebar */}
-          <aside className="sticky top-4 hidden flex-col gap-6 lg:flex">
-            <TrendingWidget items={trendingItems} />
-            <NewsletterWidget />
-            <AdBannerWidget />
-            <TagsWidget tags={popularTags} />
-          </aside>
+      {/* Main Content + Sidebar */}
+      <div className="grid grid-cols-1 items-start gap-7 lg:grid-cols-[1fr_320px]">
+        {/* Left: Article sections */}
+        <div className="flex flex-col gap-8">
+          <CategorySection
+            title="Software Industry"
+            tabs={['Crypto', 'Ecommerce', 'Education']}
+            articles={softwareArticles}
+          />
+          <CategorySection
+            title="Business & Economy"
+            tabs={['Nigeria', 'Africa', 'Global']}
+            articles={businessArticles}
+          />
+          <LatestList articles={latestArticles} />
         </div>
-      </main>
 
-      <SiteFooter />
-    </>
+        {/* Right: Sidebar */}
+        <aside className="sticky top-4 hidden flex-col gap-6 lg:flex">
+          <TrendingWidget items={trendingItems} />
+          <NewsletterWidget />
+          <AdBannerWidget />
+          <TagsWidget tags={popularTags} />
+        </aside>
+      </div>
+    </main>
   );
 }

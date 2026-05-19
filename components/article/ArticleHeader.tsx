@@ -30,28 +30,28 @@ export function ArticleHeader({
     <div>
       <CategoryTag label={category} />
 
-      <h1 className="mt-3 font-display text-[24px] font-bold leading-[1.25] text-[#0f1419] sm:text-[30px]">
+      <h1 className="mt-4 font-display text-2xl font-bold leading-[1.25] text-[#0f1419] sm:text-3xl lg:text-[32px]">
         {title}
       </h1>
 
       {subtitle && (
-        <p className="mb-[18px] font-display text-[14px] italic leading-[1.6] text-[#6b7280] sm:text-[16px]">
+        <p className="mb-5 font-display text-base italic leading-[1.6] text-[#6b7280] sm:text-lg">
           {subtitle}
         </p>
       )}
 
       {/* Meta Bar */}
-      <div className="flex flex-col justify-between border-y border-[#e5e7eb] py-[14px] sm:flex-row sm:items-center">
+      <div className="flex flex-col justify-between border-y border-[#e5e7eb] py-4 sm:flex-row sm:items-center">
         <div className="flex items-center gap-3">
-          <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full bg-[#0f1419] text-[14px] font-bold text-white">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#0f1419] text-sm font-bold text-white">
             {author.initials}
           </div>
           <div>
-            <p className="text-[13px] font-bold text-[#0f1419]">{author.name}</p>
+            <p className="text-sm font-bold text-[#0f1419]">{author.name}</p>
             <p className="text-[11px] text-[#6b7280]">{author.role}</p>
           </div>
         </div>
-        <div className="mt-3 flex items-center gap-4 text-[12px] text-[#6b7280] sm:mt-0">
+        <div className="mt-3 flex items-center gap-4 text-sm text-[#6b7280] sm:mt-0">
           <time>{date}</time>
           <span>{reads} reads</span>
           <span>{readTime}</span>
@@ -59,17 +59,17 @@ export function ArticleHeader({
       </div>
 
       {/* Share Bar */}
-      <div className="mb-[22px] mt-4 flex items-center gap-[6px]">
+      <div className="mb-6 mt-5 flex items-center gap-1.5">
         <span className="mr-2 text-[10px] font-black uppercase tracking-wider text-[#6b7280]">
           Share:
         </span>
-        <button className="flex items-center gap-1.5 bg-[#1877f2] px-[14px] py-[6px] text-[10px] font-semibold text-white transition-opacity hover:opacity-90">
+        <button className="flex items-center gap-1.5 bg-[#1877f2] px-4 py-1.5 text-[11px] font-semibold text-white transition-opacity hover:opacity-90">
           f Facebook
         </button>
-        <button className="flex items-center gap-1.5 bg-[#1da1f2] px-[14px] py-[6px] text-[10px] font-semibold text-white transition-opacity hover:opacity-90">
+        <button className="flex items-center gap-1.5 bg-[#1da1f2] px-4 py-1.5 text-[11px] font-semibold text-white transition-opacity hover:opacity-90">
           X
         </button>
-        <button className="flex items-center gap-1.5 border border-[#e5e7eb] px-[14px] py-[6px] text-[10px] font-semibold text-[#6b7280] transition-colors hover:bg-gray-100">
+        <button className="flex items-center gap-1.5 border border-[#e5e7eb] px-4 py-1.5 text-[11px] font-semibold text-[#6b7280] transition-colors hover:bg-gray-100">
           <Share2 className="h-3 w-3" /> Copy Link
         </button>
       </div>

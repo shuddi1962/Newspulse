@@ -16,16 +16,16 @@ interface MoreInCategoryWidgetProps {
 export function MoreInCategoryWidget({ title, articles }: MoreInCategoryWidgetProps) {
   return (
     <div>
-      <h3 className="mb-[14px] border-l-[3px] border-[#e63946] pl-[10px] text-[12px] font-black uppercase tracking-widest text-[#0f1419]">
+      <h3 className="mb-4 border-l-1 border-[#e63946] pl-3 text-xs font-black uppercase tracking-widest text-[#0f1419]">
         {title}
       </h3>
       {articles.map((article) => (
         <Link
           key={article.slug}
           href={`/news/${article.slug}`}
-          className="group mb-[10px] grid grid-cols-[70px_1fr] gap-[10px] border-b border-[#e5e7eb] pb-[10px]"
+          className="group mb-3 grid grid-cols-[80px_1fr] gap-3 border-b border-[#e5e7eb] pb-3"
         >
-          <div className="relative h-[55px] w-[70px] overflow-hidden">
+          <div className="relative h-[60px] w-[80px] overflow-hidden">
             <Image
               src={article.image}
               alt=""
@@ -34,10 +34,10 @@ export function MoreInCategoryWidget({ title, articles }: MoreInCategoryWidgetPr
             />
           </div>
           <div>
-            <h4 className="text-[11px] font-bold leading-snug text-[#1a202c] transition-colors group-hover:text-[#e63946]">
+            <h4 className="text-[13px] font-bold leading-snug text-[#1a202c] transition-colors group-hover:text-[#e63946]">
               {article.title}
             </h4>
-            <p className="mt-1 text-[10px] text-[#6b7280]">{article.date}</p>
+            <p className="mt-1.5 text-[11px] text-[#6b7280]">{article.date}</p>
           </div>
         </Link>
       ))}

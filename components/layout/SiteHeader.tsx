@@ -35,13 +35,13 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
   return (
     <header>
       {/* Layer 1: Top Bar */}
-      <div className="border-b border-white/5 bg-[#111820] py-1.5">
-        <div className="mx-auto flex max-w-[1200px] items-center justify-between px-5">
-          <div className="flex items-center gap-4 text-[11px] text-gray-400">
+      <div className="border-b border-white/5 bg-[#111820] py-2">
+        <div className="flex items-center justify-between px-4 md:px-8 lg:px-12">
+          <div className="flex items-center gap-4 text-xs text-gray-400">
             <span>{dateStr}</span>
             <span className="hidden sm:inline">Lagos, Nigeria</span>
           </div>
-          <div className="flex items-center gap-3 text-[11px] text-gray-400">
+          <div className="flex items-center gap-4 text-xs text-gray-400">
             <Link href="/login" className="hover:text-white transition-colors">Login</Link>
             <span className="text-white/20">|</span>
             <Link href="/signup" className="hover:text-white transition-colors">Register</Link>
@@ -51,7 +51,7 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
             <Link href="#" className="hover:text-white transition-colors hidden sm:inline">FR</Link>
             <Link
               href="/subscribe"
-              className="bg-[#e63946] px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white transition-colors hover:bg-[#c1121f]"
+              className="bg-[#e63946] px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white transition-colors hover:bg-[#c1121f]"
             >
               Subscribe
             </Link>
@@ -61,10 +61,10 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
 
       {/* Layer 2: Main Nav */}
       <div className="bg-[#0f1419]">
-        <div className="mx-auto flex max-w-[1200px] items-center justify-between px-5" style={{ height: '58px' }}>
-          <div className="flex items-center gap-6">
+        <div className="flex items-center justify-between px-4 md:px-8 lg:px-12" style={{ height: '64px' }}>
+          <div className="flex items-center gap-8">
             <Link href="/" className="flex flex-col">
-              <span className="font-display text-[22px] font-bold leading-none text-white">
+              <span className="font-display text-2xl font-bold leading-none text-white">
                 NewsPulse<span className="text-[#e63946]">PRO</span>
               </span>
               <span className="text-[9px] font-bold uppercase tracking-widest text-gray-500">
@@ -73,12 +73,12 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
             </Link>
           </div>
 
-          <nav className="hidden items-center gap-5 lg:flex">
+          <nav className="hidden items-center gap-6 xl:flex">
             {navLinks.map((link) => (
               <Link
                 key={link}
                 href={link === 'Home' ? '/' : `/${link.toLowerCase()}`}
-                className={`text-[11px] font-bold uppercase tracking-wider transition-colors ${
+                className={`text-xs font-bold uppercase tracking-wider transition-colors ${
                   isActiveNav(link)
                     ? 'text-white'
                     : 'text-gray-300 hover:text-white'
@@ -94,11 +94,11 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
           </nav>
 
           <div className="flex items-center gap-3">
-            <Link href="/login" className="hidden text-[11px] font-bold uppercase tracking-wider text-gray-300 hover:text-white transition-colors sm:inline">
+            <Link href="/login" className="hidden text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-white transition-colors lg:inline">
               Sign in
             </Link>
             <button
-              className="flex h-[32px] w-[32px] items-center justify-center border border-white/20 text-gray-400 transition-colors hover:border-[#e63946] hover:text-[#e63946]"
+              className="flex h-9 w-9 items-center justify-center border border-white/20 text-gray-400 transition-colors hover:border-[#e63946] hover:text-[#e63946]"
               aria-label="Search"
             >
               <Search className="h-4 w-4" />
@@ -109,12 +109,12 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
 
       {/* Layer 3: Category Bar */}
       <div className="bg-[#e63946]">
-        <div className="mx-auto flex max-w-[1200px] overflow-x-auto px-5">
+        <div className="flex overflow-x-auto px-4 md:px-8 lg:px-12">
           {catLinks.map((cat) => (
             <Link
               key={cat}
               href={`/${cat.toLowerCase()}`}
-              className="whitespace-nowrap border-r border-white/15 px-4 py-2 text-[11px] font-bold uppercase tracking-wider text-white/85 transition-colors hover:bg-black/15 hover:text-white"
+              className="whitespace-nowrap border-r border-white/15 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white/85 transition-colors hover:bg-black/15 hover:text-white"
             >
               {cat}
             </Link>
@@ -123,15 +123,15 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
       </div>
 
       {/* Layer 4: Breaking News Ticker */}
-      <div className="border-b border-white/8 bg-[#0f1419] py-[7px]">
-        <div className="mx-auto flex max-w-[1200px] items-center gap-4 overflow-hidden px-5">
-          <span className="shrink-0 bg-[#e63946] px-2 py-1 text-[10px] font-black uppercase tracking-widest text-white">
+      <div className="border-b border-white/8 bg-[#0f1419] py-2">
+        <div className="flex items-center gap-4 overflow-hidden px-4 md:px-8 lg:px-12">
+          <span className="shrink-0 bg-[#e63946] px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-white">
             Breaking
           </span>
           <div className="relative flex-1 overflow-hidden">
             <div className="animate-ticker whitespace-nowrap">
               {breakingItems.map((item) => (
-                <span key={item} className="mr-8 inline-block text-[12px] text-gray-200">
+                <span key={item} className="mr-8 inline-block text-xs text-gray-200">
                   {item}
                 </span>
               ))}

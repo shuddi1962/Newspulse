@@ -10,7 +10,7 @@ export function CategoryTag({ label, color, className }: CategoryTagProps) {
   return (
     <span
       className={cn(
-        'inline-block text-[9px] font-black uppercase tracking-widest px-[7px] py-[2px] text-white',
+        'inline-block text-[9px] font-black uppercase tracking-widest px-2 py-0.5 text-white',
         className,
       )}
       style={{ backgroundColor: color || '#e63946' }}

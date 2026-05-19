@@ -4,8 +4,8 @@ const socialLinks = [
   { label: 'f', href: '#', name: 'Facebook' },
   { label: 'X', href: '#', name: 'X' },
   { label: 'in', href: '#', name: 'LinkedIn' },
-  { label: '▶', href: '#', name: 'YouTube' },
-  { label: '◻', href: '#', name: 'Instagram' },
+  { label: '\u25B6', href: '#', name: 'YouTube' },
+  { label: '\u25FB', href: '#', name: 'Instagram' },
 ];
 
 const footerColumns = [
@@ -45,20 +45,20 @@ const footerColumns = [
 
 export function SiteFooter() {
   return (
-    <footer className="bg-[#0f1419] py-10 text-white">
-      <div className="mx-auto max-w-[1200px] px-5">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
+    <footer className="bg-[#0f1419] py-12 text-white">
+      <div className="px-4 md:px-8 lg:px-12">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
           {/* Column 1: Logo + Description */}
           <div>
-            <div className="mb-4">
-              <span className="font-display text-[22px] font-bold leading-none text-white">
+            <div className="mb-5">
+              <span className="font-display text-2xl font-bold leading-none text-white">
                 NewsPulse<span className="text-[#e63946]">PRO</span>
               </span>
-              <p className="mt-1 text-[9px] font-bold uppercase tracking-widest text-gray-500">
+              <p className="mt-1.5 text-[9px] font-bold uppercase tracking-widest text-gray-500">
                 Editorial authority for the modern web
               </p>
             </div>
-            <p className="mb-4 max-w-sm text-[13px] leading-relaxed text-gray-400">
+            <p className="mb-5 max-w-sm text-sm leading-relaxed text-gray-400">
               NewsPulse PRO combines world-class journalism with a full community super-platform: directory, jobs, marketplace, events, bookings, real estate, and self-serve advertising.
             </p>
             <div className="flex items-center gap-2">
@@ -67,7 +67,7 @@ export function SiteFooter() {
                   key={name}
                   href={href}
                   aria-label={name}
-                  className="flex h-8 w-8 items-center justify-center border border-white/20 text-[12px] font-bold text-gray-400 transition-colors hover:border-[#e63946] hover:bg-[#e63946] hover:text-white"
+                  className="flex h-9 w-9 items-center justify-center border border-white/20 text-sm font-bold text-gray-400 transition-colors hover:border-[#e63946] hover:bg-[#e63946] hover:text-white"
                 >
                   {label}
                 </Link>
@@ -78,15 +78,15 @@ export function SiteFooter() {
           {/* Columns 2-4 */}
           {footerColumns.map((col) => (
             <div key={col.heading}>
-              <h3 className="mb-3 border-b border-white/10 pb-2 text-[11px] font-black uppercase tracking-widest">
+              <h3 className="mb-4 border-b border-white/10 pb-2.5 text-[11px] font-black uppercase tracking-widest">
                 {col.heading}
               </h3>
-              <ul className="space-y-2.5">
+              <ul className="space-y-3">
                 {col.links.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-[13px] text-gray-400 transition-all hover:pl-1 hover:text-white"
+                      className="text-sm text-gray-400 transition-all hover:pl-1 hover:text-white"
                     >
                       {link.label}
                     </Link>
@@ -98,9 +98,9 @@ export function SiteFooter() {
         </div>
 
         {/* Footer Bottom */}
-        <div className="mt-10 flex flex-col justify-between border-t border-white/10 pt-6 text-xs text-gray-500 sm:flex-row sm:items-center">
+        <div className="mt-12 flex flex-col justify-between border-t border-white/10 pt-8 text-xs text-gray-500 sm:flex-row sm:items-center">
           <p>&copy; 2026 NewsPulse PRO. All rights reserved.</p>
-          <div className="mt-2 flex gap-4 sm:mt-0">
+          <div className="mt-3 flex gap-5 sm:mt-0">
             <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
             <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
             <Link href="/cookies" className="hover:text-white transition-colors">Cookies</Link>

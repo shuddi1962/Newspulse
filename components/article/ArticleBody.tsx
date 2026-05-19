@@ -13,19 +13,19 @@ export function ArticleBody({ content }: ArticleBodyProps) {
   let paragraphCount = 0;
 
   return (
-    <div className="mb-7">
+    <div className="mb-8">
       {content.map((block, i) => {
         if (block.type === 'paragraph') {
           paragraphCount++;
           return (
             <div key={i}>
-              <p className="mb-[18px] text-[16px] leading-[1.8] text-[#374151]">
+              <p className="mb-5 text-base leading-[1.85] text-[#374151] sm:text-[17px]">
                 {block.text}
               </p>
               {paragraphCount === 3 && (
-                <div className="my-6 border border-dashed border-gray-300 bg-gray-50 p-5 text-center">
-                  <span className="text-[11px] text-gray-400">Advertisement</span>
-                  <p className="mt-1 text-[12px] font-bold text-gray-500">
+                <div className="my-8 border border-dashed border-gray-300 bg-gray-50 p-6 text-center">
+                  <span className="text-xs text-gray-400">Advertisement</span>
+                  <p className="mt-1.5 text-sm font-bold text-gray-500">
                     728 &times; 90 &middot; Sponsored Content
                   </p>
                 </div>
@@ -36,7 +36,7 @@ export function ArticleBody({ content }: ArticleBodyProps) {
 
         if (block.type === 'h2') {
           return (
-            <h2 key={i} className="mb-3 mt-7 font-display text-[22px] font-bold text-[#0f1419]">
+            <h2 key={i} className="mb-3 mt-8 font-display text-xl font-bold text-[#0f1419] sm:text-[22px]">
               {block.text}
             </h2>
           );
@@ -44,7 +44,7 @@ export function ArticleBody({ content }: ArticleBodyProps) {
 
         if (block.type === 'h3') {
           return (
-            <h3 key={i} className="mb-[10px] mt-6 font-display text-[18px] font-bold text-[#0f1419]">
+            <h3 key={i} className="mb-3 mt-7 font-display text-lg font-bold text-[#0f1419] sm:text-[18px]">
               {block.text}
             </h3>
           );
@@ -54,13 +54,13 @@ export function ArticleBody({ content }: ArticleBodyProps) {
           return (
             <blockquote
               key={i}
-              className="mx-0 my-6 border-l-4 border-[#e63946] bg-[#fef2f2] px-5 py-4"
+              className="mx-0 my-7 border-l-4 border-[#e63946] bg-[#fef2f2] px-6 py-5"
             >
-              <p className="text-[18px] italic leading-[1.6] text-[#0f1419]">
+              <p className="text-lg italic leading-[1.6] text-[#0f1419] sm:text-xl">
                 {block.text}
               </p>
               {block.cite && (
-                <cite className="mt-2 block text-[13px] not-italic text-[#6b7280]">
+                <cite className="mt-3 block text-sm not-italic text-[#6b7280]">
                   {block.cite}
                 </cite>
               )}

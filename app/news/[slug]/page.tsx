@@ -1,5 +1,3 @@
-import { SiteHeader } from '@/components/layout/SiteHeader';
-import { SiteFooter } from '@/components/layout/SiteFooter';
 import { ArticleHeader } from '@/components/article/ArticleHeader';
 import { ArticleBody } from '@/components/article/ArticleBody';
 import { AuthorBio } from '@/components/article/AuthorBio';
@@ -129,87 +127,81 @@ const mockComments = [
 
 export default function BlogPostPage() {
   return (
-    <>
-      <SiteHeader activeNav="news" />
+    <main className="w-full px-5 py-6">
+      <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-[1fr_320px]">
+        {/* Left: Article */}
+        <article>
+          {/* Breadcrumb */}
+          <nav className="mb-4 flex items-center gap-[6px] text-[11px] text-[#6b7280]">
+            <Link href="/" className="text-[#e63946] hover:underline">
+              Home
+            </Link>
+            <span className="text-[#e5e7eb]">/</span>
+            <Link href="/news" className="hover:text-[#e63946]">
+              World
+            </Link>
+            <span className="text-[#e5e7eb]">/</span>
+            <span className="text-[#6b7280]">Demonstrators Call On World Leaders...</span>
+          </nav>
 
-      <main className="mx-auto max-w-[1200px] px-5 py-6">
-        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-[1fr_320px]">
-          {/* Left: Article */}
-          <article>
-            {/* Breadcrumb */}
-            <nav className="mb-4 flex items-center gap-[6px] text-[11px] text-[#6b7280]">
-              <Link href="/" className="text-[#e63946] hover:underline">
-                Home
-              </Link>
-              <span className="text-[#e5e7eb]">/</span>
-              <Link href="/news" className="hover:text-[#e63946]">
-                World
-              </Link>
-              <span className="text-[#e5e7eb]">/</span>
-              <span className="text-[#6b7280]">Demonstrators Call On World Leaders...</span>
-            </nav>
+          <ArticleHeader
+            category={mockArticle.category}
+            title={mockArticle.title}
+            subtitle={mockArticle.subtitle}
+            author={mockArticle.author}
+            date={mockArticle.date}
+            reads={mockArticle.reads}
+            readTime={mockArticle.readTime}
+          />
 
-            <ArticleHeader
-              category={mockArticle.category}
-              title={mockArticle.title}
-              subtitle={mockArticle.subtitle}
-              author={mockArticle.author}
-              date={mockArticle.date}
-              reads={mockArticle.reads}
-              readTime={mockArticle.readTime}
-            />
-
-            {/* Hero Image */}
-            <div className="mb-2 overflow-hidden">
-              <div className="relative h-[320px] sm:h-[420px]">
-                <Image
-                  src={mockArticle.heroImage}
-                  alt={mockArticle.title}
-                  fill
-                  priority
-                  className="object-cover"
-                />
-              </div>
-              <p className="border-b border-[#e5e7eb] py-[6px] text-[11px] font-sans italic text-[#6b7280]">
-                Demonstrators gathered in central London&apos;s Trafalgar Square on Sunday demanding continued government support. Photo: Reuters / AP
-              </p>
+          {/* Hero Image */}
+          <div className="mb-2 overflow-hidden">
+            <div className="relative h-[320px] sm:h-[420px]">
+              <Image
+                src={mockArticle.heroImage}
+                alt={mockArticle.title}
+                fill
+                priority
+                className="object-cover"
+              />
             </div>
+            <p className="border-b border-[#e5e7eb] py-[6px] text-[11px] font-sans italic text-[#6b7280]">
+              Demonstrators gathered in central London&apos;s Trafalgar Square on Sunday demanding continued government support. Photo: Reuters / AP
+            </p>
+          </div>
 
-            <ArticleBody content={mockArticle.content as ArticleBody['content']} />
+          <ArticleBody content={mockArticle.content as ArticleBody['content']} />
 
-            {/* Tags */}
-            <div className="mb-7 flex flex-wrap items-center gap-2 border-y border-[#e5e7eb] py-4">
-              <span className="text-[11px] font-black uppercase tracking-wider text-[#6b7280]">
-                Tags:
+          {/* Tags */}
+          <div className="mb-7 flex flex-wrap items-center gap-2 border-y border-[#e5e7eb] py-4">
+            <span className="text-[11px] font-black uppercase tracking-wider text-[#6b7280]">
+              Tags:
+            </span>
+            {mockArticle.tags.map((tag) => (
+              <span
+                key={tag}
+                className="cursor-pointer border border-[#e5e7eb] bg-gray-100 px-[10px] py-[5px] text-[10px] text-[#6b7280] transition-colors hover:border-[#0f1419] hover:bg-[#0f1419] hover:text-white"
+              >
+                {tag}
               </span>
-              {mockArticle.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="cursor-pointer border border-[#e5e7eb] bg-gray-100 px-[10px] py-[5px] text-[10px] text-[#6b7280] transition-colors hover:border-[#0f1419] hover:bg-[#0f1419] hover:text-white"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
+            ))}
+          </div>
 
-            <AuthorBio author={mockArticle.author} />
-            <RelatedArticles articles={relatedArticles} />
-            <CommentsSection comments={mockComments} />
-          </article>
+          <AuthorBio author={mockArticle.author} />
+          <RelatedArticles articles={relatedArticles} />
+          <CommentsSection comments={mockComments} />
+        </article>
 
-          {/* Right: Sidebar */}
-          <aside className="sticky top-4 hidden flex-col gap-6 lg:flex">
-            <TrendingWidget items={trendingItems} />
-            <AdBannerWidget />
-            <MoreInCategoryWidget title="More in World" articles={moreCategoryArticles} />
-            <NewsletterWidget />
-            <TagsWidget tags={['G20', 'Aid', 'Protests', 'UN', 'Europe', 'Nigeria', 'Africa', 'Diplomacy']} />
-          </aside>
-        </div>
-      </main>
-
-      <SiteFooter />
-    </>
+        {/* Right: Sidebar */}
+        <aside className="sticky top-4 hidden flex-col gap-6 lg:flex">
+          <TrendingWidget items={trendingItems} />
+          <AdBannerWidget />
+          <MoreInCategoryWidget title="More in World" articles={moreCategoryArticles} />
+          <NewsletterWidget />
+          <TagsWidget tags={['G20', 'Aid', 'Protests', 'UN', 'Europe', 'Nigeria', 'Africa', 'Diplomacy']} />
+        </aside>
+      </div>
+    </main>
   );
 }
 
