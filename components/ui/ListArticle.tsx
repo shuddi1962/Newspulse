@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { CategoryTag } from './CategoryTag';
-import { cn } from '@/lib/utils';
 
 interface ListArticleProps {
   image: string;
@@ -22,10 +21,10 @@ export function ListArticle({
   date,
   reads,
   slug,
-  className,
+  className = '',
 }: ListArticleProps) {
   return (
-    <article className={cn('grid grid-cols-[100px_1fr] gap-4 border-b border-[#e5e7eb] py-4', className)}>
+    <article className={`grid grid-cols-[120px_1fr] gap-5 border-b border-gray-100 py-5 ${className}`}>
       <Link href={`/news/${slug}`} className="group block overflow-hidden">
         <div className="relative h-20 w-full overflow-hidden">
           <Image
@@ -39,11 +38,11 @@ export function ListArticle({
       <div>
         <CategoryTag label={category} />
         <Link href={`/news/${slug}`}>
-          <h3 className="mt-2 text-sm font-bold leading-snug text-[#1a202c] transition-colors hover:text-[#e63946]">
+          <h3 className="mt-2 font-display text-base font-bold leading-snug text-[#0f1419] transition-colors hover:text-[#e63946]">
             {title}
           </h3>
         </Link>
-        <p className="mt-1.5 text-[11px] text-[#6b7280]">
+        <p className="mt-1.5 text-sm text-gray-500">
           {author} &middot; {date} &middot; {reads} reads
         </p>
       </div>

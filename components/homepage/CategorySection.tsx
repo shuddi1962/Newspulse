@@ -3,7 +3,7 @@ import { ArticleCard } from '@/components/ui/ArticleCard';
 
 interface CategorySectionProps {
   title: string;
-  tabs?: string[];
+  subtitle?: string;
   articles: {
     image: string;
     category: string;
@@ -18,11 +18,11 @@ interface CategorySectionProps {
   className?: string;
 }
 
-export function CategorySection({ title, tabs, articles, className }: CategorySectionProps) {
+export function CategorySection({ title, subtitle, articles, className }: CategorySectionProps) {
   return (
     <section className={className}>
-      <SectionHeading title={title} tabs={tabs} />
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <SectionHeading title={title} subtitle={subtitle} />
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {articles.map((article) => (
           <ArticleCard key={article.slug} {...article} />
         ))}

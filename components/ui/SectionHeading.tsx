@@ -1,50 +1,21 @@
-'use client';
-
-import { cn } from '@/lib/utils';
-
 interface SectionHeadingProps {
   title: string;
-  tabs?: string[];
-  activeTab?: string;
-  onTabChange?: (tab: string) => void;
+  subtitle?: string;
   className?: string;
 }
 
-export function SectionHeading({
-  title,
-  tabs,
-  activeTab,
-  onTabChange,
-  className,
-}: SectionHeadingProps) {
+export function SectionHeading({ title, subtitle, className = '' }: SectionHeadingProps) {
   return (
-    <div className={cn('mb-5 border-b-2 border-[#0f1419] pb-3', className)}>
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="h-6 w-1 bg-[#e63946]" />
-          <h2 className="text-sm font-black uppercase tracking-widest text-[#0f1419]">
-            {title}
-          </h2>
-        </div>
-        {tabs && tabs.length > 0 && (
-          <div className="hidden items-center gap-1.5 sm:flex">
-            {tabs.map((tab) => (
-              <button
-                key={tab}
-                onClick={() => onTabChange?.(tab)}
-                className={cn(
-                  'text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 border border-[#e5e7eb] transition-colors cursor-pointer',
-                  activeTab === tab
-                    ? 'bg-[#0f1419] text-white border-[#0f1419]'
-                    : 'text-[#6b7280] hover:bg-[#0f1419] hover:text-white hover:border-[#0f1419]',
-                )}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
-        )}
+    <div className={`mb-6 ${className}`}>
+      <div className="flex items-center gap-3">
+        <div className="h-7 w-1 bg-[#e63946]" />
+        <h2 className="font-display text-xl font-bold tracking-tight text-[#0f1419] sm:text-2xl">
+          {title}
+        </h2>
       </div>
+      {subtitle && (
+        <p className="mt-1.5 pl-4 text-sm text-gray-500">{subtitle}</p>
+      )}
     </div>
   );
 }

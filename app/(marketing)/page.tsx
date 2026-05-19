@@ -1,10 +1,15 @@
+import Link from 'next/link';
+import Image from 'next/image';
 import { HeroGrid } from '@/components/homepage/HeroGrid';
 import { CategorySection } from '@/components/homepage/CategorySection';
 import { LatestList } from '@/components/homepage/LatestList';
+import { SectionHeading } from '@/components/ui/SectionHeading';
+import { CategoryTag } from '@/components/ui/CategoryTag';
 import { TrendingWidget } from '@/components/sidebar/TrendingWidget';
 import { NewsletterWidget } from '@/components/sidebar/NewsletterWidget';
 import { AdBannerWidget } from '@/components/sidebar/AdBannerWidget';
 import { TagsWidget } from '@/components/sidebar/TagsWidget';
+import { AdBanner } from '@/components/ads/AdBanner';
 
 const heroArticles = {
   main: {
@@ -37,48 +42,171 @@ const heroArticles = {
   },
 };
 
-const softwareArticles = [
+const editorsPicks = [
   {
-    image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=300&h=200&fit=crop',
-    category: 'Tech',
-    title: "Airbnb Will Rent Carrie Bradshaw's Apartment for Two Nights From A Latin American",
-    author: 'Admin',
-    authorInitial: 'A',
-    date: 'May 14',
-    slug: 'airbnb-carrie-bradshaw-apartment',
+    image: 'https://images.unsplash.com/photo-1554774853-b415df9eeb92?w=400&h=280&fit=crop',
+    category: 'Investigations',
+    title: 'Inside Africa\'s $2.8 Billion Illicit Financial Flow: How Tax Havens Enable Capital Flight',
+    author: 'Chioma Okafor',
+    slug: 'africa-illicit-financial-flow-investigation',
   },
   {
-    image: 'https://images.unsplash.com/photo-1516245834210-c4c142787335?w=300&h=200&fit=crop',
-    category: 'Finance',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=280&fit=crop',
+    category: 'Technology',
+    title: 'How Nigerian Fintech Startups Are Building The Next Generation Of Digital Banking Infrastructure',
+    author: 'Tunde Balogun',
+    slug: 'nigerian-fintech-digital-banking-infrastructure',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1521790797524-b2497295b8a0?w=400&h=280&fit=crop',
+    category: 'Politics',
+    title: 'ECOWAS Parliament Passes Landmark Resolution On Cross-Border Trade Facilitation In West Africa',
+    author: 'Fatima Suleiman',
+    slug: 'ecowas-parliament-cross-border-trade',
+  },
+];
+
+const techArticles = [
+  {
+    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=300&h=200&fit=crop',
+    category: 'AI',
+    categoryColor: '#0891b2',
+    title: 'Google DeepMind Unveils Gemini 3.0 With Breakthrough Reasoning Capabilities Matching Human Experts',
+    author: 'Tech Desk',
+    authorInitial: 'T',
+    date: 'May 18',
+    slug: 'google-deepmind-gemini-3-reasoning',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=300&h=200&fit=crop',
+    category: 'Cybersecurity',
+    categoryColor: '#dc2626',
+    title: 'Major Cryptocurrency Exchange Loses $450M In Sophisticated Cyber Attack On Hot Wallets',
+    author: 'Security Desk',
+    authorInitial: 'S',
+    authorColor: '#dc2626',
+    date: 'May 17',
+    slug: 'crypto-exchange-450m-cyber-attack',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=300&h=200&fit=crop',
+    category: 'Startups',
+    categoryColor: '#7c3aed',
+    title: 'African SaaS Startup Flutterwave Valued at $5.2B After New $300M Series E Round',
+    author: 'Kemi',
+    authorInitial: 'K',
+    authorColor: '#7c3aed',
+    date: 'May 16',
+    slug: 'flutterwave-saas-5b-valuation',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1593349486784-c76d3305fd2c?w=300&h=200&fit=crop',
+    category: 'Telecom',
     categoryColor: '#2563eb',
-    title: 'How To Find Funding In Latin America, From a Latin American Perspective',
-    author: 'Michael',
-    authorInitial: 'M',
+    title: 'Starlink Launches Direct-to-Cell Service Across Sub-Saharan Africa In Partnership With MTN',
+    author: 'Lola',
+    authorInitial: 'L',
     authorColor: '#2563eb',
-    date: 'May 13',
-    slug: 'funding-latin-america',
+    date: 'May 15',
+    slug: 'starlink-direct-cell-mtn-africa',
   },
+];
+
+const sportsArticles = [
   {
-    image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=300&h=200&fit=crop',
-    category: 'Economy',
+    image: 'https://images.unsplash.com/photo-1461896836934-bd45ba8fcf0b?w=300&h=200&fit=crop',
+    category: 'Football',
     categoryColor: '#059669',
-    title: 'World Economy: Another Chinese Real Estate Developer Is In Serious Trouble',
-    author: 'Sarah',
+    title: 'Super Eagles Star Victor Osimhen Named CAF African Player of the Year For 2025 Season',
+    author: 'Sports Desk',
     authorInitial: 'S',
     authorColor: '#059669',
-    date: 'May 12',
-    slug: 'chinese-real-estate-developer-trouble',
+    date: 'May 18',
+    slug: 'osimhen-caf-player-year-2025',
   },
   {
-    image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=300&h=200&fit=crop',
-    category: 'Legal',
-    categoryColor: '#7c3aed',
-    title: 'Judge Rules Against Blue Origin in Standoff with SpaceX, NASA Court Decision',
-    author: 'Reporter',
-    authorInitial: 'R',
-    authorColor: '#7c3aed',
-    date: 'May 11',
-    slug: 'blue-origin-spacex-nasa-ruling',
+    image: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=300&h=200&fit=crop',
+    category: 'Basketball',
+    categoryColor: '#d97706',
+    title: 'Nigeria\'s D\'Tigers Qualify For Paris 2028 Olympics After Dominant Performance In Qualifiers',
+    author: 'Sports Desk',
+    authorInitial: 'S',
+    authorColor: '#d97706',
+    date: 'May 17',
+    slug: 'dtigers-paris-2028-olympics-qualify',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=300&h=200&fit=crop',
+    category: 'Athletics',
+    categoryColor: '#dc2626',
+    title: 'Tobi Amusan Breaks World Record For Third Time With Stunning 12.08s Performance In Oregon',
+    author: 'Sports Desk',
+    authorInitial: 'S',
+    authorColor: '#dc2626',
+    date: 'May 16',
+    slug: 'amusan-world-record-oregon',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1511882150382-421056c89033?w=300&h=200&fit=crop',
+    category: 'Boxing',
+    categoryColor: '#2563eb',
+    title: 'Anthony Joshua Announces Shock Retirement After Devastating Knockout Loss To Wilder In Saudi',
+    author: 'Sports Desk',
+    authorInitial: 'S',
+    authorColor: '#2563eb',
+    date: 'May 15',
+    slug: 'joshua-retirement-wilder-knockout',
+  },
+];
+
+const opinionArticles = [
+  {
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&face=1',
+    author: 'Adebayo Ogunlesi',
+    role: 'Senior Editor',
+    title: 'Why Africa Must Build Its Own AI Infrastructure Instead Of Relying On Foreign Cloud Providers',
+    slug: 'opinion-africa-ai-infrastructure',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&face=1',
+    author: 'Sarah Mitchell',
+    role: 'Economics Correspondent',
+    title: 'The Inflation Puzzle: Why Central Banks Are Struggling To Tame Rising Prices In Emerging Markets',
+    slug: 'opinion-inflation-emerging-markets',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&face=1',
+    author: 'James Okonkwo',
+    role: 'Foreign Affairs Editor',
+    title: 'BRICS Expansion And The Future Of Global Trade: A New World Order Emerges In The East',
+    slug: 'opinion-brics-expansion-global-trade',
+  },
+];
+
+const videoItems = [
+  {
+    image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=300&h=200&fit=crop',
+    title: 'Inside Lagos\' Largest Tech Hub: A Tour Of The $50M Innovation Centre',
+    duration: '12:34',
+    slug: 'video-lagos-tech-hub-tour',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1590650516494-0c8e4a4dd67e?w=300&h=200&fit=crop',
+    title: 'Exclusive Interview With Nigeria\'s Finance Minister On Economic Recovery Plans',
+    duration: '24:15',
+    slug: 'video-finance-minister-interview',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=300&h=200&fit=crop',
+    title: 'The New Face Of African Fashion: Designers Redefining Global Runways In 2026',
+    duration: '18:42',
+    slug: 'video-african-fashion-2026',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=300&h=200&fit=crop',
+    title: 'Behind The Scenes: How Dangote Refinery Processes 650,000 Barrels Of Oil Daily',
+    duration: '15:08',
+    slug: 'video-dangote-refinery-behind-scenes',
   },
 ];
 
@@ -164,6 +292,15 @@ const latestArticles = [
     reads: '890',
     slug: 'nasrda-nigeria-satellite-launch-2026',
   },
+  {
+    image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=120&h=80&fit=crop',
+    category: 'Energy',
+    title: 'NNPC Reports First Quarterly Profit In Over A Decade Driven By Upstream Production Gains',
+    author: 'Energy Desk',
+    date: 'May 15, 2026',
+    reads: '1.5K',
+    slug: 'nnpc-first-quarterly-profit',
+  },
 ];
 
 const trendingItems = [
@@ -182,35 +319,219 @@ const popularTags = [
 
 export default function HomePage() {
   return (
-    <main className="w-full px-5 py-6">
+    <main className="w-full">
       {/* Hero Grid */}
-      <HeroGrid articles={heroArticles} />
+      <section className="px-4 md:px-8 lg:px-12 py-6">
+        <HeroGrid articles={heroArticles} />
+      </section>
+
+      {/* Ad Banner - Leaderboard */}
+      <section className="px-4 md:px-8 lg:px-12 pb-8">
+        <AdBanner size="leaderboard" />
+      </section>
+
+      {/* Editors' Picks */}
+      <section className="px-4 md:px-8 lg:px-12 pb-10">
+        <SectionHeading title="Editors' Picks" subtitle="Our top stories selected by the editorial team" />
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {editorsPicks.map((item) => (
+            <Link key={item.slug} href={`/news/${item.slug}`} className="group">
+              <div className="relative h-[220px] overflow-hidden">
+                <Image
+                  src={item.image}
+                  alt=""
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
+                />
+              </div>
+              <div className="mt-4">
+                <CategoryTag label={item.category} />
+                <h3 className="mt-3 font-display text-lg font-bold leading-snug text-[#0f1419] transition-colors group-hover:text-[#e63946]">
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-sm text-gray-500">By {item.author}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
 
       {/* Main Content + Sidebar */}
-      <div className="grid grid-cols-1 items-start gap-7 lg:grid-cols-[1fr_320px]">
-        {/* Left: Article sections */}
-        <div className="flex flex-col gap-8">
+      <div className="grid grid-cols-1 items-start gap-8 px-4 md:px-8 lg:px-12 pb-10 lg:grid-cols-[1fr_320px]">
+        <div className="flex flex-col gap-10">
+          {/* Business & Finance */}
           <CategorySection
-            title="Software Industry"
-            tabs={['Crypto', 'Ecommerce', 'Education']}
-            articles={softwareArticles}
-          />
-          <CategorySection
-            title="Business & Economy"
-            tabs={['Nigeria', 'Africa', 'Global']}
+            title="Business & Finance"
+            subtitle="Markets, economy, and corporate news"
             articles={businessArticles}
           />
+
+          {/* Ad Banner - In Content */}
+          <AdBanner size="wide" />
+
+          {/* Technology */}
+          <CategorySection
+            title="Technology & Innovation"
+            subtitle="AI, startups, and the digital frontier"
+            articles={techArticles}
+          />
+
+          {/* Ad Banner - In Content */}
+          <AdBanner size="leaderboard" />
+
+          {/* Opinion & Analysis */}
+          <section>
+            <SectionHeading title="Opinion & Analysis" subtitle="Perspectives from our contributors" />
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+              {opinionArticles.map((item) => (
+                <Link key={item.slug} href={`/news/${item.slug}`} className="group border border-gray-100 p-5 transition-colors hover:border-gray-200 hover:bg-gray-50">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="relative h-10 w-10 overflow-hidden rounded-full">
+                      <Image
+                        src={item.image}
+                        alt=""
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-[#0f1419]">{item.author}</p>
+                      <p className="text-xs text-gray-500">{item.role}</p>
+                    </div>
+                  </div>
+                  <h3 className="font-display text-base font-bold leading-snug text-[#0f1419] transition-colors group-hover:text-[#e63946]">
+                    {item.title}
+                  </h3>
+                </Link>
+              ))}
+            </div>
+          </section>
+
+          {/* Ad Banner */}
+          <AdBanner size="wide" />
+
+          {/* Latest Stories */}
           <LatestList articles={latestArticles} />
         </div>
 
-        {/* Right: Sidebar */}
+        {/* Sidebar */}
         <aside className="sticky top-4 hidden flex-col gap-6 lg:flex">
           <TrendingWidget items={trendingItems} />
-          <NewsletterWidget />
           <AdBannerWidget />
+          <NewsletterWidget />
           <TagsWidget tags={popularTags} />
+          <AdBannerWidget />
         </aside>
       </div>
+
+      {/* Sports Section - Full Width */}
+      <section className="bg-gray-50 py-10">
+        <div className="px-4 md:px-8 lg:px-12">
+          <SectionHeading title="Sports" subtitle="Football, basketball, athletics, and more" />
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {sportsArticles.map((article) => {
+              const AuthorAvatar = () => {
+                const initials = article.authorInitial;
+                const bgColor = article.authorColor || '#0f1419';
+                return (
+                  <div className="flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ backgroundColor: bgColor }}>
+                    {initials}
+                  </div>
+                );
+              };
+              return (
+                <article key={article.slug} className="group">
+                  <Link href={`/news/${article.slug}`} className="block overflow-hidden">
+                    <div className="relative h-[200px] overflow-hidden">
+                      <Image
+                        src={article.image}
+                        alt=""
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
+                      />
+                    </div>
+                  </Link>
+                  <div className="mt-4">
+                    <CategoryTag label={article.category} color={article.categoryColor} />
+                    <Link href={`/news/${article.slug}`}>
+                      <h3 className="mt-3 font-display text-lg font-bold leading-snug text-[#0f1419] transition-colors group-hover:text-[#e63946]">
+                        {article.title}
+                      </h3>
+                    </Link>
+                    <p className="mt-2 flex items-center gap-2 text-sm text-gray-500">
+                      <AuthorAvatar />
+                      {article.author} &middot; {article.date}
+                    </p>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Video Section - Full Width */}
+      <section className="bg-[#0f1419] py-10">
+        <div className="px-4 md:px-8 lg:px-12">
+          <div className="mb-6 flex items-center gap-3">
+            <div className="h-7 w-1 bg-[#e63946]" />
+            <h2 className="font-display text-xl font-bold tracking-tight text-white sm:text-2xl">Latest Videos</h2>
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {videoItems.map((item) => (
+              <Link key={item.slug} href={`/video/${item.slug}`} className="group">
+                <div className="relative h-[200px] overflow-hidden">
+                  <Image
+                    src={item.image}
+                    alt=""
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity group-hover:opacity-100">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#e63946] transition-transform group-hover:scale-110">
+                      <svg className="ml-0.5 h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="absolute bottom-2 right-2 rounded bg-black/80 px-2 py-1 text-xs font-bold text-white">
+                    {item.duration}
+                  </div>
+                </div>
+                <h3 className="mt-3 font-display text-sm font-bold leading-snug text-white transition-colors group-hover:text-[#e63946]">
+                  {item.title}
+                </h3>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter CTA - Full Width */}
+      <section className="bg-[#e63946] py-14">
+        <div className="mx-auto max-w-2xl px-4 text-center">
+          <h2 className="font-display text-3xl font-bold text-white sm:text-4xl">Stay Ahead With NewsPulse PRO</h2>
+          <p className="mt-4 text-lg text-white/80">
+            Join 50,000+ subscribers who get our daily newsletter with the top stories, exclusive analysis, and breaking news alerts.
+          </p>
+          <div className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row">
+            <input
+              type="email"
+              placeholder="Enter your email address"
+              className="flex-1 border-none px-5 py-3 text-sm text-[#0f1419] outline-none"
+            />
+            <button className="bg-[#0f1419] px-8 py-3 text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-black">
+              Subscribe Free
+            </button>
+          </div>
+          <p className="mt-3 text-xs text-white/60">No spam. Unsubscribe anytime.</p>
+        </div>
+      </section>
+
+      {/* Bottom Ad Banner */}
+      <section className="px-4 md:px-8 lg:px-12 py-8">
+        <AdBanner size="leaderboard" />
+      </section>
     </main>
   );
 }
