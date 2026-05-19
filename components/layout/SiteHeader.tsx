@@ -40,7 +40,7 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
     day: 'numeric',
   });
 
-  function isActiveNav(label: string) {
+  function isActive(label: string) {
     if (label === 'Home' && activeNav === 'home') return true;
     if (label === 'News' && activeNav === 'news') return true;
     return false;
@@ -48,7 +48,7 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
 
   return (
     <header>
-      {/* Layer 1: Top Bar */}
+      {/* Top Bar */}
       <div className="border-b border-white/5 bg-[#111820] py-2">
         <div className="flex items-center justify-between px-4 md:px-8 lg:px-12">
           <div className="flex items-center gap-4 text-xs text-gray-300">
@@ -73,11 +73,11 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
         </div>
       </div>
 
-      {/* Layer 2: Main Nav */}
+      {/* Main Nav */}
       <div className="bg-[#0f1419]">
-        <div className="flex items-center justify-between px-4 md:px-8 lg:px-12" style={{ height: '64px' }}>
-          <div className="flex items-center gap-8">
-            <Link href="/" className="flex flex-col">
+        <div className="px-4 md:px-8 lg:px-12">
+          <div className="flex items-center justify-between" style={{ minHeight: '64px' }}>
+            <Link href="/" className="flex flex-col shrink-0 mr-4">
               <span className="font-display text-2xl font-bold leading-none text-white">
                 NewsPulse<span className="text-[#e63946]">PRO</span>
               </span>
@@ -85,72 +85,64 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
                 Editorial authority for the modern web
               </span>
             </Link>
-          </div>
 
-          {/* Desktop Nav */}
-          <nav className="hidden items-center gap-5 lg:flex">
-            {navLinks.map((link) => (
+            <nav className="flex items-center gap-5 flex-wrap">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className="text-xs font-bold uppercase tracking-wider text-gray-200 hover:text-white transition-colors whitespace-nowrap shrink-0"
+                  style={{
+                    borderBottom: isActive(link.label) ? '2px solid #e63946' : '2px solid transparent',
+                    paddingBottom: '2px',
+                  }}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+
+            <div className="flex items-center gap-3 shrink-0 ml-3">
               <Link
-                key={link.label}
-                href={link.href}
-                className={`text-[13px] font-bold uppercase tracking-wider transition-colors ${
-                  isActiveNav(link.label)
-                    ? 'text-white'
-                    : 'text-gray-200 hover:text-white'
-                }`}
-                style={{
-                  borderBottom: isActiveNav(link.label) ? '2px solid #e63946' : '2px solid transparent',
-                  paddingBottom: '2px',
-                }}
+                href="/login"
+                className="hidden md:inline text-xs font-bold uppercase tracking-wider text-gray-200 hover:text-white transition-colors"
               >
-                {link.label}
+                Sign in
               </Link>
-            ))}
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <Link href="/login" className="hidden text-[13px] font-bold uppercase tracking-wider text-gray-200 hover:text-white transition-colors lg:inline">
-              Sign in
-            </Link>
-            <button
-              className="flex h-9 w-9 items-center justify-center border border-white/20 text-gray-300 transition-colors hover:border-[#e63946] hover:text-[#e63946]"
-              aria-label="Search"
-            >
-              <Search className="h-4 w-4" />
-            </button>
-            {/* Mobile menu toggle */}
-            <button
-              className="flex h-9 w-9 items-center justify-center lg:hidden text-gray-300"
-              onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label="Toggle menu"
-            >
-              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </button>
+              <button
+                className="flex h-9 w-9 items-center justify-center border border-white/20 text-gray-300 transition-colors hover:border-[#e63946] hover:text-[#e63946] shrink-0"
+                aria-label="Search"
+              >
+                <Search className="h-4 w-4" />
+              </button>
+              <button
+                className="flex h-9 w-9 items-center justify-center text-gray-300 hover:text-white shrink-0"
+                onClick={() => setMobileOpen(!mobileOpen)}
+                aria-label="Toggle menu"
+              >
+                {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </button>
+            </div>
           </div>
+
+          {mobileOpen && (
+            <nav className="border-t border-white/10 pb-3">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="block py-2.5 text-sm font-bold uppercase tracking-wider text-gray-200 hover:text-white border-b border-white/5"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          )}
         </div>
-
-        {/* Mobile Nav Dropdown */}
-        {mobileOpen && (
-          <nav className="border-t border-white/10 bg-[#0f1419] px-4 py-4 lg:hidden">
-            {navLinks.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className={`block py-3 text-sm font-bold uppercase tracking-wider border-b border-white/5 transition-colors ${
-                  isActiveNav(link.label)
-                    ? 'text-white'
-                    : 'text-gray-200 hover:text-white'
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-        )}
       </div>
 
-      {/* Layer 3: Category Bar */}
+      {/* Category Bar */}
       <div className="bg-[#e63946]">
         <div className="flex overflow-x-auto px-4 md:px-8 lg:px-12">
           {catLinks.map((cat) => (
@@ -165,7 +157,7 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
         </div>
       </div>
 
-      {/* Layer 4: Breaking News Ticker */}
+      {/* Breaking News Ticker */}
       <div className="border-b border-white/8 bg-[#0f1419] py-2">
         <div className="flex items-center gap-4 overflow-hidden px-4 md:px-8 lg:px-12">
           <span className="shrink-0 bg-[#e63946] px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-white">
