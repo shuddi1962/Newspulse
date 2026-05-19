@@ -1,16 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { Search, Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { Search } from 'lucide-react';
 
 interface SiteHeaderProps {
   activeNav?: string;
 }
 
 export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
-  const [mobileOpen, setMobileOpen] = useState(false);
-
   const navLinks = [
     { label: 'Home', href: '/' },
     { label: 'News', href: '/news' },
@@ -104,49 +101,19 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
               ))}
             </nav>
 
-            <div className="flex items-center gap-3 shrink-0 ml-3">
-              <Link
-                href="/login"
-                className="hidden md:inline text-xs font-bold uppercase tracking-wider transition-colors"
-                style={{ color: '#ffffff' }}
-              >
-                Sign in
-              </Link>
-              <button
-                className="flex h-9 w-9 items-center justify-center border border-white/20 shrink-0"
-                style={{ color: '#d1d5db' }}
-                aria-label="Search"
-              >
-                <Search className="h-4 w-4" />
-              </button>
-              <button
-                className="flex h-9 w-9 items-center justify-center shrink-0"
-                style={{ color: '#d1d5db' }}
-                onClick={() => setMobileOpen(!mobileOpen)}
-                aria-label="Toggle menu"
-              >
-                {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-              </button>
+            <div className="flex items-center shrink-0 ml-3">
+              <div className="relative flex items-center">
+                <input
+                  type="text"
+                  placeholder="Search news, topics, categories..."
+                  className="w-[200px] md:w-[260px] lg:w-[320px] h-9 bg-white/10 border border-white/20 pl-9 pr-3 text-xs text-white placeholder-white/40 outline-none transition-all focus:w-[260px] md:focus:w-[340px] focus:border-white/40 focus:bg-white/15"
+                />
+                <Search className="absolute left-2.5 h-4 w-4" style={{ color: '#9ca3af' }} />
+              </div>
+            </div>
             </div>
           </div>
-
-          {mobileOpen && (
-            <nav className="border-t border-white/10 pb-3">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="block py-2.5 text-sm font-bold uppercase tracking-wider border-b border-white/5"
-                  style={{ color: '#ffffff' }}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-          )}
         </div>
-      </div>
 
       {/* Category Bar */}
       <div className="bg-[#e63946]">
