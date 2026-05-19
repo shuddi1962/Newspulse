@@ -49,13 +49,24 @@
   --duration-fast: 150ms;
   --duration-normal: 200ms;
 
+  /* -- Gazette redesign --------------------------------------------------- */
+  --color-navy: #0f1419;
+  --color-navy-light: #1a2332;
+  --color-crimson: #e63946;
+  --color-crimson-dark: #c1121f;
+  --color-slate: #f8f9fa;
+  --color-border: #e5e7eb;
+  --color-muted: #6b7280;
+  --color-dark: #1a202c;
+  --color-body-text: #374151;
+
   /* -- v2 Admin (Light Blue theme) ---------------------------------------- */
-  --color-navy: #0000ff;
-  --color-navy-light: #3333ff;
-  --color-navy-muted: #6666ff;
-  --color-crimson: #2563eb;
-  --color-crimson-light: #60a5fa;
-  --color-crimson-dark: #1d4ed8;
+  --color-navy-admin: #0000ff;
+  --color-navy-admin-light: #3333ff;
+  --color-navy-admin-muted: #6666ff;
+  --color-crimson-admin: #2563eb;
+  --color-crimson-admin-light: #60a5fa;
+  --color-crimson-admin-dark: #1d4ed8;
   --color-admin-bg: #f0f4f8;
   --color-admin-card: #ffffff;
   --color-admin-border: #e2e8f0;
@@ -427,6 +438,19 @@ textarea.field-input {
 
 .animate-scroll {
   animation: scroll 40s linear infinite;
+}
+
+@keyframes ticker {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-ticker {
+  animation: ticker 30s linear infinite;
 }
 
 /* ============================================================================
