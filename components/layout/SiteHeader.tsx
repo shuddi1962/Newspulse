@@ -51,21 +51,22 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
       {/* Top Bar */}
       <div className="border-b border-white/5 bg-[#111820] py-2">
         <div className="flex items-center justify-between px-4 md:px-8 lg:px-12">
-          <div className="flex items-center gap-4 text-xs text-gray-300">
+          <div className="flex items-center gap-4 text-xs" style={{ color: '#9ca3af' }}>
             <span>{dateStr}</span>
             <span className="hidden sm:inline">Lagos, Nigeria</span>
           </div>
-          <div className="flex items-center gap-4 text-xs text-gray-300">
-            <Link href="/login" className="hover:text-white transition-colors">Login</Link>
-            <span className="text-white/20">|</span>
-            <Link href="/signup" className="hover:text-white transition-colors">Register</Link>
-            <span className="text-white/20 hidden sm:inline">|</span>
-            <Link href="#" className="hover:text-white transition-colors hidden sm:inline">EN</Link>
-            <span className="text-white/20 hidden sm:inline">|</span>
-            <Link href="#" className="hover:text-white transition-colors hidden sm:inline">FR</Link>
+          <div className="flex items-center gap-4 text-xs" style={{ color: '#9ca3af' }}>
+            <Link href="/login" className="transition-colors" style={{ color: '#9ca3af' }}>Login</Link>
+            <span style={{ color: 'rgba(255,255,255,0.2)' }}>|</span>
+            <Link href="/signup" className="transition-colors" style={{ color: '#9ca3af' }}>Register</Link>
+            <span className="hidden sm:inline" style={{ color: 'rgba(255,255,255,0.2)' }}>|</span>
+            <Link href="#" className="transition-colors hidden sm:inline" style={{ color: '#9ca3af' }}>EN</Link>
+            <span className="hidden sm:inline" style={{ color: 'rgba(255,255,255,0.2)' }}>|</span>
+            <Link href="#" className="transition-colors hidden sm:inline" style={{ color: '#9ca3af' }}>FR</Link>
             <Link
               href="/subscribe"
-              className="bg-[#e63946] px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white transition-colors hover:bg-[#c1121f]"
+              className="bg-[#e63946] px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors hover:bg-[#c1121f]"
+              style={{ color: '#ffffff' }}
             >
               Subscribe
             </Link>
@@ -81,7 +82,7 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
               <span className="font-display text-2xl font-bold leading-none text-white">
                 NewsPulse<span className="text-[#e63946]">PRO</span>
               </span>
-              <span className="text-[9px] font-bold uppercase tracking-widest text-gray-400">
+              <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: '#9ca3af' }}>
                 Editorial authority for the modern web
               </span>
             </Link>
@@ -91,8 +92,9 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
                 <Link
                   key={link.label}
                   href={link.href}
-                  className="text-xs font-bold uppercase tracking-wider text-gray-200 hover:text-white transition-colors whitespace-nowrap shrink-0"
+                  className="text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap shrink-0"
                   style={{
+                    color: '#ffffff',
                     borderBottom: isActive(link.label) ? '2px solid #e63946' : '2px solid transparent',
                     paddingBottom: '2px',
                   }}
@@ -105,18 +107,21 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
             <div className="flex items-center gap-3 shrink-0 ml-3">
               <Link
                 href="/login"
-                className="hidden md:inline text-xs font-bold uppercase tracking-wider text-gray-200 hover:text-white transition-colors"
+                className="hidden md:inline text-xs font-bold uppercase tracking-wider transition-colors"
+                style={{ color: '#ffffff' }}
               >
                 Sign in
               </Link>
               <button
-                className="flex h-9 w-9 items-center justify-center border border-white/20 text-gray-300 transition-colors hover:border-[#e63946] hover:text-[#e63946] shrink-0"
+                className="flex h-9 w-9 items-center justify-center border border-white/20 shrink-0"
+                style={{ color: '#d1d5db' }}
                 aria-label="Search"
               >
                 <Search className="h-4 w-4" />
               </button>
               <button
-                className="flex h-9 w-9 items-center justify-center text-gray-300 hover:text-white shrink-0"
+                className="flex h-9 w-9 items-center justify-center shrink-0"
+                style={{ color: '#d1d5db' }}
                 onClick={() => setMobileOpen(!mobileOpen)}
                 aria-label="Toggle menu"
               >
@@ -132,7 +137,8 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
                   key={link.label}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="block py-2.5 text-sm font-bold uppercase tracking-wider text-gray-200 hover:text-white border-b border-white/5"
+                  className="block py-2.5 text-sm font-bold uppercase tracking-wider border-b border-white/5"
+                  style={{ color: '#ffffff' }}
                 >
                   {link.label}
                 </Link>
@@ -149,7 +155,8 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
             <Link
               key={cat}
               href={`/${cat.toLowerCase()}`}
-              className="whitespace-nowrap border-r border-white/15 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white/85 transition-colors hover:bg-black/15 hover:text-white"
+              className="whitespace-nowrap border-r border-white/15 px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors hover:bg-black/15"
+              style={{ color: '#ffffff' }}
             >
               {cat}
             </Link>
@@ -160,13 +167,13 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
       {/* Breaking News Ticker */}
       <div className="border-b border-white/8 bg-[#0f1419] py-2">
         <div className="flex items-center gap-4 overflow-hidden px-4 md:px-8 lg:px-12">
-          <span className="shrink-0 bg-[#e63946] px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-white">
+          <span className="shrink-0 bg-[#e63946] px-2.5 py-1 text-[10px] font-black uppercase tracking-widest" style={{ color: '#ffffff' }}>
             Breaking
           </span>
           <div className="relative flex-1 overflow-hidden">
             <div className="animate-ticker whitespace-nowrap">
               {breakingItems.map((item) => (
-                <span key={item} className="mr-8 inline-block text-xs text-gray-200">
+                <span key={item} className="mr-8 inline-block text-xs" style={{ color: '#d1d5db' }}>
                   {item}
                 </span>
               ))}
