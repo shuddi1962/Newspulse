@@ -37,11 +37,11 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
       {/* Layer 1: Top Bar */}
       <div className="border-b border-white/5 bg-[#111820] py-2">
         <div className="flex items-center justify-between px-4 md:px-8 lg:px-12">
-          <div className="flex items-center gap-4 text-xs text-gray-400">
+          <div className="flex items-center gap-4 text-xs text-white/50">
             <span>{dateStr}</span>
             <span className="hidden sm:inline">Lagos, Nigeria</span>
           </div>
-          <div className="flex items-center gap-4 text-xs text-gray-400">
+          <div className="flex items-center gap-4 text-xs text-white/50">
             <Link href="/login" className="hover:text-white transition-colors">Login</Link>
             <span className="text-white/20">|</span>
             <Link href="/signup" className="hover:text-white transition-colors">Register</Link>
@@ -67,7 +67,7 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
               <span className="font-display text-2xl font-bold leading-none text-white">
                 NewsPulse<span className="text-[#e63946]">PRO</span>
               </span>
-              <span className="text-[9px] font-bold uppercase tracking-widest text-gray-500">
+              <span className="text-[9px] font-bold uppercase tracking-widest text-white/30">
                 Editorial authority for the modern web
               </span>
             </Link>
@@ -81,7 +81,7 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
                 className={`text-xs font-bold uppercase tracking-wider transition-colors ${
                   isActiveNav(link)
                     ? 'text-white'
-                    : 'text-gray-300 hover:text-white'
+                    : 'text-white/70 hover:text-white'
                 }`}
                 style={{
                   borderBottom: isActiveNav(link) ? '2px solid #e63946' : '2px solid transparent',
@@ -94,11 +94,11 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
           </nav>
 
           <div className="flex items-center gap-3">
-            <Link href="/login" className="hidden text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-white transition-colors lg:inline">
+            <Link href="/login" className="hidden text-xs font-bold uppercase tracking-wider text-white/70 hover:text-white transition-colors lg:inline">
               Sign in
             </Link>
             <button
-              className="flex h-9 w-9 items-center justify-center border border-white/20 text-gray-400 transition-colors hover:border-[#e63946] hover:text-[#e63946]"
+              className="flex h-9 w-9 items-center justify-center border border-white/20 text-white/60 transition-colors hover:border-[#e63946] hover:text-[#e63946]"
               aria-label="Search"
             >
               <Search className="h-4 w-4" />
@@ -131,7 +131,7 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
           <div className="relative flex-1 overflow-hidden">
             <div className="animate-ticker whitespace-nowrap">
               {breakingItems.map((item) => (
-                <span key={item} className="mr-8 inline-block text-xs text-gray-200">
+                <span key={item} className="mr-8 inline-block text-xs text-white/80">
                   {item}
                 </span>
               ))}
