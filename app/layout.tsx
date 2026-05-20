@@ -115,7 +115,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col">
         <ThemeProvider
           attribute="data-theme"
-          defaultTheme="system"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >
