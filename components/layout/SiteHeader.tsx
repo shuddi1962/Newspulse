@@ -2,14 +2,39 @@
 
 import Link from 'next/link';
 import { Search } from 'lucide-react';
-import { useScrollDirection } from '@/lib/hooks/useScrollDirection';
+import { useEffect, useRef, useState } from 'react';
 
 interface SiteHeaderProps {
   activeNav?: string;
 }
 
 export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
-  const isHeaderHidden = useScrollDirection();
+  const [isHidden, setIsHidden] = useState(false);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const [spacerHeight, setSpacerHeight] = useState(0);
+
+  useEffect(() => {
+    if (headerRef.current) {
+      setSpacerHeight(headerRef.current.offsetHeight);
+    }
+  }, []);
+
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > 80 && currentScrollY > lastScrollY) {
+        setIsHidden(true);
+      } else {
+        setIsHidden(false);
+      }
+      lastScrollY = currentScrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   const navLinks = [
     { label: 'Home', href: '/' },
     { label: 'News', href: '/news' },
@@ -47,34 +72,38 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
 
   return (
     <header>
-      {/* Top Bar */}
-      <div className="border-b border-white/5 bg-[#111820] py-2">
-        <div className="flex items-center justify-between px-4 md:px-8 lg:px-12">
-          <div className="flex items-center gap-4 text-xs" style={{ color: '#9ca3af' }}>
-            <span>{dateStr}</span>
-            <span className="hidden sm:inline">Lagos, Nigeria</span>
-          </div>
-          <div className="flex items-center gap-4 text-xs" style={{ color: '#9ca3af' }}>
-            <Link href="/login" className="transition-colors" style={{ color: '#9ca3af' }}>Login</Link>
-            <span style={{ color: 'rgba(255,255,255,0.2)' }}>|</span>
-            <Link href="/signup" className="transition-colors" style={{ color: '#9ca3af' }}>Register</Link>
-            <span className="hidden sm:inline" style={{ color: 'rgba(255,255,255,0.2)' }}>|</span>
-            <Link href="#" className="transition-colors hidden sm:inline" style={{ color: '#9ca3af' }}>EN</Link>
-            <span className="hidden sm:inline" style={{ color: 'rgba(255,255,255,0.2)' }}>|</span>
-            <Link href="#" className="transition-colors hidden sm:inline" style={{ color: '#9ca3af' }}>FR</Link>
-            <Link
-              href="/subscribe"
-              className="bg-[#e63946] px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors hover:bg-[#c1121f]"
-              style={{ color: '#ffffff' }}
-            >
-              Subscribe
-            </Link>
+      {/* Fixed header container - hides on scroll down, shows on scroll up */}
+      <div
+        ref={headerRef}
+        className="fixed left-0 right-0 top-0 z-50 transition-transform duration-300 ease-in-out"
+        style={{ transform: isHidden ? 'translateY(-100%)' : 'translateY(0)' }}
+      >
+        {/* Top Bar */}
+        <div className="border-b border-white/5 bg-[#111820] py-2">
+          <div className="flex items-center justify-between px-4 md:px-8 lg:px-12">
+            <div className="flex items-center gap-4 text-xs" style={{ color: '#9ca3af' }}>
+              <span>{dateStr}</span>
+              <span className="hidden sm:inline">Lagos, Nigeria</span>
+            </div>
+            <div className="flex items-center gap-4 text-xs" style={{ color: '#9ca3af' }}>
+              <Link href="/login" className="transition-colors" style={{ color: '#9ca3af' }}>Login</Link>
+              <span style={{ color: 'rgba(255,255,255,0.2)' }}>|</span>
+              <Link href="/signup" className="transition-colors" style={{ color: '#9ca3af' }}>Register</Link>
+              <span className="hidden sm:inline" style={{ color: 'rgba(255,255,255,0.2)' }}>|</span>
+              <Link href="#" className="transition-colors hidden sm:inline" style={{ color: '#9ca3af' }}>EN</Link>
+              <span className="hidden sm:inline" style={{ color: 'rgba(255,255,255,0.2)' }}>|</span>
+              <Link href="#" className="transition-colors hidden sm:inline" style={{ color: '#9ca3af' }}>FR</Link>
+              <Link
+                href="/subscribe"
+                className="bg-[#e63946] px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors hover:bg-[#c1121f]"
+                style={{ color: '#ffffff' }}
+              >
+                Subscribe
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Sticky Nav + Category Bar */}
-      <div className={`sticky top-0 z-50 transition-transform duration-300 ${isHeaderHidden ? '-translate-y-full' : 'translate-y-0'}`}>
         {/* Main Nav */}
         <div className="bg-[#0f1419]">
           <div className="px-4 md:px-8 lg:px-12">
@@ -135,6 +164,9 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
           </div>
         </div>
       </div>
+
+      {/* Spacer div to prevent content from hiding behind fixed header */}
+      <div style={{ height: spacerHeight }} />
 
       {/* Breaking News Ticker */}
       <div className="border-b border-white/8 bg-[#0f1419] py-2">
