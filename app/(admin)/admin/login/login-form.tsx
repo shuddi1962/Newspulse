@@ -50,7 +50,7 @@ export function AdminLoginForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
       <div className="mb-8">
-        <h1 className="font-display text-2xl font-semibold tracking-tight text-[#0f1419] lg:text-3xl">
+        <h1 className="font-display text-2xl font-semibold tracking-tight text-(--fg-default) lg:text-3xl">
           Sign in
         </h1>
         <p className="mt-2 text-sm text-gray-500">

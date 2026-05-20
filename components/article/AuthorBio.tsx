@@ -14,7 +14,7 @@ export function AuthorBio({ author }: AuthorBioProps) {
         {author.initials}
       </div>
       <div>
-        <h4 className="text-base font-bold text-[#0f1419]">{author.name}</h4>
+        <h4 className="text-base font-bold text-(--fg-default)">{author.name}</h4>
         <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-[#dc2626]">
           {author.role}
         </p>

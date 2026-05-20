@@ -36,7 +36,7 @@ export function ArticleBody({ content }: ArticleBodyProps) {
 
         if (block.type === 'h2') {
           return (
-            <h2 key={i} className="mb-3 mt-8 font-display text-xl font-bold text-[#0f1419] sm:text-[22px]">
+            <h2 key={i} className="mb-3 mt-8 font-display text-xl font-bold text-(--fg-default) sm:text-[22px]">
               {block.text}
             </h2>
           );
@@ -44,7 +44,7 @@ export function ArticleBody({ content }: ArticleBodyProps) {
 
         if (block.type === 'h3') {
           return (
-            <h3 key={i} className="mb-3 mt-7 font-display text-lg font-bold text-[#0f1419] sm:text-[18px]">
+            <h3 key={i} className="mb-3 mt-7 font-display text-lg font-bold text-(--fg-default) sm:text-[18px]">
               {block.text}
             </h3>
           );
@@ -56,7 +56,7 @@ export function ArticleBody({ content }: ArticleBodyProps) {
               key={i}
               className="mx-0 my-7 border-l-4 border-[#dc2626] bg-[#fef2f2] px-6 py-5"
             >
-              <p className="text-lg italic leading-[1.6] text-[#0f1419] sm:text-xl">
+              <p className="text-lg italic leading-[1.6] text-(--fg-default) sm:text-xl">
                 {block.text}
               </p>
               {block.cite && (

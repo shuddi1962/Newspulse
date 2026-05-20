@@ -30,7 +30,7 @@ export function ArticleHeader({
     <div>
       <CategoryTag label={category} />
 
-      <h1 className="mt-4 font-display text-2xl font-bold leading-[1.25] text-[#0f1419] sm:text-3xl lg:text-[32px]">
+      <h1 className="mt-4 font-display text-2xl font-bold leading-[1.25] text-(--fg-default) sm:text-3xl lg:text-[32px]">
         {title}
       </h1>
 
@@ -47,7 +47,7 @@ export function ArticleHeader({
             {author.initials}
           </div>
           <div>
-            <p className="text-sm font-bold text-[#0f1419]">{author.name}</p>
+            <p className="text-sm font-bold text-(--fg-default)">{author.name}</p>
             <p className="text-[11px] text-[#6b7280]">{author.role}</p>
           </div>
         </div>

@@ -5,7 +5,7 @@ interface TagsWidgetProps {
 export function TagsWidget({ tags }: TagsWidgetProps) {
   return (
     <div>
-      <h3 className="mb-4 border-l-1 border-[#dc2626] pl-3 text-xs font-black uppercase tracking-widest text-[#0f1419]">
+      <h3 className="mb-4 border-l-1 border-[#dc2626] pl-3 text-xs font-black uppercase tracking-widest text-(--fg-default)">
         Popular Tags
       </h3>
       <div className="flex flex-wrap gap-2">

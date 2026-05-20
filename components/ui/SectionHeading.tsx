@@ -9,7 +9,7 @@ export function SectionHeading({ title, subtitle, className = '' }: SectionHeadi
     <div className={`mb-5 ${className}`}>
       <div className="flex items-center gap-3">
         <div className="h-5 w-0.5 bg-[#dc2626]" />
-        <h2 className="font-display text-lg font-semibold tracking-tight text-[#0f1419] sm:text-xl">
+        <h2 className="font-display text-lg font-semibold tracking-tight text-(--fg-default) sm:text-xl">
           {title}
         </h2>
       </div>

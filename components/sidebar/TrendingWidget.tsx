@@ -11,7 +11,7 @@ interface TrendingWidgetProps {
 export function TrendingWidget({ items }: TrendingWidgetProps) {
   return (
     <div>
-      <h3 className="mb-4 border-l-1 border-[#dc2626] pl-3 text-xs font-black uppercase tracking-widest text-[#0f1419]">
+      <h3 className="mb-4 border-l-1 border-[#dc2626] pl-3 text-xs font-black uppercase tracking-widest text-(--fg-default)">
         Trending Now
       </h3>
       {items.map((item, i) => (

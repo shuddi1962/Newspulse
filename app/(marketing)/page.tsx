@@ -343,13 +343,14 @@ export default function HomePage() {
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
                 />
-              </div>
-              <div className="mt-4">
-                <CategoryTag label={item.category} />
-                <h3 className="mt-2 font-display text-base font-semibold leading-snug text-[#0f1419] transition-colors group-hover:text-[#dc2626] line-clamp-2">
-                  {item.title}
-                </h3>
-                <p className="mt-2 text-sm text-gray-500">By {item.author}</p>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <CategoryTag label={item.category} />
+                  <h3 className="mt-2 font-display text-base font-semibold leading-snug text-white transition-colors group-hover:text-[#dc2626]/80 line-clamp-2">
+                    {item.title}
+                  </h3>
+                  <p className="mt-1 text-sm text-white/70">By {item.author}</p>
+                </div>
               </div>
             </Link>
           ))}
@@ -395,11 +396,11 @@ export default function HomePage() {
                       />
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-[#0f1419]">{item.author}</p>
+                      <p className="text-sm font-bold text-(--fg-default)">{item.author}</p>
                       <p className="text-xs text-gray-500">{item.role}</p>
                     </div>
                   </div>
-                  <h3 className="font-display text-sm font-semibold leading-snug text-[#0f1419] transition-colors group-hover:text-[#dc2626] line-clamp-3">
+                  <h3 className="font-display text-sm font-semibold leading-snug text-(--fg-default) transition-colors group-hover:text-[#dc2626] line-clamp-3">
                     {item.title}
                   </h3>
                 </Link>
@@ -454,7 +455,7 @@ export default function HomePage() {
                   <div className="mt-4">
                     <CategoryTag label={article.category} color={article.categoryColor} />
                     <Link href={`/news/${article.slug}`}>
-                      <h3 className="mt-2 font-display text-base font-semibold leading-snug text-[#0f1419] transition-colors group-hover:text-[#dc2626] line-clamp-2">
+                      <h3 className="mt-2 font-display text-base font-semibold leading-snug text-(--fg-default) transition-colors group-hover:text-[#dc2626] line-clamp-2">
                         {article.title}
                       </h3>
                     </Link>
@@ -518,7 +519,7 @@ export default function HomePage() {
             <input
               type="email"
               placeholder="Enter your email address"
-              className="flex-1 border-none px-5 py-3 text-sm text-[#0f1419] outline-none"
+              className="flex-1 border-none px-5 py-3 text-sm text-(--fg-default) outline-none"
             />
             <button className="bg-[#0f1419] px-8 py-3 text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-black">
               Subscribe Free

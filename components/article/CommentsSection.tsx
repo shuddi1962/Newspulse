@@ -36,7 +36,7 @@ export function CommentsSection({ comments }: CommentsSectionProps) {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-sm font-bold text-[#0f1419]">{comment.name}</span>
+                <span className="text-sm font-bold text-(--fg-default)">{comment.name}</span>
                 <span className="text-[11px] text-[#6b7280]">{comment.time}</span>
               </div>
               <p className="mt-2 text-sm leading-[1.65] text-[#374151]">{comment.text}</p>
@@ -50,7 +50,7 @@ export function CommentsSection({ comments }: CommentsSectionProps) {
 
       {/* Comment Form */}
       <div>
-        <h3 className="mb-5 text-base font-bold text-[#0f1419]">Leave a Comment</h3>
+        <h3 className="mb-5 text-base font-bold text-(--fg-default)">Leave a Comment</h3>
         <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <input
             type="text"
