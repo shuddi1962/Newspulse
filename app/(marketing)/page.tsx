@@ -346,7 +346,7 @@ export default function HomePage() {
               </div>
               <div className="mt-4">
                 <CategoryTag label={item.category} />
-                <h3 className="mt-2 font-display text-base font-semibold leading-snug text-[#0f1419] transition-colors group-hover:text-[#e63946] line-clamp-2">
+                <h3 className="mt-2 font-display text-base font-semibold leading-snug text-[#0f1419] transition-colors group-hover:text-[#dc2626] line-clamp-2">
                   {item.title}
                 </h3>
                 <p className="mt-2 text-sm text-gray-500">By {item.author}</p>
@@ -399,7 +399,7 @@ export default function HomePage() {
                       <p className="text-xs text-gray-500">{item.role}</p>
                     </div>
                   </div>
-                  <h3 className="font-display text-sm font-semibold leading-snug text-[#0f1419] transition-colors group-hover:text-[#e63946] line-clamp-3">
+                  <h3 className="font-display text-sm font-semibold leading-snug text-[#0f1419] transition-colors group-hover:text-[#dc2626] line-clamp-3">
                     {item.title}
                   </h3>
                 </Link>
@@ -454,7 +454,7 @@ export default function HomePage() {
                   <div className="mt-4">
                     <CategoryTag label={article.category} color={article.categoryColor} />
                     <Link href={`/news/${article.slug}`}>
-                      <h3 className="mt-2 font-display text-base font-semibold leading-snug text-[#0f1419] transition-colors group-hover:text-[#e63946] line-clamp-2">
+                      <h3 className="mt-2 font-display text-base font-semibold leading-snug text-[#0f1419] transition-colors group-hover:text-[#dc2626] line-clamp-2">
                         {article.title}
                       </h3>
                     </Link>
@@ -474,7 +474,7 @@ export default function HomePage() {
       <section className="bg-[#0f1419] py-10">
         <div className="px-4 md:px-8 lg:px-12">
           <div className="mb-5 flex items-center gap-3">
-            <div className="h-5 w-0.5 bg-[#e63946]" />
+            <div className="h-5 w-0.5 bg-[#dc2626]" />
             <h2 className="font-display text-lg font-semibold tracking-tight text-white sm:text-xl">Latest Videos</h2>
           </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -488,7 +488,7 @@ export default function HomePage() {
                     className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
                   />
                   <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity group-hover:opacity-100">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#e63946] transition-transform group-hover:scale-110">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#dc2626] transition-transform group-hover:scale-110">
                       <svg className="ml-0.5 h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M8 5v14l11-7z" />
                       </svg>
@@ -498,7 +498,7 @@ export default function HomePage() {
                     {item.duration}
                   </div>
                 </div>
-                <h3 className="mt-2 font-display text-sm font-semibold leading-snug text-white transition-colors group-hover:text-[#e63946] line-clamp-2">
+                <h3 className="mt-2 font-display text-sm font-semibold leading-snug text-white transition-colors group-hover:text-[#dc2626] line-clamp-2">
                   {item.title}
                 </h3>
               </Link>
@@ -508,7 +508,7 @@ export default function HomePage() {
       </section>
 
       {/* Newsletter CTA - Full Width */}
-      <section className="bg-[#e63946] py-14">
+      <section className="bg-[#dc2626] py-14">
         <div className="mx-auto max-w-2xl px-4 text-center">
           <h2 className="font-display text-2xl font-semibold text-white sm:text-3xl">Stay Ahead With NewsPulse PRO</h2>
           <p className="mt-3 text-base text-white/80">

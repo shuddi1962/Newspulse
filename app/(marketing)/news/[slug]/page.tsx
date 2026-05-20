@@ -133,11 +133,11 @@ export default function BlogPostPage() {
         <article>
           {/* Breadcrumb */}
           <nav className="mb-5 flex items-center gap-1.5 text-xs text-[#6b7280]">
-            <Link href="/" className="text-[#e63946] hover:underline">
+            <Link href="/" className="text-[#dc2626] hover:underline">
               Home
             </Link>
             <span className="text-[#e5e7eb]">/</span>
-            <Link href="/news" className="hover:text-[#e63946]">
+            <Link href="/news" className="hover:text-[#dc2626]">
               World
             </Link>
             <span className="text-[#e5e7eb]">/</span>

@@ -38,7 +38,7 @@ export function ArticleCard({
       <div className="mt-3">
         <CategoryTag label={category} color={categoryColor} />
         <Link href={`/news/${slug}`}>
-          <h3 className="mt-2 font-display text-base font-semibold leading-snug text-[#0f1419] transition-colors group-hover:text-[#e63946] line-clamp-2">
+          <h3 className="mt-2 font-display text-base font-semibold leading-snug text-[#0f1419] transition-colors group-hover:text-[#dc2626] line-clamp-2">
             {title}
           </h3>
         </Link>

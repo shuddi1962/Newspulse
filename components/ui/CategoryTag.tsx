@@ -13,7 +13,7 @@ export function CategoryTag({ label, color, className }: CategoryTagProps) {
         'inline-block text-[9px] font-semibold uppercase tracking-wider px-2 py-0.5 text-white',
         className,
       )}
-      style={{ backgroundColor: color || '#e63946' }}
+      style={{ backgroundColor: color || '#dc2626' }}
     >
       {label}
     </span>

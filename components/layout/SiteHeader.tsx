@@ -47,24 +47,24 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
   return (
     <header>
       {/* Top Bar */}
-      <div className="border-b border-white/5 bg-[#111820] py-2">
+      <div className="border-b py-2" style={{ backgroundColor: 'var(--bg-header)', borderColor: 'var(--border-header)' }}>
         <div className="flex items-center justify-between px-4 md:px-8 lg:px-12">
-          <div className="flex items-center gap-4 text-xs" style={{ color: '#9ca3af' }}>
+          <div className="flex items-center gap-4 text-xs" style={{ color: 'var(--fg-header-muted)' }}>
             <span>{dateStr}</span>
             <span className="hidden sm:inline">Lagos, Nigeria</span>
           </div>
-          <div className="flex items-center gap-4 text-xs" style={{ color: '#9ca3af' }}>
-            <Link href="/login" className="transition-colors" style={{ color: '#9ca3af' }}>Login</Link>
-            <span style={{ color: 'rgba(255,255,255,0.2)' }}>|</span>
-            <Link href="/signup" className="transition-colors" style={{ color: '#9ca3af' }}>Register</Link>
-            <span className="hidden sm:inline" style={{ color: 'rgba(255,255,255,0.2)' }}>|</span>
-            <Link href="#" className="transition-colors hidden sm:inline" style={{ color: '#9ca3af' }}>EN</Link>
-            <span className="hidden sm:inline" style={{ color: 'rgba(255,255,255,0.2)' }}>|</span>
-            <Link href="#" className="transition-colors hidden sm:inline" style={{ color: '#9ca3af' }}>FR</Link>
+          <div className="flex items-center gap-4 text-xs" style={{ color: 'var(--fg-header-muted)' }}>
+            <Link href="/login" className="transition-colors" style={{ color: 'var(--fg-header-muted)' }}>Login</Link>
+            <span style={{ color: 'var(--border-header)' }}>|</span>
+            <Link href="/signup" className="transition-colors" style={{ color: 'var(--fg-header-muted)' }}>Register</Link>
+            <span className="hidden sm:inline" style={{ color: 'var(--border-header)' }}>|</span>
+            <Link href="#" className="transition-colors hidden sm:inline" style={{ color: 'var(--fg-header-muted)' }}>EN</Link>
+            <span className="hidden sm:inline" style={{ color: 'var(--border-header)' }}>|</span>
+            <Link href="#" className="transition-colors hidden sm:inline" style={{ color: 'var(--fg-header-muted)' }}>FR</Link>
             <ThemeToggle />
             <Link
               href="/subscribe"
-              className="bg-[#e63946] px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors hover:bg-[#c1121f]"
+              className="bg-[#dc2626] px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors hover:bg-[#c1121f]"
               style={{ color: '#ffffff' }}
             >
               Subscribe
@@ -76,14 +76,14 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
       {/* Sticky Main Nav + Category Bar */}
       <div className="sticky top-0 z-50">
         {/* Main Nav */}
-        <div className="bg-[#0f1419]">
+        <div style={{ backgroundColor: 'var(--bg-header-surface)' }}>
           <div className="px-4 md:px-8 lg:px-12">
             <div className="flex items-center justify-between" style={{ minHeight: '64px' }}>
               <Link href="/" className="flex flex-col shrink-0 mr-4">
-                <span className="font-display text-2xl font-bold leading-none text-white">
-                  NewsPulse<span className="text-[#e63946]">PRO</span>
+                <span className="font-display text-2xl font-bold leading-none" style={{ color: 'var(--fg-header)' }}>
+                  NewsPulse<span className="text-[#dc2626]">PRO</span>
                 </span>
-                <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: '#9ca3af' }}>
+                <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: 'var(--fg-header-muted)' }}>
                   Editorial authority for the modern web
                 </span>
               </Link>
@@ -95,8 +95,8 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
                     href={link.href}
                     className="text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap shrink-0"
                     style={{
-                      color: '#ffffff',
-                      borderBottom: isActive(link.label) ? '2px solid #e63946' : '2px solid transparent',
+                      color: 'var(--fg-header)',
+                      borderBottom: isActive(link.label) ? '2px solid #dc2626' : '2px solid transparent',
                       paddingBottom: '2px',
                     }}
                   >
@@ -110,9 +110,22 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
                   <input
                     type="text"
                     placeholder="Search news, topics, categories..."
-                    className="w-[200px] md:w-[260px] lg:w-[320px] h-9 bg-white/10 border border-white/20 pl-9 pr-3 text-xs text-white placeholder-white/40 outline-none transition-all focus:w-[260px] md:focus:w-[340px] focus:border-white/40 focus:bg-white/15"
+                    className="w-[200px] md:w-[260px] lg:w-[320px] h-9 pl-9 pr-3 text-xs outline-none transition-all focus:w-[260px] md:focus:w-[340px] header-search-input"
+                    style={{
+                      backgroundColor: 'var(--bg-header)',
+                      border: '1px solid var(--border-header)',
+                      color: 'var(--fg-header)',
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = 'var(--fg-header)';
+                      e.target.style.backgroundColor = 'var(--bg-header-surface)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = 'var(--border-header)';
+                      e.target.style.backgroundColor = 'var(--bg-header)';
+                    }}
                   />
-                  <Search className="absolute left-2.5 h-4 w-4" style={{ color: '#9ca3af' }} />
+                  <Search className="absolute left-2.5 h-4 w-4" style={{ color: 'var(--fg-header-muted)' }} />
                 </div>
               </div>
               </div>
@@ -120,7 +133,7 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
           </div>
 
         {/* Category Bar - stays red regardless of theme */}
-        <div className="bg-[#e63946]">
+        <div className="bg-[#dc2626]">
           <div className="flex overflow-x-auto px-4 md:px-8 lg:px-12">
             {catLinks.map((cat) => (
               <Link
@@ -137,15 +150,15 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
       </div>
 
       {/* Breaking News Ticker */}
-      <div className="border-b border-white/8 bg-[#0f1419] py-2">
+      <div className="border-b py-2" style={{ backgroundColor: 'var(--bg-header-surface)', borderColor: 'var(--border-header)' }}>
         <div className="flex items-center gap-4 overflow-hidden px-4 md:px-8 lg:px-12">
-          <span className="shrink-0 bg-[#e63946] px-2.5 py-1 text-[10px] font-black uppercase tracking-widest" style={{ color: '#ffffff' }}>
+          <span className="shrink-0 bg-[#dc2626] px-2.5 py-1 text-[10px] font-black uppercase tracking-widest" style={{ color: '#ffffff' }}>
             Breaking
           </span>
           <div className="relative flex-1 overflow-hidden">
             <div className="animate-ticker whitespace-nowrap">
               {breakingItems.map((item) => (
-                <span key={item} className="mr-8 inline-block text-xs" style={{ color: '#d1d5db' }}>
+                <span key={item} className="mr-8 inline-block text-xs" style={{ color: 'var(--fg-header-muted)' }}>
                   {item}
                 </span>
               ))}

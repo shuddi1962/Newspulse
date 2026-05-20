@@ -38,7 +38,7 @@ export function ListArticle({
       <div>
         <CategoryTag label={category} />
         <Link href={`/news/${slug}`}>
-          <h3 className="mt-1.5 font-display text-sm font-semibold leading-snug text-[#0f1419] transition-colors hover:text-[#e63946] line-clamp-2">
+          <h3 className="mt-1.5 font-display text-sm font-semibold leading-snug text-[#0f1419] transition-colors hover:text-[#dc2626] line-clamp-2">
             {title}
           </h3>
         </Link>

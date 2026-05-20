@@ -52,7 +52,7 @@
   /* -- Gazette redesign --------------------------------------------------- */
   --color-navy: #0f1419;
   --color-navy-light: #1a2332;
-  --color-crimson: #e63946;
+  --color-crimson: #dc2626;
   --color-crimson-dark: #c1121f;
   --color-slate: #f8f9fa;
   --color-border: #e5e7eb;
@@ -109,6 +109,11 @@
   --border-subtle: var(--color-gray-200);
   --border-default: var(--color-gray-300);
   --border-strong: var(--color-gray-300);
+  --bg-header: #ffffff;
+  --bg-header-surface: #f9fafb;
+  --fg-header: #0f1419;
+  --fg-header-muted: #6b7280;
+  --border-header: #e5e7eb;
   color-scheme: light;
 }
 
@@ -125,6 +130,11 @@
   --border-subtle: #263244;
   --border-default: #374151;
   --border-strong: var(--color-gray-700);
+  --bg-header: #111820;
+  --bg-header-surface: #0f1419;
+  --fg-header: #ffffff;
+  --fg-header-muted: #9ca3af;
+  --border-header: rgba(255,255,255,0.1);
   color-scheme: dark;
 }
 
@@ -142,6 +152,11 @@
     --border-subtle: #263244;
     --border-default: #374151;
     --border-strong: var(--color-gray-700);
+    --bg-header: #111820;
+    --bg-header-surface: #0f1419;
+    --fg-header: #ffffff;
+    --fg-header-muted: #9ca3af;
+    --border-header: rgba(255,255,255,0.1);
     color-scheme: dark;
   }
 }
@@ -248,6 +263,14 @@ select.field-input {
 textarea.field-input {
   resize: vertical;
   min-height: 80px;
+}
+
+/* ============================================================================
+   Header search input placeholder
+   ============================================================================ */
+.header-search-input::placeholder {
+  color: var(--fg-header-muted);
+  opacity: 0.6;
 }
 
 /* ============================================================================

@@ -52,7 +52,7 @@ export function SiteFooter() {
           <div>
             <div className="mb-5">
               <span className="font-display text-2xl font-bold leading-none text-white">
-                NewsPulse<span className="text-[#e63946]">PRO</span>
+                NewsPulse<span className="text-[#dc2626]">PRO</span>
               </span>
               <p className="mt-1.5 text-[9px] font-bold uppercase tracking-widest text-gray-500">
                 Editorial authority for the modern web
@@ -67,7 +67,7 @@ export function SiteFooter() {
                   key={name}
                   href={href}
                   aria-label={name}
-                  className="flex h-9 w-9 items-center justify-center border border-white/20 text-sm font-bold text-gray-400 transition-colors hover:border-[#e63946] hover:bg-[#e63946] hover:text-white"
+                  className="flex h-9 w-9 items-center justify-center border border-white/20 text-sm font-bold text-gray-400 transition-colors hover:border-[#dc2626] hover:bg-[#dc2626] hover:text-white"
                 >
                   {label}
                 </Link>

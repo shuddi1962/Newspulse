@@ -38,7 +38,7 @@ export function RelatedArticles({ articles }: RelatedArticlesProps) {
             </div>
             <div className="mt-3">
               <CategoryTag label={article.category} color={article.categoryColor} />
-              <h4 className="mt-2 text-sm font-bold leading-snug text-[#1a202c] transition-colors group-hover:text-[#e63946]">
+              <h4 className="mt-2 text-sm font-bold leading-snug text-[#1a202c] transition-colors group-hover:text-[#dc2626]">
                 {article.title}
               </h4>
               <p className="mt-1.5 text-[11px] text-[#6b7280]">

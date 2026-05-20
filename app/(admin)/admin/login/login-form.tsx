@@ -115,13 +115,13 @@ export function AdminLoginForm() {
         <label className="flex cursor-pointer items-center gap-2 text-sm text-gray-600">
           <input
             type="checkbox"
-            className="h-4 w-4 rounded border-gray-300 text-[#e63946] accent-[#e63946] focus:ring-[#e63946]"
+            className="h-4 w-4 rounded border-gray-300 text-[#dc2626] accent-[#dc2626] focus:ring-[#dc2626]"
           />
           Remember me
         </label>
         <Link
           href="/forgot-password"
-          className="text-sm font-medium text-[#e63946] hover:text-[#c1121f]"
+          className="text-sm font-medium text-[#dc2626] hover:text-[#c1121f]"
         >
           Forgot password?
         </Link>
@@ -138,7 +138,7 @@ export function AdminLoginForm() {
         disabled={isPending}
         className={cn(
           buttonVariants({ variant: 'primary', size: 'lg' }),
-          'w-full bg-[#e63946] text-white hover:bg-[#c1121f]',
+          'w-full bg-[#dc2626] text-white hover:bg-[#c1121f]',
         )}
       >
         {isPending ? (

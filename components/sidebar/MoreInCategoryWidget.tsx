@@ -16,7 +16,7 @@ interface MoreInCategoryWidgetProps {
 export function MoreInCategoryWidget({ title, articles }: MoreInCategoryWidgetProps) {
   return (
     <div>
-      <h3 className="mb-4 border-l-1 border-[#e63946] pl-3 text-xs font-black uppercase tracking-widest text-[#0f1419]">
+      <h3 className="mb-4 border-l-1 border-[#dc2626] pl-3 text-xs font-black uppercase tracking-widest text-[#0f1419]">
         {title}
       </h3>
       {articles.map((article) => (
@@ -34,7 +34,7 @@ export function MoreInCategoryWidget({ title, articles }: MoreInCategoryWidgetPr
             />
           </div>
           <div>
-            <h4 className="text-[13px] font-bold leading-snug text-[#1a202c] transition-colors group-hover:text-[#e63946]">
+            <h4 className="text-[13px] font-bold leading-snug text-[#1a202c] transition-colors group-hover:text-[#dc2626]">
               {article.title}
             </h4>
             <p className="mt-1.5 text-[11px] text-[#6b7280]">{article.date}</p>

@@ -12,7 +12,7 @@ export function NewsletterWidget() {
         placeholder="Your email address"
         className="mb-2.5 w-full border-none bg-white px-4 py-2.5 text-sm outline-none"
       />
-      <button className="w-full bg-[#e63946] py-2.5 text-[10px] font-black uppercase tracking-widest text-white transition-colors hover:bg-[#c1121f]">
+      <button className="w-full bg-[#dc2626] py-2.5 text-[10px] font-black uppercase tracking-widest text-white transition-colors hover:bg-[#c1121f]">
         Subscribe Free
       </button>
     </div>

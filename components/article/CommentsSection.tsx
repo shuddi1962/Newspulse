@@ -40,7 +40,7 @@ export function CommentsSection({ comments }: CommentsSectionProps) {
                 <span className="text-[11px] text-[#6b7280]">{comment.time}</span>
               </div>
               <p className="mt-2 text-sm leading-[1.65] text-[#374151]">{comment.text}</p>
-              <button className="mt-2.5 text-[10px] font-bold uppercase tracking-wider text-[#e63946] hover:underline">
+              <button className="mt-2.5 text-[10px] font-bold uppercase tracking-wider text-[#dc2626] hover:underline">
                 Reply
               </button>
             </div>
@@ -74,7 +74,7 @@ export function CommentsSection({ comments }: CommentsSectionProps) {
           rows={5}
           className="mb-5 w-full resize-y border border-[#e5e7eb] px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#0f1419]"
         />
-        <button className="bg-[#0f1419] px-8 py-3 text-[11px] font-black uppercase tracking-wider text-white transition-colors hover:bg-[#e63946]">
+        <button className="bg-[#0f1419] px-8 py-3 text-[11px] font-black uppercase tracking-wider text-white transition-colors hover:bg-[#dc2626]">
           Post Comment
         </button>
       </div>
