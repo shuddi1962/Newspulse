@@ -19,8 +19,6 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
   typescript: {
-    // `npm run typecheck` runs tsc separately in CI. Skipping the in-build
-    // worker avoids a Next.js 16 OOM on Windows.
     ignoreBuildErrors: true,
   },
   images: {
@@ -34,15 +32,35 @@ const nextConfig: NextConfig = {
         hostname,
         pathname: '/**',
       })),
-      // Editorial demo imagery sources (Phase 1–2). Replace with CDN in production.
       { protocol: 'https', hostname: 'images.unsplash.com', pathname: '/**' },
       { protocol: 'https', hostname: 'images.pexels.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'punchng.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'www.premiumtimesng.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'www.vanguardngr.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'www.channelstv.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'dailypost.ng', pathname: '/**' },
+      { protocol: 'https', hostname: 'thenationonlineng.net', pathname: '/**' },
+      { protocol: 'https', hostname: 'guardian.ng', pathname: '/**' },
+      { protocol: 'https', hostname: 'www.legit.ng', pathname: '/**' },
+      { protocol: 'https', hostname: 'businessday.ng', pathname: '/**' },
+      { protocol: 'https', hostname: 'nairametrics.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'techcabal.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'techpoint.africa', pathname: '/**' },
+      { protocol: 'https', hostname: 'pulse.ng', pathname: '/**' },
+      { protocol: 'https', hostname: 'ichef.bbci.co.uk', pathname: '/**' },
+      { protocol: 'https', hostname: 'www.aljazeera.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'media.npr.org', pathname: '/**' },
+      { protocol: 'https', hostname: 'media.wired.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'techcrunch.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'cdn.vox-cdn.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'www.who.int', pathname: '/**' },
+      { protocol: 'https', hostname: 'www.nasa.gov', pathname: '/**' },
+      { protocol: 'https', hostname: '*.wp.com', pathname: '/**' },
+      { protocol: 'https', hostname: '*.wordpress.com', pathname: '/**' },
     ],
   },
   experimental: {
     optimizePackageImports: ['lucide-react', 'date-fns'],
-    // Limit to 1 worker — prevents OOM on low-memory machines during static
-    // generation of 100+ admin + public pages.
     cpus: 1,
   },
   staticPageGenerationTimeout: 300,

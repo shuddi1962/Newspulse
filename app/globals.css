@@ -485,3 +485,103 @@ textarea.field-input {
   --normal-border: var(--border-default);
   --normal-text: var(--fg-base);
 }
+
+/* ============================================================================
+   Master Upgrade 2026 — Premium UI classes
+   ============================================================================ */
+
+/* Card image overlay — ALWAYS dark gradient for white text */
+.card-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.92) 0%,
+    rgba(0, 0, 0, 0.55) 40%,
+    rgba(0, 0, 0, 0.15) 70%,
+    transparent 100%
+  );
+}
+
+/* Hero overlay — stronger for large panels */
+.hero-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(0, 0, 0, 0.6) 40%,
+    rgba(0, 0, 0, 0.2) 75%,
+    transparent 100%
+  );
+}
+
+/* Smooth image zoom */
+.img-zoom {
+  overflow: hidden;
+}
+
+.img-zoom img {
+  transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+}
+
+.img-zoom:hover img {
+  transform: scale(1.07);
+}
+
+/* Skeleton loader */
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background-size: 1000px 100%;
+  animation: shimmer 1.8s infinite;
+  border-radius: 2px;
+}
+
+/* Ticker animation */
+@keyframes ticker-scroll {
+  0% { transform: translateX(100vw); }
+  100% { transform: translateX(-100%); }
+}
+
+.ticker-animate {
+  animation: ticker-scroll 40s linear infinite;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+/* Premium card hover */
+.news-card {
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.news-card:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.14);
+  transform: translateY(-2px);
+}
+
+/* Section reveal animation */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up {
+  animation: fadeUp 0.5s ease forwards;
+}
+
+/* Live dot pulse */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+.live-dot {
+  width: 7px;
+  height: 7px;
+  background: #e63946;
+  border-radius: 50%;
+  animation: pulse-dot 1.4s ease infinite;
+  display: inline-block;
+}
