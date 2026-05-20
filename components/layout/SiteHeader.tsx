@@ -22,13 +22,7 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
   ];
 
   const catLinks = ['Politics', 'Business', 'Technology', 'Sports', 'Entertainment', 'Health', 'Africa', 'World', 'Opinion'];
-  const breakingItems = [
-    "Nigeria's inflation dips to 28.5% as CBN holds rates steady",
-    "NNPC announces major oil discovery in deep offshore block OPL-320",
-    "Dangote Refinery begins export of refined petroleum to West Africa",
-    "Lagos-Ibadan Expressway expansion reaches 80% completion",
-    "Tech startups raise record $2.4B in Q1 2026 across Africa",
-  ];
+  
 
   const now = new Date();
   const dateStr = now.toLocaleDateString('en-US', {
@@ -149,23 +143,6 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
         </div>
       </div>
 
-      {/* Breaking News Ticker */}
-      <div className="border-b py-2" style={{ backgroundColor: 'var(--bg-header-surface)', borderColor: 'var(--border-header)' }}>
-        <div className="flex items-center gap-4 overflow-hidden px-4 md:px-8 lg:px-12">
-          <span className="shrink-0 bg-[#dc2626] px-2.5 py-1 text-[10px] font-black uppercase tracking-widest" style={{ color: '#ffffff' }}>
-            Breaking
-          </span>
-          <div className="relative flex-1 overflow-hidden">
-            <div className="animate-ticker whitespace-nowrap">
-              {breakingItems.map((item) => (
-                <span key={item} className="mr-8 inline-block text-xs" style={{ color: 'var(--fg-header-muted)' }}>
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
     </header>
   );
 }

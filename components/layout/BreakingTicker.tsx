@@ -17,13 +17,13 @@ export default function BreakingTicker() {
   const text = headlines.map(h => `🔴 ${h}`).join('   ·   ')
 
   return (
-    <div style={{ background: '#0f1419', borderBottom: '1px solid rgba(255,255,255,0.07)', padding: '8px 0', overflow: 'hidden' }}>
+    <div style={{ background: '#ffffff', borderBottom: '1px solid #e5e7eb', padding: '8px 0', overflow: 'hidden' }}>
       <div className="max-w-[1200px] mx-auto px-5 flex items-center gap-3">
         <span style={{ background: '#e63946', color: '#fff', fontSize: '9px', fontWeight: 900, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '3px 9px', flexShrink: 0 }}>
           Breaking
         </span>
         <div style={{ overflow: 'hidden', flex: 1 }}>
-          <span className="ticker-animate" style={{ color: '#e5e7eb', fontSize: '12px' }}>
+          <span className="ticker-animate" style={{ color: '#374151', fontSize: '12px' }}>
             {text}
           </span>
         </div>

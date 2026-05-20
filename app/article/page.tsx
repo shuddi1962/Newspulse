@@ -45,8 +45,6 @@ function ArticleReaderContent() {
       <nav style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: '#6b7280', marginBottom: '20px', fontFamily: 'var(--font-instrument, Arial, sans-serif)' }}>
         <Link href="/" style={{ color: '#e63946' }}>Home</Link>
         <span>›</span>
-        <span>{source || 'Article'}</span>
-        <span>›</span>
         <span style={{ color: '#9ca3af' }}>Reading Now</span>
       </nav>
 
@@ -63,10 +61,9 @@ function ArticleReaderContent() {
             </div>
           )}
 
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-            <span style={{ fontSize: '12px', fontWeight: 700, color: '#e63946', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{source}</span>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginBottom: '16px' }}>
             <a href={decodedUrl} target="_blank" rel="noopener noreferrer" style={{ fontSize: '11px', color: '#6b7280', borderBottom: '1px solid #e5e7eb', paddingBottom: '1px' }}>
-              View original on {source} ↗
+              View original ↗
             </a>
           </div>
 
@@ -144,7 +141,7 @@ function ArticleReaderContent() {
             <div style={{ marginBottom: '32px', border: '1px solid #e5e7eb', borderRadius: '4px', overflow: 'hidden' }}>
               <div style={{ background: '#f8f9fa', padding: '10px 16px', borderBottom: '1px solid #e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <span style={{ fontSize: '11px', color: '#6b7280', fontFamily: 'var(--font-instrument, Arial, sans-serif)' }}>
-                  📄 Reading: <strong style={{ color: '#0f1419' }}>{source}</strong>
+                  📄 Full Article
                 </span>
                 <span style={{ fontSize: '10px', color: '#9ca3af' }}>Content from original publisher</span>
               </div>
