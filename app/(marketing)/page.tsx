@@ -17,7 +17,7 @@ export default async function HomePage() {
     <>
       <BreakingTicker />
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px 20px' }}>
+      <div style={{ padding: '24px 32px' }}>
 
         <LiveHeroGrid articles={topStories} />
 

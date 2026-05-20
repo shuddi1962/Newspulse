@@ -18,7 +18,7 @@ export default function BreakingTicker() {
 
   return (
     <div style={{ background: '#ffffff', borderBottom: '1px solid #e5e7eb', padding: '8px 0', overflow: 'hidden' }}>
-      <div className="max-w-[1200px] mx-auto px-5 flex items-center gap-3">
+      <div className="px-8 flex items-center gap-3">
         <span style={{ background: '#e63946', color: '#fff', fontSize: '9px', fontWeight: 900, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '3px 9px', flexShrink: 0 }}>
           Breaking
         </span>
