@@ -13,13 +13,19 @@ export default async function AdminDashboardPage() {
   await requireAdmin();
   const { accessToken } = await getAuthCookies();
 
-  const [articlesResult] = await Promise.all([
+  const insforge = createServerInsForge(accessToken ?? undefined);
+
+  const [articlesResult, commentsRes, subscribersRes, usersRes] = await Promise.all([
     accessToken
       ? listArticlesForAdmin(accessToken)
       : Promise.resolve({ status: 'error' as const, message: 'No session' }),
+    insforge.database.from('comments').select('id, status, created_at'),
+    insforge.database.from('newsletter_subscribers').select('id, status, created_at'),
+    insforge.database.from('profiles').select('id, role, created_at'),
   ]);
 
   const articles = articlesResult.status === 'ok' ? articlesResult.data : [];
+
   const todayPosts = articles.filter((a) => {
     if (!a.updated_at) return false;
     const d = new Date(a.updated_at);
@@ -27,9 +33,23 @@ export default async function AdminDashboardPage() {
     return d.toDateString() === now.toDateString();
   });
 
+  const comments = (commentsRes.data ?? []) as Array<{ id: string; status: string; created_at: string }>;
+  const subscribers = (subscribersRes.data ?? []) as Array<{ id: string; status: string; created_at: string }>;
+  const users = (usersRes.data ?? []) as Array<{ id: string; role: string; created_at: string }>;
+
+  const totalComments = comments.length;
+  const confirmedSubscribers = subscribers.filter((s) => s.status === 'confirmed').length;
+  const totalUsers = users.length;
+
+  const now = new Date();
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString();
+
+  const todayComments = comments.filter((c) => c.created_at >= todayStart).length;
+  const todaySubscribers = subscribers.filter((s) => s.created_at >= todayStart).length;
+  const reporters = users.filter((u) => ['author', 'editor', 'admin'].includes(u.role)).length;
+
   let categoryBreakdown: { name: string; count: number; color: string }[] = [];
   try {
-    const insforge = createServerInsForge(accessToken);
     const { data: cats } = await insforge.database
       .from('categories')
       .select('id, name')
@@ -53,7 +73,7 @@ export default async function AdminDashboardPage() {
         .map((c, i) => ({
           name: c.name,
           count: catCount.get(c.id) ?? 0,
-          color: palette[i % palette.length],
+          color: palette[i % palette.length] ?? '#6b7280',
         }))
         .sort((a, b) => b.count - a.count);
     }
@@ -61,11 +81,44 @@ export default async function AdminDashboardPage() {
     // category breakdown unavailable
   }
 
+  let monthlyData: { month: string; posts: number; views: number; users: number }[] = [];
+  try {
+    const publishedArticles = articlesResult.status === 'ok'
+      ? articlesResult.data.filter((a) => a.status === 'published')
+      : [];
+
+    const monthMap = new Map<string, { posts: number; views: number; users: number }>();
+    for (const a of publishedArticles) {
+      const d = a.updated_at ? new Date(a.updated_at) : null;
+      if (!d) continue;
+      const key = d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+      const existing = monthMap.get(key) ?? { posts: 0, views: 0, users: 0 };
+      existing.posts++;
+      monthMap.set(key, existing);
+    }
+    monthlyData = Array.from(monthMap.entries())
+      .map(([month, data]) => ({ month, ...data }))
+      .sort((a, b) => {
+        const da = new Date(a.month);
+        const db = new Date(b.month);
+        return da.getTime() - db.getTime();
+      });
+  } catch {
+    // monthly data unavailable
+  }
+
   return (
     <DashboardClient
       articles={articles}
       todayPostsCount={todayPosts.length}
       categoryBreakdown={categoryBreakdown}
+      totalComments={totalComments}
+      confirmedSubscribers={confirmedSubscribers}
+      totalUsers={totalUsers}
+      todayComments={todayComments}
+      todaySubscribers={todaySubscribers}
+      reporters={reporters}
+      monthlyData={monthlyData}
     />
   );
 }

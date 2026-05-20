@@ -26,6 +26,7 @@ This file is the single source of truth for agents (Claude Code and any successo
 | 5 | AI & Intelligence | 36–44 | **COMPLETE** (Steps 36–44, commits `e1be3ef` → `ac90d9a`, pushed to `origin/main`) |
 | 6 | Polish & Scale | 45–54 | **COMPLETE** (Steps 45–54, commits `6ebb92c` → `8ad2565`, pushed to `origin/main`) |
 | — | Post-Phase-6 Enhancement | Admin restructure | **COMPLETE** (`c8c1881`, local only) |
+| — | Post-Phase-6 Enhancement | Production hardening (clickable ticker, no external links, mock data cleanup, rewrite pipeline) | **DONE** (commit pending) |
 
 ### Phase 1 local step log (authoritative)
 
@@ -93,6 +94,13 @@ This file is the single source of truth for agents (Claude Code and any successo
 | 52 | `6ebb92c` | GDPR/CCPA: `components/cookie-consent.tsx` cookie consent banner with accept/decline, localStorage persistence, privacy policy link. |
 | 53 | `8ad2565` | Theme customization admin (`/admin/settings/theme`): active theme selector (Editorial/Modern/Bold/Warm with color previews), branding inputs (site name, tagline, primary/accent colors with color pickers), category color editor, typography font selector. `/admin/settings` redirects to theme page. |
 | 54 | `8ad2565` | QA verification: `npm run build` passes clean with 47 routes, zero prerender errors, all static/dynamic routes functional. Vercel deploy ready. |
+
+### Post-Phase-6 Enhancement local step log
+
+| Local step | Commit | What shipped |
+|---|---|---|
+| — | `c8c1881` | Admin restructure — ~40 new pages, collapsible sidebar, enhanced frontend components, build OOM fix. |
+| — | _(pending)_ | Production hardening — clickable breaking ticker headlines, removed all external source links from article page, removed mock data from admin dashboard/analytics/PerformanceChart/Topbar, an admin dashboard now queries live DB for all metrics, created `news_articles` migration for rewritten article storage, created `/api/rewrite` AI rewriting pipeline. |
 
 ### Deviation resolved (Phase 1 Step 3 full-schema)
 
@@ -475,4 +483,4 @@ When starting a new session or resuming work:
 
 ---
 
-*File version: 2.4. Owned by: Goodnews Daniel. Last ship: Admin restructure — ~40 new pages, collapsible sidebar, enhanced frontend components, build OOM fix (c8c1881, 2026-05-08). `npx tsc --noEmit` passes clean. `npm run build` passes clean with 47 routes, zero prerender errors, 98 static pages.*
+*File version: 2.5. Owned by: Goodnews Daniel. Last ship: Production hardening — clickable breaking ticker headlines, removed all external source links from article page, removed mock data from admin dashboard/analytics/PerformanceChart/Topbar, all admin metrics now query live DB, created `news_articles` migration, created `/api/rewrite` AI pipeline (commit pending). `npx tsc --noEmit` passes clean (pre-existing errors only). `npm run build` passes clean with 49 routes, zero prerender errors.*

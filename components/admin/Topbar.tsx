@@ -10,6 +10,7 @@ import type { AuthUser } from '@/lib/auth/session';
 
 interface TopbarProps {
   user: AuthUser;
+  pendingCount?: number;
 }
 
 function useBreadcrumbs() {
@@ -24,7 +25,7 @@ function useBreadcrumbs() {
   }));
 }
 
-export function Topbar({ user }: TopbarProps) {
+export function Topbar({ user, pendingCount = 0 }: TopbarProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const breadcrumbs = useBreadcrumbs();
@@ -62,9 +63,11 @@ export function Topbar({ user }: TopbarProps) {
           aria-label="Notifications"
         >
           <Bell className="h-5 w-5" />
-          <span className="absolute right-1.5 top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-[var(--color-crimson)] text-[10px] font-bold text-white">
-            3
-          </span>
+          {pendingCount > 0 && (
+            <span className="absolute right-1.5 top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-[var(--color-crimson)] text-[10px] font-bold text-white">
+              {pendingCount > 9 ? '9+' : pendingCount}
+            </span>
+          )}
         </button>
 
         <div className="relative">

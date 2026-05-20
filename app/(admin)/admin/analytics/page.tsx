@@ -97,30 +97,52 @@ async function getCategoryBreakdown() {
   return Array.from(categoryMap.values()).sort((a, b) => b.views - a.views);
 }
 
+async function getMonthlyTrend() {
+  const insforge = createServerInsForge();
+  const { data, error } = await insforge.database
+    .from('articles')
+    .select('status, created_at, view_count')
+    .eq('status', 'published');
+
+  if (error) return [];
+
+  const articles = (data ?? []) as Array<{ status: string; created_at: string; view_count: number }>;
+  const monthMap = new Map<string, { views: number; articles: number }>();
+
+  for (const a of articles) {
+    const d = new Date(a.created_at);
+    const key = d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+    const existing = monthMap.get(key) ?? { views: 0, articles: 0 };
+    existing.views += a.view_count ?? 0;
+    existing.articles++;
+    monthMap.set(key, existing);
+  }
+
+  return Array.from(monthMap.entries())
+    .map(([month, data]) => ({ month, ...data }))
+    .sort((a, b) => {
+      const da = new Date(a.month);
+      const db = new Date(b.month);
+      return da.getTime() - db.getTime();
+    });
+}
+
 export default async function AnalyticsPage() {
   await requireAdmin();
 
-  const [overview, topArticles, categoryBreakdown] = await Promise.all([
+  const [overview, topArticles, categoryBreakdown, monthlyTrend] = await Promise.all([
     getAnalyticsOverview(),
     getTopArticles(10),
     getCategoryBreakdown(),
+    getMonthlyTrend(),
   ]);
 
   const palette = ['#2563eb', '#059669', '#7c3aed', '#d97706', '#dc2626', '#0891b2', '#ec4899', '#f97316'];
   const pieData = categoryBreakdown.map((c, i) => ({
     name: c.name,
     value: c.views,
-    color: palette[i % palette.length],
+    color: palette[i % palette.length] ?? '#6b7280',
   }));
-
-  const monthlyTrend = [
-    { month: 'Dec', views: 5200, articles: 72 },
-    { month: 'Jan', views: 4800, articles: 68 },
-    { month: 'Feb', views: 3600, articles: 58 },
-    { month: 'Mar', views: 5600, articles: 74 },
-    { month: 'Apr', views: 4300, articles: 63 },
-    { month: 'May', views: 6100, articles: 80 },
-  ];
 
   return (
     <AnalyticsClient

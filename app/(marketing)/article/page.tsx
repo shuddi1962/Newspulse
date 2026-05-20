@@ -13,12 +13,12 @@ function ArticleReaderContent() {
   const url = params.get('url') || ''
   const [summary, setSummary] = useState('')
   const [summaryLoading, setSummaryLoading] = useState(true)
-  const [readerOpen, setReaderOpen] = useState(false)
   const [title, setTitle] = useState('')
-  const [source, setSource] = useState('')
   const [image, setImage] = useState('')
   const [description, setDescription] = useState('')
   const [category, setCategory] = useState('')
+
+  const decodedUrl = decodeURIComponent(url)
 
   const [relatedArticles, setRelatedArticles] = useState<any[]>([])
   const [comments, setComments] = useState<any[]>([])
@@ -26,16 +26,12 @@ function ArticleReaderContent() {
   const [commentText, setCommentText] = useState('')
   const [commentPosted, setCommentPosted] = useState(false)
 
-  const relatedLoading = relatedArticles.length === 0
-
   useEffect(() => {
     const t = params.get('title') || ''
-    const s = params.get('source') || ''
     const img = params.get('image') || ''
     const desc = params.get('desc') || ''
     const cat = params.get('category') || ''
     setTitle(decodeURIComponent(t))
-    setSource(decodeURIComponent(s))
     setImage(decodeURIComponent(img))
     setDescription(decodeURIComponent(desc))
     setCategory(decodeURIComponent(cat))
@@ -47,7 +43,7 @@ function ArticleReaderContent() {
     fetch('/api/summarize', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, description, source, url }),
+      body: JSON.stringify({ title, description, url }),
     })
       .then(r => r.json())
       .then(d => { setSummary(d.summary || ''); setSummaryLoading(false) })
@@ -88,16 +84,8 @@ function ArticleReaderContent() {
     setTimeout(() => setCommentPosted(false), 3000)
   }
 
-  const decodedUrl = decodeURIComponent(url)
-
   return (
     <div style={{ padding: '28px 32px' }}>
-      {/* TOP AD BANNER */}
-      <div style={{ background: '#f8f9fa', border: '1px dashed #d1d5db', padding: '16px', textAlign: 'center', marginBottom: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
-        <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#9ca3af' }}>Advertisement</span>
-        <strong style={{ fontSize: '12px', color: '#6b7280' }}>728 × 90 · Leaderboard</strong>
-      </div>
-
       <nav style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: '#6b7280', marginBottom: '24px', fontFamily: 'var(--font-instrument, Arial, sans-serif)' }}>
         <Link href="/" style={{ color: '#e63946', fontWeight: 600 }}>Home</Link>
         <span>›</span>
@@ -119,12 +107,11 @@ function ArticleReaderContent() {
             </div>
           )}
 
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', borderBottom: '1px solid #e5e7eb', paddingBottom: '12px' }}>
-            {category && <CategoryBadge category={category} />}
-            <a href={decodedUrl} target="_blank" rel="noopener noreferrer" style={{ fontSize: '11px', color: '#6b7280', borderBottom: '1px solid #e5e7eb', paddingBottom: '1px' }}>
-              View original ↗
-            </a>
-          </div>
+          {category && (
+            <div style={{ marginBottom: '16px' }}>
+              <CategoryBadge category={category} />
+            </div>
+          )}
 
           {title && (
             <h1 style={{ fontSize: '32px', fontWeight: 700, lineHeight: 1.2, color: '#0f1419', marginBottom: '24px', fontFamily: 'var(--font-fraunces, Georgia, serif)' }}>
@@ -132,11 +119,10 @@ function ArticleReaderContent() {
             </h1>
           )}
 
-          {/* AI SUMMARY */}
           <div style={{ background: '#f0f4ff', borderLeft: '4px solid #e63946', padding: '20px 24px', marginBottom: '28px', borderRadius: '0 4px 4px 0' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
               <span style={{ fontSize: '10px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#e63946' }}>✦ AI Summary</span>
-              <span style={{ fontSize: '10px', color: '#9ca3af' }}>by NewsPulse PRO · powered by Claude</span>
+              <span style={{ fontSize: '10px', color: '#9ca3af' }}>by NewsPulse PRO</span>
             </div>
             {summaryLoading ? (
               <div>
@@ -145,92 +131,30 @@ function ArticleReaderContent() {
             ) : summary ? (
               <p style={{ fontSize: '15px', lineHeight: 1.75, color: '#374151', fontFamily: 'var(--font-instrument, Arial, sans-serif)' }}>{summary}</p>
             ) : (
-              <p style={{ fontSize: '13px', color: '#9ca3af', fontStyle: 'italic' }}>Summary unavailable. Please read the full article below.</p>
+              <p style={{ fontSize: '13px', color: '#9ca3af', fontStyle: 'italic' }}>{description || 'Full coverage available on NewsPulse PRO.'}</p>
             )}
           </div>
 
-          {/* BUTTONS */}
-          <div style={{ marginBottom: '32px' }}>
-            <button
-              onClick={() => setReaderOpen(!readerOpen)}
-              style={{
-                background: readerOpen ? '#f8f9fa' : '#0f1419',
-                color: readerOpen ? '#0f1419' : '#fff',
-                border: '2px solid #0f1419',
-                padding: '12px 28px',
-                fontSize: '12px',
-                fontWeight: 900,
-                textTransform: 'uppercase',
-                letterSpacing: '0.08em',
-                cursor: 'pointer',
-                transition: 'all 0.2s',
-                marginRight: '12px',
-                marginBottom: '8px',
-              }}
-            >
-              {readerOpen ? '✕ Close Full Article' : '📖 Read Full Article'}
-            </button>
-            <a
-              href={decodedUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                background: '#e63946',
-                color: '#fff',
-                padding: '12px 24px',
-                fontSize: '12px',
-                fontWeight: 900,
-                textTransform: 'uppercase',
-                letterSpacing: '0.08em',
-                cursor: 'pointer',
-                textDecoration: 'none',
-                display: 'inline-block',
-                marginBottom: '8px',
-              }}
-            >
-              Visit Source ↗
-            </a>
-          </div>
-
-          {/* IN-ARTICLE AD */}
-          <div style={{ background: '#f8f9fa', border: '1px dashed #d1d5db', padding: '14px', textAlign: 'center', marginBottom: '28px' }}>
-            <span style={{ fontSize: '10px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.1em' }}>In-Article Advertisement</span>
-          </div>
-
-          {/* IFRAME EMBED */}
-          {readerOpen && (
-            <div style={{ marginBottom: '36px', border: '1px solid #e5e7eb', overflow: 'hidden' }}>
-              <div style={{ background: '#f8f9fa', padding: '10px 16px', borderBottom: '1px solid #e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: '11px', color: '#6b7280', fontFamily: 'var(--font-instrument, Arial, sans-serif)' }}>📄 Full Article</span>
-                <span style={{ fontSize: '10px', color: '#9ca3af' }}>Content from original publisher</span>
-              </div>
-              <iframe
-                src={decodedUrl}
-                style={{ width: '100%', height: '680px', border: 'none', display: 'block' }}
-                sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-                title={title}
-              />
-              <div style={{ background: '#fff8f0', padding: '12px 16px', borderTop: '1px solid #ffe4b5' }}>
-                <a href={decodedUrl} target="_blank" rel="noopener noreferrer" style={{ color: '#e63946', fontWeight: 700, fontSize: '12px' }}>
-                  Open in new tab ↗
-                </a>
-              </div>
-            </div>
+          {description && !summary && (
+            <p style={{ fontSize: '15px', lineHeight: 1.75, color: '#374151', marginBottom: '28px', fontFamily: 'var(--font-instrument, Arial, sans-serif)' }}>
+              {description}
+            </p>
           )}
 
-          {/* SHARE */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', paddingTop: '24px', borderTop: '1px solid #e5e7eb', marginBottom: '36px' }}>
-            <span style={{ fontSize: '10px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#6b7280' }}>Share:</span>
-            {[
-              { label: 'Facebook', bg: '#1877f2', href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(decodedUrl)}` },
-              { label: 'X / Twitter', bg: '#1da1f2', href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(decodedUrl)}&text=${encodeURIComponent(title)}` },
-              { label: 'WhatsApp', bg: '#25d366', href: `https://api.whatsapp.com/send?text=${encodeURIComponent(title + ' ' + decodedUrl)}` },
-            ].map(s => (
-              <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
-                style={{ background: s.bg, color: '#fff', padding: '6px 14px', fontSize: '11px', fontWeight: 700, textDecoration: 'none' }}>
-                {s.label}
-              </a>
-            ))}
+          <div style={{ paddingTop: '24px', borderTop: '1px solid #e5e7eb', marginBottom: '36px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '10px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#6b7280' }}>Share:</span>
+              {[
+                { label: 'Facebook', bg: '#1877f2', href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(decodedUrl)}` },
+                { label: 'X / Twitter', bg: '#1da1f2', href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(decodedUrl)}&text=${encodeURIComponent(title)}` },
+                { label: 'WhatsApp', bg: '#25d366', href: `https://api.whatsapp.com/send?text=${encodeURIComponent(title + ' ' + decodedUrl)}` },
+              ].map(s => (
+                <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
+                  style={{ background: s.bg, color: '#fff', padding: '6px 14px', fontSize: '11px', fontWeight: 700, textDecoration: 'none' }}>
+                  {s.label}
+                </a>
+              ))}
+            </div>
           </div>
 
           {/* ─── RELATED ARTICLES ─── */}
@@ -241,7 +165,7 @@ function ArticleReaderContent() {
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
               {relatedArticles.slice(0, 4).map((a: any) => (
-                <Link key={a.id} href={`/article?url=${encodeURIComponent(a.link)}&title=${encodeURIComponent(a.title)}&source=${encodeURIComponent(a.source)}&image=${encodeURIComponent(a.image || '')}&desc=${encodeURIComponent(a.description || '')}&category=${encodeURIComponent(a.category || '')}`} className="news-card block group" style={{ textDecoration: 'none' }}>
+                <Link key={a.id || a.link} href={`/article?url=${encodeURIComponent(a.link)}&title=${encodeURIComponent(a.title)}&source=${encodeURIComponent(a.source || '')}&image=${encodeURIComponent(a.image || '')}&desc=${encodeURIComponent(a.description || '')}&category=${encodeURIComponent(a.category || '')}`} className="news-card block group" style={{ textDecoration: 'none' }}>
                   <div className="img-zoom" style={{ marginBottom: '8px' }}>
                     <img src={a.image || FB_THUMB} alt={a.title} style={{ width: '100%', height: '140px', objectFit: 'cover', display: 'block' }}
                       onError={(e) => { (e.target as HTMLImageElement).src = FB_THUMB }} />
@@ -252,6 +176,11 @@ function ArticleReaderContent() {
                   <span style={{ fontSize: '10px', color: '#6b7280' }}>{timeAgo(a.publishedAt)}</span>
                 </Link>
               ))}
+              {relatedArticles.length === 0 && (
+                <p style={{ fontSize: '13px', color: '#9ca3af', fontStyle: 'italic', gridColumn: '1 / -1', textAlign: 'center', padding: '24px' }}>
+                  More stories loading...
+                </p>
+              )}
             </div>
           </div>
 
@@ -264,7 +193,6 @@ function ArticleReaderContent() {
               </h2>
             </div>
 
-            {/* Comment form */}
             <form onSubmit={handleComment} style={{ marginBottom: '24px', background: '#f8f9fa', padding: '20px', border: '1px solid #e5e7eb' }}>
               <input
                 type="text"
@@ -277,7 +205,7 @@ function ArticleReaderContent() {
               <textarea
                 value={commentText}
                 onChange={e => setCommentText(e.target.value)}
-                placeholder="Share your thoughts on this article..."
+                placeholder="Share your thoughts..."
                 rows={4}
                 required
                 style={{ width: '100%', padding: '10px 14px', border: '1px solid #e5e7eb', fontSize: '13px', marginBottom: '10px', outline: 'none', resize: 'vertical', boxSizing: 'border-box', fontFamily: 'var(--font-instrument, Arial, sans-serif)' }}
@@ -293,7 +221,6 @@ function ArticleReaderContent() {
               )}
             </form>
 
-            {/* Comments list */}
             {comments.length === 0 ? (
               <p style={{ fontSize: '13px', color: '#9ca3af', fontStyle: 'italic', textAlign: 'center', padding: '24px' }}>No comments yet. Be the first to share your thoughts.</p>
             ) : (
@@ -313,33 +240,10 @@ function ArticleReaderContent() {
               </div>
             )}
           </div>
-
-          {/* BOTTOM AD */}
-          <div style={{ background: '#f8f9fa', border: '1px dashed #d1d5db', padding: '16px', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
-            <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#9ca3af' }}>Advertisement</span>
-            <strong style={{ fontSize: '12px', color: '#6b7280' }}>728 × 90</strong>
-          </div>
         </article>
 
         {/* ─── SIDEBAR ─── */}
         <aside style={{ position: 'sticky', top: '80px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          {/* Ad */}
-          <div style={{ background: '#f3f4f6', height: '250px', border: '1px dashed #d1d5db', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '6px' }}>
-            <strong style={{ fontSize: '13px', color: '#6b7280' }}>Advertisement</strong>
-            <span style={{ fontSize: '11px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.08em' }}>300 × 250</span>
-          </div>
-
-          {/* Trending */}
-          <div>
-            <h3 style={{ borderLeft: '3px solid #dc2626', paddingLeft: '10px', fontSize: '11px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#0f1419', marginBottom: '14px' }}>Trending Now</h3>
-            {[1,2,3,4,5].map(i => (
-              <div key={i} style={{ display: 'flex', gap: '10px', borderBottom: '1px solid #e5e7eb', padding: '10px 0', cursor: 'pointer' }}>
-                <span style={{ minWidth: '24px', fontSize: '16px', fontWeight: 900, color: '#e5e7eb' }}>{String(i).padStart(2,'0')}</span>
-                <span style={{ fontSize: '12px', fontWeight: 600, lineHeight: 1.4, color: '#1a202c' }}>Top stories loading from live feed...</span>
-              </div>
-            ))}
-          </div>
-
           {/* Newsletter */}
           <div style={{ background: '#0f1419', padding: '20px', textAlign: 'center' }}>
             <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#fff', marginBottom: '8px', fontFamily: 'var(--font-fraunces, Georgia, serif)' }}>Stay Informed</h3>
@@ -348,12 +252,6 @@ function ArticleReaderContent() {
             <button style={{ width: '100%', background: '#dc2626', color: '#fff', border: 'none', padding: '10px', fontSize: '10px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.1em', cursor: 'pointer' }}>
               Subscribe Free
             </button>
-          </div>
-
-          {/* Ad 2 */}
-          <div style={{ background: '#f3f4f6', height: '250px', border: '1px dashed #d1d5db', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '6px' }}>
-            <strong style={{ fontSize: '13px', color: '#6b7280' }}>Advertisement</strong>
-            <span style={{ fontSize: '11px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.08em' }}>300 × 250</span>
           </div>
 
           {/* Tags */}

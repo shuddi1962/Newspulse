@@ -6,31 +6,12 @@ import {
   Area, AreaChart, BarChart,
 } from 'recharts';
 
-interface MonthlyData {
-  month: string;
-  posts: number;
-  views: number;
-  users: number;
+interface PerformanceChartProps {
+  data: { month: string; posts: number; views: number; users: number }[];
 }
 
-const mockData: MonthlyData[] = [
-  { month: 'Jun', posts: 45, views: 2800, users: 120 },
-  { month: 'Jul', posts: 52, views: 3200, users: 145 },
-  { month: 'Aug', posts: 38, views: 2600, users: 98 },
-  { month: 'Sep', posts: 61, views: 4100, users: 178 },
-  { month: 'Oct', posts: 55, views: 3800, users: 165 },
-  { month: 'Nov', posts: 48, views: 3400, users: 132 },
-  { month: 'Dec', posts: 72, views: 5200, users: 210 },
-  { month: 'Jan', posts: 68, views: 4800, users: 195 },
-  { month: 'Feb', posts: 58, views: 3600, users: 155 },
-  { month: 'Mar', posts: 74, views: 5600, users: 230 },
-  { month: 'Apr', posts: 63, views: 4300, users: 188 },
-  { month: 'May', posts: 80, views: 6100, users: 260 },
-];
-
-export function PerformanceChart() {
-  const [year, setYear] = useState('2025');
-  const data = mockData;
+export function PerformanceChart({ data }: PerformanceChartProps) {
+  const [year, setYear] = useState('all');
 
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
@@ -44,8 +25,7 @@ export function PerformanceChart() {
           onChange={(e) => setYear(e.target.value)}
           className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 focus:border-blue-500 focus:outline-none"
         >
-          <option value="2024">2024</option>
-          <option value="2025">2025</option>
+          <option value="all">All time</option>
         </select>
       </div>
       <div className="grid gap-6 lg:grid-cols-2">
@@ -69,7 +49,7 @@ export function PerformanceChart() {
                   fontSize: 13,
                 }}
               />
-              <Area type="monotone" dataKey="views" stroke="#2563eb" strokeWidth={2} fill="url(#viewsGradient)" name="Page Views" dot={{ r: 3, fill: '#2563eb' }} />
+              <Area type="monotone" dataKey="posts" stroke="#2563eb" strokeWidth={2} fill="url(#viewsGradient)" name="Posts" dot={{ r: 3, fill: '#2563eb' }} />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -88,12 +68,15 @@ export function PerformanceChart() {
                 }}
               />
               <Legend />
-              <Bar dataKey="posts" fill="#2563eb" name="Posts" radius={[6, 6, 0, 0]} barSize={16} />
-              <Bar dataKey="users" fill="#06b6d4" name="New Users" radius={[6, 6, 0, 0]} barSize={16} />
+              <Bar dataKey="views" fill="#2563eb" name="Views" radius={[6, 6, 0, 0]} barSize={16} />
+              <Bar dataKey="users" fill="#06b6d4" name="Users" radius={[6, 6, 0, 0]} barSize={16} />
             </BarChart>
           </ResponsiveContainer>
         </div>
       </div>
+      {data.length === 0 && (
+        <p className="text-sm text-gray-400 text-center py-8">No performance data yet. Publish articles to see trends.</p>
+      )}
     </div>
   );
 }
