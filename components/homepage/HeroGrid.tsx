@@ -47,7 +47,7 @@ export function HeroGrid({ articles }: HeroGridProps) {
             {main.title}
           </h2>
           {main.author && main.date && (
-            <p className="mt-2 text-xs text-gray-300">
+            <p className="mt-2 text-xs text-white/80">
               By {main.author} &middot; {main.date}
               {main.reads && <span> &middot; {main.reads} reads</span>}
             </p>
@@ -75,7 +75,7 @@ export function HeroGrid({ articles }: HeroGridProps) {
               {topRight.title}
             </h3>
             {topRight.date && (
-              <p className="mt-1 text-xs text-gray-300">{topRight.date}</p>
+              <p className="mt-1 text-xs text-white/80">{topRight.date}</p>
             )}
           </div>
         </Link>

@@ -144,7 +144,7 @@ export function AdSlot({ position, pagePath, categoryId, className, fallback }: 
             </div>
           </a>
         )}
-        <span className="absolute right-1 top-1 rounded bg-(--bg-surface)/80 px-1.5 py-0.5 text-[10px] text-(--fg-subtle)">
+        <span className="absolute right-1 top-1 rounded bg-(--bg-surface)/80 px-1.5 py-0.5 text-[10px] text-white">
           Ad
         </span>
       </div>

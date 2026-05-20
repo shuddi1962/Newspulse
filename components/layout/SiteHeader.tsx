@@ -2,12 +2,14 @@
 
 import Link from 'next/link';
 import { Search } from 'lucide-react';
+import { useScrollDirection } from '@/lib/hooks/useScrollDirection';
 
 interface SiteHeaderProps {
   activeNav?: string;
 }
 
 export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
+  const isHeaderHidden = useScrollDirection();
   const navLinks = [
     { label: 'Home', href: '/' },
     { label: 'News', href: '/news' },
@@ -72,7 +74,7 @@ export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
       </div>
 
       {/* Sticky Nav + Category Bar */}
-      <div className="sticky top-0 z-50">
+      <div className={`sticky top-0 z-50 transition-transform duration-300 ${isHeaderHidden ? '-translate-y-full' : 'translate-y-0'}`}>
         {/* Main Nav */}
         <div className="bg-[#0f1419]">
           <div className="px-4 md:px-8 lg:px-12">
