@@ -27,7 +27,7 @@ const TOPIC_TABS = [
   { value: 'Science', label: 'Science' },
 ]
 
-const FB = 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=300&h=200&fit=crop'
+const FB = 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=600&h=400&fit=crop&q=80'
 
 function articleHref(a: any) {
   const p = new URLSearchParams({ url: a.link, title: a.title, source: a.source, image: a.image || '', desc: a.description || '' })
@@ -199,9 +199,7 @@ function NewsContent() {
               >
                 {a.title}
               </h3>
-              <div style={{ fontSize: '10px', color: '#6b7280', fontFamily: 'var(--font-instrument, Arial, sans-serif)', display: 'flex', gap: '6px', alignItems: 'center' }}>
-                <span style={{ fontWeight: 700, color: '#0f1419' }}>{a.source}</span>
-                <span>·</span>
+              <div style={{ fontSize: '10px', color: '#6b7280', fontFamily: 'var(--font-instrument, Arial, sans-serif)' }}>
                 <span>{timeAgo(a.publishedAt)}</span>
               </div>
             </Link>

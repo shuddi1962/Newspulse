@@ -155,7 +155,6 @@ function ArticleReaderContent() {
                 title={title}
               />
               <div style={{ background: '#fff8f0', padding: '12px 16px', borderTop: '1px solid #ffe4b5', fontSize: '12px', color: '#92400e' }}>
-                ⚠️ If the article doesn't load above, some publishers block embedding.{' '}
                 <a href={decodedUrl} target="_blank" rel="noopener noreferrer" style={{ color: '#e63946', fontWeight: 700 }}>
                   Open in new tab ↗
                 </a>

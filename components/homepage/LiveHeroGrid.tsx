@@ -4,7 +4,7 @@ import Link from 'next/link'
 import CategoryBadge from '@/components/ui/CategoryBadge'
 import { timeAgo } from '@/components/ui/TimeAgo'
 
-const FB = 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=700&h=450&fit=crop'
+const FB = 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1200&h=800&fit=crop&q=80'
 
 function articleHref(a: NewsArticle) {
   const p = new URLSearchParams({
@@ -50,8 +50,6 @@ export default function LiveHeroGrid({ articles }: { articles: NewsArticle[] }) 
               {main.title}
             </h2>
             <div className="flex items-center gap-2">
-              <span className="text-white/75 text-[11px] font-instrument font-semibold">{main.source}</span>
-              <span className="text-white/40 text-[10px]">·</span>
               <span className="text-white/60 text-[11px] font-instrument">{timeAgo(main.publishedAt)}</span>
             </div>
           </div>
@@ -72,7 +70,7 @@ export default function LiveHeroGrid({ articles }: { articles: NewsArticle[] }) 
               <h3 className="text-white font-bold leading-[1.3] line-clamp-2" style={{ fontSize: '15px', fontFamily: 'var(--font-fraunces, Georgia, serif)', textShadow: '0 1px 2px rgba(0,0,0,0.6)' }}>
                 {top.title}
               </h3>
-              <span className="text-white/60 text-[10px] font-instrument mt-1 block">{top.source} · {timeAgo(top.publishedAt)}</span>
+              <span className="text-white/60 text-[10px] font-instrument mt-1 block">{timeAgo(top.publishedAt)}</span>
             </div>
           </Link>
         )}

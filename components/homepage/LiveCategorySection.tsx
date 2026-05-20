@@ -6,7 +6,7 @@ import { SectionHeading } from '@/components/ui/SectionHeading'
 import { SkeletonCard } from '@/components/ui/SkeletonCard'
 import { timeAgo } from '@/components/ui/TimeAgo'
 
-const FB = 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=300&h=200&fit=crop'
+const FB = 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=600&h=400&fit=crop&q=80'
 
 function articleHref(a: NewsArticle) {
   const p = new URLSearchParams({
@@ -58,9 +58,7 @@ export default function LiveCategorySection({ title, articles, viewAllHref, load
             >
               {article.title}
             </h3>
-            <div className="flex items-center gap-2" style={{ fontSize: '10px', color: '#6b7280', fontFamily: 'var(--font-instrument, Arial, sans-serif)' }}>
-              <span className="font-semibold text-[#0f1419]/60">{article.source}</span>
-              <span className="text-[#e5e7eb]">·</span>
+            <div className="flex items-center" style={{ fontSize: '10px', color: '#6b7280', fontFamily: 'var(--font-instrument, Arial, sans-serif)' }}>
               <span>{timeAgo(article.publishedAt)}</span>
             </div>
           </Link>
