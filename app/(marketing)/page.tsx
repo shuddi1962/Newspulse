@@ -346,13 +346,10 @@ export default function HomePage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-4">
                   <CategoryTag label={item.category} />
-                  <h3
-                    className="mt-2 font-display text-base font-semibold leading-snug text-white transition-colors group-hover:text-white/90 line-clamp-3"
-                    style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}
-                  >
+                  <h3 className="mt-2 font-display text-base font-semibold leading-snug text-white transition-colors group-hover:text-[#dc2626]/80 line-clamp-2">
                     {item.title}
                   </h3>
-                  <p className="mt-1 text-sm text-white/80" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>By {item.author}</p>
+                  <p className="mt-1 text-sm text-white/70">By {item.author}</p>
                 </div>
               </div>
             </Link>
@@ -429,44 +426,47 @@ export default function HomePage() {
       </div>
 
       {/* Sports Section - Full Width */}
-      <section className="bg-[#0f1419] py-10">
+      <section className="bg-gray-50 py-10">
         <div className="px-4 md:px-8 lg:px-12">
-          <div className="mb-5 flex items-center gap-3">
-            <div className="h-5 w-0.5 bg-[#dc2626]" />
-            <h2 className="font-display text-lg font-semibold tracking-tight text-white sm:text-xl">Sports</h2>
-          </div>
-          <p className="mb-6 pl-3.5 text-sm text-gray-400">Football, basketball, athletics, and more</p>
+          <SectionHeading title="Sports" subtitle="Football, basketball, athletics, and more" />
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {sportsArticles.map((article) => (
-              <article key={article.slug} className="group">
-                <Link href={`/news/${article.slug}`}>
-                  <div className="relative h-[200px] overflow-hidden">
-                    <Image
-                      src={article.image}
-                      alt=""
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <CategoryTag label={article.category} color={article.categoryColor} />
-                      <h3
-                        className="mt-2 font-display text-base font-semibold leading-snug text-white transition-colors group-hover:text-white/90 line-clamp-3"
-                        style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}
-                      >
+            {sportsArticles.map((article) => {
+              const AuthorAvatar = () => {
+                const initials = article.authorInitial;
+                const bgColor = article.authorColor || '#0f1419';
+                return (
+                  <div className="flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ backgroundColor: bgColor }}>
+                    {initials}
+                  </div>
+                );
+              };
+              return (
+                <article key={article.slug} className="group">
+                  <Link href={`/news/${article.slug}`} className="block overflow-hidden">
+                    <div className="relative h-[200px] overflow-hidden">
+                      <Image
+                        src={article.image}
+                        alt=""
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
+                      />
+                    </div>
+                  </Link>
+                  <div className="mt-4">
+                    <CategoryTag label={article.category} color={article.categoryColor} />
+                    <Link href={`/news/${article.slug}`}>
+                      <h3 className="mt-2 font-display text-base font-semibold leading-snug text-(--fg-default) transition-colors group-hover:text-[#dc2626] line-clamp-2">
                         {article.title}
                       </h3>
-                      <p
-                        className="mt-1.5 text-sm text-white/80"
-                        style={{ textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}
-                      >
-                        {article.author} &middot; {article.date}
-                      </p>
-                    </div>
+                    </Link>
+                    <p className="mt-2 flex items-center gap-2 text-sm text-gray-500">
+                      <AuthorAvatar />
+                      {article.author} &middot; {article.date}
+                    </p>
                   </div>
-                </Link>
-              </article>
-            ))}
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -488,7 +488,6 @@ export default function HomePage() {
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                   <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity group-hover:opacity-100">
                     <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#dc2626] transition-transform group-hover:scale-110">
                       <svg className="ml-0.5 h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -499,15 +498,10 @@ export default function HomePage() {
                   <div className="absolute bottom-2 right-2 rounded bg-black/80 px-2 py-1 text-xs font-bold text-white">
                     {item.duration}
                   </div>
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <h3
-                      className="font-display text-sm font-semibold leading-snug text-white transition-colors group-hover:text-white/90 line-clamp-2"
-                      style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}
-                    >
-                      {item.title}
-                    </h3>
-                  </div>
                 </div>
+                <h3 className="mt-2 font-display text-sm font-semibold leading-snug text-white transition-colors group-hover:text-[#dc2626] line-clamp-2">
+                  {item.title}
+                </h3>
               </Link>
             ))}
           </div>

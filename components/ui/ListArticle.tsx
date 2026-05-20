@@ -24,33 +24,28 @@ export function ListArticle({
   className = '',
 }: ListArticleProps) {
   return (
-    <article className={`group ${className}`}>
-      <Link href={`/news/${slug}`}>
-        <div className="relative h-[100px] overflow-hidden">
+    <article className={`grid grid-cols-[100px_1fr] gap-4 border-b border-gray-100 py-4 ${className}`}>
+      <Link href={`/news/${slug}`} className="group block overflow-hidden">
+        <div className="relative h-20 w-full overflow-hidden">
           <Image
             src={image}
             alt=""
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 p-3">
-            <CategoryTag label={category} />
-            <h3
-              className="mt-1 font-display text-sm font-semibold leading-snug text-white transition-colors group-hover:text-white/90 line-clamp-2"
-              style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}
-            >
-              {title}
-            </h3>
-            <p
-              className="mt-0.5 text-xs text-white/80"
-              style={{ textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}
-            >
-              {author} &middot; {date} &middot; {reads} reads
-            </p>
-          </div>
         </div>
       </Link>
+      <div>
+        <CategoryTag label={category} />
+        <Link href={`/news/${slug}`}>
+          <h3 className="mt-1.5 font-display text-sm font-semibold leading-snug text-(--fg-default) transition-colors hover:text-[#dc2626] line-clamp-2">
+            {title}
+          </h3>
+        </Link>
+        <p className="mt-1 text-xs text-gray-500">
+          {author} &middot; {date} &middot; {reads} reads
+        </p>
+      </div>
     </article>
   );
 }

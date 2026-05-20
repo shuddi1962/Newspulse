@@ -25,32 +25,27 @@ export function ArticleCard({
 }: ArticleCardProps) {
   return (
     <article className={`group ${className}`}>
-      <Link href={`/news/${slug}`}>
-        <div className="relative h-[210px] overflow-hidden">
+      <Link href={`/news/${slug}`} className="block overflow-hidden">
+        <div className="relative h-[180px] overflow-hidden">
           <Image
             src={image}
             alt=""
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 p-4">
-            <CategoryTag label={category} color={categoryColor} />
-            <h3
-              className="mt-2 font-display text-base font-semibold leading-snug text-white transition-colors group-hover:text-white/90 line-clamp-3"
-              style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}
-            >
-              {title}
-            </h3>
-            <p
-              className="mt-1.5 text-sm text-white/80"
-              style={{ textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}
-            >
-              {author} &middot; {date}
-            </p>
-          </div>
         </div>
       </Link>
+      <div className="mt-3">
+        <CategoryTag label={category} color={categoryColor} />
+        <Link href={`/news/${slug}`}>
+          <h3 className="mt-2 font-display text-base font-semibold leading-snug text-(--fg-default) transition-colors group-hover:text-[#dc2626] line-clamp-2">
+            {title}
+          </h3>
+        </Link>
+        <p className="mt-1.5 text-sm text-gray-500">
+          {author} &middot; {date}
+        </p>
+      </div>
     </article>
   );
 }
