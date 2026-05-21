@@ -37,7 +37,7 @@ Write a professional, engaging news article. Requirements:
 Return ONLY valid JSON, no markdown:
 {
   "headline": "Your new headline",
-  "content": "Full article. Separate paragraphs with \\n\\n",
+  "content": "Full article (400-600 words). Separate paragraphs with \\n\\n",
   "tags": ["tag1","tag2","tag3"],
   "isBreaking": false
 }`
@@ -50,7 +50,7 @@ async function withGroq(title: string, description: string, source: string, cate
     messages: [
       {
         role: 'system',
-        content: 'You are a professional journalist. Always respond with valid JSON only. No markdown. No code blocks.',
+        content: 'You are a professional journalist. Respond with valid JSON only. No markdown, no code blocks, no explanation.',
       },
       {
         role: 'user',
@@ -58,12 +58,24 @@ async function withGroq(title: string, description: string, source: string, cate
       },
     ],
     temperature: 0.65,
-    max_tokens: 1000,
-    response_format: { type: 'json_object' },
+    max_tokens: 1500,
   })
 
   const raw = completion.choices[0]?.message?.content || ''
-  const parsed = JSON.parse(raw)
+
+  let clean = raw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
+  const firstBrace = clean.indexOf('{')
+  const lastBrace = clean.lastIndexOf('}')
+  if (firstBrace !== -1 && lastBrace !== -1) {
+    clean = clean.slice(firstBrace, lastBrace + 1)
+  }
+
+  let parsed: any
+  try {
+    parsed = JSON.parse(clean)
+  } catch {
+    return null
+  }
 
   if (!parsed.headline || !parsed.content || parsed.content.length < 150) return null
 
