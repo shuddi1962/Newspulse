@@ -1,21 +1,58 @@
-// lib/insforge.ts
-const BASE = process.env.INSFORGE_API_URL!
-const KEY  = process.env.INSFORGE_API_KEY!
+import { createClient } from '@insforge/sdk'
 
-const h = {
-  'Content-Type': 'application/json',
-  'Authorization': `Bearer ${KEY}`,
-  'x-api-key': KEY,
+const baseUrl = process.env.NEXT_PUBLIC_INSFORGE_URL!
+const anonKey = process.env.INSFORGE_SERVICE_KEY || process.env.NEXT_PUBLIC_INSFORGE_ANON_KEY!
+
+const insforge = createClient({
+  baseUrl,
+  anonKey,
+  isServerMode: true,
+})
+
+function mapRow(row: Record<string, unknown>): Article {
+  return {
+    id: row.id as string,
+    slug: (row.slug as string) || '',
+    headline: (row.title_rewritten as string) || (row.title as string),
+    original_title: row.title as string,
+    content: (row.content_html_rewritten as string) || (row.content_html as string) || '',
+    excerpt: (row.excerpt as string) || '',
+    image_url: (row.featured_image as string) || null,
+    image_alt: (row.image_alt as string) || '',
+    category: (row.category as string) || '',
+    region: (row.region as string) || 'world',
+    source_name: (row.source_domain as string) || '',
+    source_url: (row.original_url as string) || '',
+    tags: (row.tags as string[]) || [],
+    is_breaking: !!(row.is_breaking as boolean),
+    is_featured: !!(row.is_featured as boolean),
+    status: (row.status as string) || 'published',
+    views: (row.view_count as number) || 0,
+    published_at: (row.published_at as string) || (row.created_at as string),
+    created_at: (row.created_at as string),
+  }
 }
 
-async function api<T>(path: string, opts: RequestInit = {}): Promise<T> {
-  const res = await fetch(`${BASE}${path}`, {
-    ...opts,
-    headers: { ...h, ...(opts.headers || {}) },
-    cache: 'no-store',
-  })
-  if (!res.ok) throw new Error(`InsForge ${path} ${res.status}: ${await res.text()}`)
-  return res.json() as Promise<T>
+function toRow(article: Partial<Article>): Record<string, unknown> {
+  return {
+    slug: article.slug,
+    title: article.original_title,
+    title_rewritten: article.headline,
+    content_html_rewritten: article.content,
+    content_html: article.content,
+    excerpt: article.excerpt,
+    featured_image: article.image_url,
+    image_alt: article.image_alt,
+    category: article.category,
+    region: article.region,
+    source_domain: article.source_name,
+    original_url: article.source_url,
+    tags: article.tags,
+    is_breaking: article.is_breaking,
+    is_featured: article.is_featured,
+    status: article.status,
+    published_at: article.published_at,
+  }
 }
 
 export interface Article {
@@ -26,7 +63,7 @@ export interface Article {
   content: string
   excerpt: string
   image_url: string | null
-  image_alt: string | null
+  image_alt: string
   category: string
   region: string
   source_name: string
@@ -84,96 +121,348 @@ export interface ListResponse<T> {
 
 export const db = {
   articles: {
-    list: (p: {
+    list: async (p: {
       category?: string; region?: string; status?: string
       limit?: number; offset?: number; breaking?: boolean
       search?: string; featured?: boolean
     } = {}): Promise<ListResponse<Article>> => {
-      const q = new URLSearchParams()
-      if (p.category) q.set('category', p.category)
-      if (p.region) q.set('region', p.region)
-      if (p.status) q.set('status', p.status)
-      if (p.limit)  q.set('limit', String(p.limit))
-      if (p.offset) q.set('offset', String(p.offset))
-      if (p.breaking !== undefined) q.set('is_breaking', String(p.breaking))
-      if (p.search) q.set('search', p.search)
-      if (p.featured !== undefined) q.set('is_featured', String(p.featured))
-      q.set('order_by', 'published_at DESC')
-      return api(`/articles?${q}`)
+      let query = insforge.database
+        .from('news_articles')
+        .select('*', { count: 'exact' })
+
+      if (p.status) query = query.eq('status', p.status)
+      if (p.category) query = query.eq('category', p.category)
+      if (p.region) query = query.eq('region', p.region)
+      if (p.breaking !== undefined) query = query.eq('is_breaking', p.breaking)
+      if (p.featured !== undefined) query = query.eq('is_featured', p.featured)
+      if (p.search) query = query.ilike('title', `%${p.search}%`)
+
+      query = query.order('published_at', { ascending: false })
+
+      if (p.limit) query = query.limit(p.limit)
+      if (p.offset) query = query.range(p.offset, p.offset + (p.limit || 20) - 1)
+
+      const { data, error, count } = await query
+
+      if (error) throw new Error(error.message || 'Failed to list articles')
+      return {
+        data: ((data as Record<string, unknown>[]) || []).map(mapRow),
+        total: count ?? 0,
+      }
     },
 
-    get: (slug: string): Promise<Article> =>
-      api(`/articles/${slug}`),
+    get: async (slug: string): Promise<Article> => {
+      const { data, error } = await insforge.database
+        .from('news_articles')
+        .select('*')
+        .or(`slug.eq.${slug},id.eq.${slug}`)
+        .maybeSingle()
 
-    create: (data: Partial<Article>): Promise<Article> =>
-      api('/articles', { method: 'POST', body: JSON.stringify(data) }),
+      if (error || !data) throw new Error(error?.message || 'Article not found')
+      return mapRow(data as Record<string, unknown>)
+    },
 
-    update: (id: string, data: Partial<Article>): Promise<Article> =>
-      api(`/articles/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
+    create: async (data: Partial<Article>): Promise<Article> => {
+      const row = toRow(data)
+      const { data: inserted, error } = await insforge.database
+        .from('news_articles')
+        .insert(row)
+        .select()
+        .single()
 
-    delete: (id: string): Promise<void> =>
-      api(`/articles/${id}`, { method: 'DELETE' }),
+      if (error || !inserted) throw new Error(error?.message || 'Failed to create article')
+      return mapRow(inserted as Record<string, unknown>)
+    },
 
-    addView: (id: string): Promise<void> =>
-      api(`/articles/${id}/views`, { method: 'POST' }),
+    update: async (id: string, data: Partial<Article>): Promise<Article> => {
+      const row = toRow(data)
+      const { data: updated, error } = await insforge.database
+        .from('news_articles')
+        .update(row)
+        .eq('id', id)
+        .select()
+        .single()
+
+      if (error || !updated) throw new Error(error?.message || 'Failed to update article')
+      return mapRow(updated as Record<string, unknown>)
+    },
+
+    delete: async (id: string): Promise<void> => {
+      const { error } = await insforge.database
+        .from('news_articles')
+        .delete()
+        .eq('id', id)
+
+      if (error) throw new Error(error.message || 'Failed to delete article')
+    },
+
+    addView: async (id: string): Promise<void> => {
+      const { data, error: readError } = await insforge.database
+        .from('news_articles')
+        .select('view_count')
+        .eq('id', id)
+        .maybeSingle()
+
+      if (readError || !data) return
+
+      const current = (data as { view_count?: number }).view_count || 0
+      const { error } = await insforge.database
+        .from('news_articles')
+        .update({ view_count: current + 1 })
+        .eq('id', id)
+
+      if (error) throw new Error(error.message || 'Failed to add view')
+    },
   },
 
   queue: {
     exists: async (url: string): Promise<boolean> => {
-      try {
-        const q = new URLSearchParams({ source_url: url })
-        const r = await api<{ exists: boolean }>(`/rss-queue/check?${q}`)
-        return r.exists
-      } catch { return false }
+      const { data, error } = await insforge.database
+        .from('rss_queue')
+        .select('id')
+        .eq('source_url', url)
+        .maybeSingle()
+
+      if (error) return false
+      return !!data
     },
-    add: (url: string): Promise<void> =>
-      api('/rss-queue', { method: 'POST', body: JSON.stringify({ source_url: url }) }),
+
+    add: async (url: string): Promise<void> => {
+      const { error } = await insforge.database
+        .from('rss_queue')
+        .insert({ source_url: url })
+
+      if (error && !error.message?.includes('duplicate')) {
+        throw new Error(error.message || 'Failed to add to queue')
+      }
+    },
   },
 
   categories: {
-    list: (): Promise<Category[]> =>
-      api('/categories'),
+    list: async (): Promise<Category[]> => {
+      const { data, error } = await insforge.database
+        .from('categories')
+        .select('id, name, slug, color, icon')
+        .eq('is_active', true)
+        .order('sort_order', { ascending: true })
 
-    upsert: (name: string, slug: string, color: string, icon: string): Promise<Category> =>
-      api('/categories/upsert', {
-        method: 'POST',
-        body: JSON.stringify({ name, slug, color, icon }),
-      }),
+      if (error) throw new Error(error.message || 'Failed to load categories')
 
-    incrementCount: (slug: string): Promise<void> =>
-      api(`/categories/${slug}/increment`, { method: 'POST' }),
+      const cats = (data as Array<{ id: string; name: string; slug: string; color: string | null; icon: string | null }>) || []
+
+      const { data: counts } = await insforge.database
+        .from('news_articles')
+        .select('category')
+
+      const countMap: Record<string, number> = {}
+      if (counts) {
+        for (const row of counts as Array<{ category: string }>) {
+          if (row.category) {
+            countMap[row.category] = (countMap[row.category] || 0) + 1
+          }
+        }
+      }
+
+      const slugToName: Record<string, string> = {}
+      for (const c of cats) {
+        slugToName[c.name.toLowerCase()] = c.name
+      }
+
+      return cats.map(c => ({
+        id: c.id,
+        name: c.name,
+        slug: c.slug,
+        color: c.color || '#6b7280',
+        icon: c.icon || '📰',
+        article_count: countMap[c.name] || 0,
+      }))
+    },
+
+    upsert: async (name: string, slug: string, color: string, icon: string): Promise<Category> => {
+      const { data: existing } = await insforge.database
+        .from('categories')
+        .select('id')
+        .eq('name', name)
+        .maybeSingle()
+
+      if (existing) {
+        return { id: existing.id as string, name, slug, color, icon, article_count: 0 }
+      }
+
+      const { data: inserted, error } = await insforge.database
+        .from('categories')
+        .insert({
+          name,
+          slug,
+          color,
+          icon,
+          kind: 'news',
+          is_active: true,
+          sort_order: 0,
+          language: 'en',
+          seo_title: null,
+          seo_description: null,
+        })
+        .select('id')
+        .single()
+
+      if (error) throw new Error(error.message || 'Failed to upsert category')
+      return { id: (inserted as { id: string }).id, name, slug, color, icon, article_count: 0 }
+    },
+
+    incrementCount: async (_slug: string): Promise<void> => {
+      // article counts are computed dynamically from news_articles
+    },
   },
 
   subscribers: {
-    list: (p: { limit?: number; offset?: number } = {}): Promise<ListResponse<Subscriber>> => {
-      const q = new URLSearchParams()
-      if (p.limit) q.set('limit', String(p.limit))
-      if (p.offset) q.set('offset', String(p.offset))
-      return api(`/subscribers?${q}`)
+    list: async (p: { limit?: number; offset?: number } = {}): Promise<ListResponse<Subscriber>> => {
+      let query = insforge.database
+        .from('subscribers')
+        .select('*', { count: 'exact' })
+        .order('created_at', { ascending: false })
+
+      if (p.limit) query = query.limit(p.limit)
+      if (p.offset) query = query.range(p.offset, p.offset + (p.limit || 20) - 1)
+
+      const { data, error, count } = await query
+
+      if (error) throw new Error(error.message || 'Failed to list subscribers')
+      return {
+        data: (data as Subscriber[]) || [],
+        total: count ?? 0,
+      }
     },
-    add: (email: string, name?: string): Promise<void> =>
-      api('/subscribers', { method: 'POST', body: JSON.stringify({ email, name }) }),
-    delete: (id: string): Promise<void> =>
-      api(`/subscribers/${id}`, { method: 'DELETE' }),
+
+    add: async (email: string, name?: string): Promise<void> => {
+      const { error } = await insforge.database
+        .from('subscribers')
+        .insert({ email, name: name || '' })
+
+      if (error && !error.message?.includes('unique')) {
+        throw new Error(error.message || 'Failed to add subscriber')
+      }
+    },
+
+    delete: async (id: string): Promise<void> => {
+      const { error } = await insforge.database
+        .from('subscribers')
+        .delete()
+        .eq('id', id)
+
+      if (error) throw new Error(error.message || 'Failed to delete subscriber')
+    },
   },
 
   ads: {
-    listActive: (zone?: string): Promise<Ad[]> => {
-      const q = zone ? `?zone=${zone}&is_active=true` : '?is_active=true'
-      return api(`/ads${q}`)
+    listActive: async (zone?: string): Promise<Ad[]> => {
+      let query = insforge.database
+        .from('ads')
+        .select('*')
+        .eq('is_active', true)
+
+      if (zone) {
+        query = query.contains('creative_format', zone)
+      }
+
+      const { data, error } = await query
+
+      if (error) throw new Error(error.message || 'Failed to list ads')
+      return ((data as Record<string, unknown>[]) || []).map(r => ({
+        id: r.id as string,
+        name: (r.name as string) || '',
+        zone: zone || '',
+        image_url: (r.image_url as string) || '',
+        link_url: (r.destination_url as string) || '',
+        is_active: !!(r.is_active as boolean),
+        impressions: 0,
+        clicks: 0,
+      }))
     },
-    create: (data: Partial<Ad>): Promise<Ad> =>
-      api('/ads', { method: 'POST', body: JSON.stringify(data) }),
-    update: (id: string, data: Partial<Ad>): Promise<Ad> =>
-      api(`/ads/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
-    delete: (id: string): Promise<void> =>
-      api(`/ads/${id}`, { method: 'DELETE' }),
+
+    create: async (data: Partial<Ad>): Promise<Ad> => {
+      const { error } = await insforge.database
+        .from('ads')
+        .insert({
+          name: data.name,
+          image_url: data.image_url,
+          destination_url: data.link_url,
+          is_active: data.is_active,
+        })
+
+      if (error) throw new Error(error.message || 'Failed to create ad')
+      return data as Ad
+    },
+
+    update: async (id: string, data: Partial<Ad>): Promise<Ad> => {
+      const { error } = await insforge.database
+        .from('ads')
+        .update({
+          name: data.name,
+          image_url: data.image_url,
+          destination_url: data.link_url,
+          is_active: data.is_active,
+        })
+        .eq('id', id)
+
+      if (error) throw new Error(error.message || 'Failed to update ad')
+      return data as Ad
+    },
+
+    delete: async (id: string): Promise<void> => {
+      const { error } = await insforge.database
+        .from('ads')
+        .delete()
+        .eq('id', id)
+
+      if (error) throw new Error(error.message || 'Failed to delete ad')
+    },
   },
 
   stats: {
-    overview: (): Promise<DashboardStats> =>
-      api('/stats/overview'),
-    monthly: (): Promise<Array<{ month: string; articles: number; views: number }>> =>
-      api('/stats/monthly'),
+    overview: async (): Promise<DashboardStats> => {
+      const two = await Promise.all([
+        insforge.database.from('news_articles').select('*', { count: 'exact', head: true }),
+        insforge.database.from('news_articles').select('*', { count: 'exact', head: true })
+          .gte('published_at', new Date(Date.now() - 86400000).toISOString()),
+        insforge.database.from('news_articles').select('view_count'),
+        insforge.database.from('subscribers').select('*', { count: 'exact', head: true }),
+        insforge.database.from('news_articles').select('*', { count: 'exact', head: true }).eq('is_breaking', true),
+        insforge.database.from('categories').select('*', { count: 'exact', head: true }).eq('is_active', true),
+      ])
+
+      const viewsRows = (two[2].data as Array<{ view_count: number }>) || []
+
+      return {
+        total_articles: two[0].count ?? 0,
+        today_articles: two[1].count ?? 0,
+        total_views: viewsRows.reduce((s, r) => s + (r.view_count || 0), 0),
+        total_subscribers: two[3].count ?? 0,
+        breaking_count: two[4].count ?? 0,
+        categories_count: two[5].count ?? 0,
+      }
+    },
+
+    monthly: async (): Promise<Array<{ month: string; articles: number; views: number }>> => {
+      const { data } = await insforge.database
+        .from('news_articles')
+        .select('published_at, view_count')
+        .gte('published_at', new Date(Date.now() - 365 * 86400000).toISOString())
+
+      const monthly: Record<string, { articles: number; views: number }> = {}
+      const rows = (data as Array<{ published_at: string; view_count: number }>) || []
+
+      for (const row of rows) {
+        if (!row.published_at) continue
+        const m = row.published_at.slice(0, 7)
+        if (!monthly[m]) monthly[m] = { articles: 0, views: 0 }
+        monthly[m].articles++
+        monthly[m].views += row.view_count || 0
+      }
+
+      return Object.entries(monthly)
+        .map(([month, vals]) => ({ month, ...vals }))
+        .sort((a, b) => a.month.localeCompare(b.month))
+    },
   },
 }
