@@ -1,148 +1,157 @@
-'use client';
+'use client'
+import Link from 'next/link'
+import { useState, useEffect } from 'react'
+import { Search } from 'lucide-react'
 
-import Link from 'next/link';
-import { Search } from 'lucide-react';
-import { ThemeToggle } from '@/components/theme-toggle';
+const NAV_LINKS = [
+  { label: 'Home', href: '/' },
+  { label: 'News', href: '/news' },
+  { label: 'Video', href: '/video' },
+  { label: 'Directory', href: '/directory' },
+  { label: 'Jobs', href: '/jobs' },
+  { label: 'Marketplace', href: '/marketplace' },
+  { label: 'Events', href: '/events' },
+  { label: 'Advertise', href: '/advertise' },
+]
 
-interface SiteHeaderProps {
-  activeNav?: string;
+const CAT_LINKS = [
+  { label: '🇳🇬 Nigeria', href: '/nigeria' },
+  { label: '🌍 Africa', href: '/africa' },
+  { label: '🌐 World', href: '/world' },
+  { label: '💼 Business', href: '/business' },
+  { label: '💻 Technology', href: '/technology' },
+  { label: '⚽ Sports', href: '/sports' },
+  { label: '🏛 Politics', href: '/politics' },
+  { label: '🎬 Entertainment', href: '/entertainment' },
+  { label: '🏥 Health', href: '/health' },
+  { label: '🔬 Science', href: '/science' },
+]
+
+interface Props {
+  activeNav?: string
 }
 
-export function SiteHeader({ activeNav = 'home' }: SiteHeaderProps) {
-  const navLinks = [
-    { label: 'Home', href: '/' },
-    { label: 'News', href: '/news' },
-    { label: 'Video', href: '/video' },
-    { label: 'Directory', href: '/directory' },
-    { label: 'Jobs', href: '/jobs' },
-    { label: 'Marketplace', href: '/marketplace' },
-    { label: 'Events', href: '/events' },
-    { label: 'Real Estate', href: '/real-estate' },
-    { label: 'Advertise', href: '/advertise' },
-  ];
+export function SiteHeader({ activeNav = '' }: Props) {
+  const [scrolled, setScrolled] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [searchQ, setSearchQ] = useState('')
 
-  const catLinks = ['Politics', 'Business', 'Technology', 'Sports', 'Entertainment', 'Health', 'Africa', 'World', 'Opinion'];
-  
+  useEffect(() => {
+    const handler = () => setScrolled(window.scrollY > 8)
+    window.addEventListener('scroll', handler, { passive: true })
+    return () => window.removeEventListener('scroll', handler)
+  }, [])
 
-  const now = new Date();
-  const dateStr = now.toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-
-  function isActive(label: string) {
-    if (label === 'Home' && activeNav === 'home') return true;
-    if (label === 'News' && activeNav === 'news') return true;
-    return false;
-  }
+  const today = new Date().toLocaleDateString('en-NG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
 
   return (
-    <header>
-      {/* Top Bar */}
-      <div className="border-b py-2" style={{ backgroundColor: 'var(--bg-header)', borderColor: 'var(--border-header)' }}>
-        <div className="flex items-center justify-between px-4 md:px-8 lg:px-12">
-          <div className="flex items-center gap-4 text-xs" style={{ color: 'var(--fg-header-muted)' }}>
-            <span>{dateStr}</span>
-            <span className="hidden sm:inline">Lagos, Nigeria</span>
-          </div>
-          <div className="flex items-center gap-4 text-xs" style={{ color: 'var(--fg-header-muted)' }}>
-            <Link href="/login" className="transition-colors" style={{ color: 'var(--fg-header-muted)' }}>Login</Link>
-            <span style={{ color: 'var(--border-header)' }}>|</span>
-            <Link href="/signup" className="transition-colors" style={{ color: 'var(--fg-header-muted)' }}>Register</Link>
-            <span className="hidden sm:inline" style={{ color: 'var(--border-header)' }}>|</span>
-            <Link href="#" className="transition-colors hidden sm:inline" style={{ color: 'var(--fg-header-muted)' }}>EN</Link>
-            <span className="hidden sm:inline" style={{ color: 'var(--border-header)' }}>|</span>
-            <Link href="#" className="transition-colors hidden sm:inline" style={{ color: 'var(--fg-header-muted)' }}>FR</Link>
-            <ThemeToggle />
-            <Link
-              href="/subscribe"
-              className="bg-[#dc2626] px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors hover:bg-[#c1121f]"
-              style={{ color: '#ffffff' }}
-            >
+    <div
+      style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 1000,
+        boxShadow: scrolled ? '0 2px 20px rgba(0,0,0,0.25)' : 'none',
+        transition: 'box-shadow 0.3s ease',
+      }}
+    >
+      {/* TOP BAR */}
+      <div style={{ background: '#111820', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '5px 0' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ color: '#9ca3af', fontSize: '11px' }}>{today} · Lagos, Nigeria</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+            <Link href="/login" style={{ color: '#9ca3af', fontSize: '11px', textDecoration: 'none' }}>Login</Link>
+            <Link href="/signup" style={{ color: '#9ca3af', fontSize: '11px', textDecoration: 'none' }}>Register</Link>
+            <Link href="/subscribe" style={{ background: '#e63946', color: '#fff', fontSize: '10px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '3px 10px', textDecoration: 'none' }}>
               Subscribe
             </Link>
           </div>
         </div>
       </div>
 
-      {/* Sticky Main Nav + Category Bar */}
-      <div className="sticky top-0 z-50">
-        {/* Main Nav */}
-        <div style={{ backgroundColor: 'var(--bg-header-surface)' }}>
-          <div className="px-4 md:px-8 lg:px-12">
-            <div className="flex items-center justify-between" style={{ minHeight: '64px' }}>
-              <Link href="/" className="flex flex-col shrink-0 mr-4">
-                <span className="font-display text-2xl font-bold leading-none" style={{ color: 'var(--fg-header)' }}>
-                  NewsPulse<span className="text-[#dc2626]">PRO</span>
-                </span>
-                <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: 'var(--fg-header-muted)' }}>
-                  Editorial authority for the modern web
-                </span>
-              </Link>
+      {/* MAIN NAV */}
+      <div style={{ background: '#0f1419', height: '60px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
+          <Link href="/" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '1px' }}>
+            <span style={{ fontSize: '26px', fontWeight: 700, color: '#fff', fontFamily: 'Georgia, serif', lineHeight: 1 }}>
+              NewsPulse<span style={{ color: '#e63946' }}>PRO</span>
+            </span>
+            <span style={{ fontSize: '9px', color: '#6b7280', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+              Editorial authority for the modern web
+            </span>
+          </Link>
 
-              <nav className="flex items-center gap-5 flex-wrap">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.label}
-                    href={link.href}
-                    className="text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap shrink-0"
-                    style={{
-                      color: 'var(--fg-header)',
-                      borderBottom: isActive(link.label) ? '2px solid #dc2626' : '2px solid transparent',
-                      paddingBottom: '2px',
-                    }}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </nav>
-
-              <div className="flex items-center shrink-0 ml-3">
-                <div className="relative flex items-center">
-                  <input
-                    type="text"
-                    placeholder="Search news, topics, categories..."
-                    className="w-[200px] md:w-[260px] lg:w-[320px] h-9 pl-9 pr-3 text-xs outline-none transition-all focus:w-[260px] md:focus:w-[340px] header-search-input"
-                    style={{
-                      backgroundColor: 'var(--bg-header)',
-                      border: '1px solid var(--border-header)',
-                      color: 'var(--fg-header)',
-                    }}
-                    onFocus={(e) => {
-                      e.target.style.borderColor = 'var(--fg-header)';
-                      e.target.style.backgroundColor = 'var(--bg-header-surface)';
-                    }}
-                    onBlur={(e) => {
-                      e.target.style.borderColor = 'var(--border-header)';
-                      e.target.style.backgroundColor = 'var(--bg-header)';
-                    }}
-                  />
-                  <Search className="absolute left-2.5 h-4 w-4" style={{ color: 'var(--fg-header-muted)' }} />
-                </div>
-              </div>
-              </div>
-            </div>
-          </div>
-
-        {/* Category Bar - stays red regardless of theme */}
-        <div className="bg-[#dc2626]">
-          <div className="flex overflow-x-auto px-4 md:px-8 lg:px-12">
-            {catLinks.map((cat) => (
+          <nav style={{ display: 'flex', gap: '0', alignItems: 'center' }}>
+            {NAV_LINKS.map(link => (
               <Link
-                key={cat}
-                href={`/${cat.toLowerCase()}`}
-                className="whitespace-nowrap border-r border-white/15 px-4 py-2.5 text-xs font-bold transition-colors hover:bg-black/15"
-                style={{ color: '#ffffff' }}
+                key={link.href}
+                href={link.href}
+                style={{
+                  color: activeNav === link.label.toLowerCase() ? '#fff' : '#9ca3af',
+                  fontSize: '11px',
+                  fontWeight: 700,
+                  letterSpacing: '0.06em',
+                  textTransform: 'uppercase',
+                  padding: '8px 12px',
+                  textDecoration: 'none',
+                  borderBottom: activeNav === link.label.toLowerCase() ? '2px solid #e63946' : '2px solid transparent',
+                  transition: 'color 0.2s, border-color 0.2s',
+                }}
               >
-                {cat}
+                {link.label}
               </Link>
             ))}
+          </nav>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {searchOpen && (
+              <form action="/news" method="get" style={{ display: 'flex' }}>
+                <input
+                  name="q"
+                  value={searchQ}
+                  onChange={e => setSearchQ(e.target.value)}
+                  placeholder="Search NewsPulse PRO..."
+                  autoFocus
+                  style={{ width: '220px', padding: '7px 12px', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', fontSize: '12px', outline: 'none' }}
+                />
+              </form>
+            )}
+            <button
+              onClick={() => setSearchOpen(!searchOpen)}
+              style={{ width: '34px', height: '34px', background: 'transparent', border: '1px solid rgba(255,255,255,0.15)', color: '#9ca3af', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            >
+              <Search size={14} />
+            </button>
           </div>
         </div>
       </div>
 
-    </header>
-  );
+      {/* CATEGORY BAR */}
+      <div style={{ background: '#e63946', overflowX: 'auto' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px', display: 'flex', gap: '0', alignItems: 'center', whiteSpace: 'nowrap' }}>
+          {CAT_LINKS.map(link => (
+            <Link
+              key={link.href}
+              href={link.href}
+              style={{
+                color: 'rgba(255,255,255,0.88)',
+                fontSize: '11px',
+                fontWeight: 700,
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
+                padding: '8px 14px',
+                textDecoration: 'none',
+                borderRight: '1px solid rgba(255,255,255,0.15)',
+                transition: 'background 0.15s',
+                flexShrink: 0,
+              }}
+              onMouseOver={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.15)')}
+              onMouseOut={e => (e.currentTarget.style.background = 'transparent')}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
 }

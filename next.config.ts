@@ -34,6 +34,7 @@ const nextConfig: NextConfig = {
       })),
       { protocol: 'https', hostname: 'images.unsplash.com', pathname: '/**' },
       { protocol: 'https', hostname: 'images.pexels.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'api.pexels.com', pathname: '/**' },
       { protocol: 'https', hostname: 'punchng.com', pathname: '/**' },
       { protocol: 'https', hostname: 'www.premiumtimesng.com', pathname: '/**' },
       { protocol: 'https', hostname: 'www.vanguardngr.com', pathname: '/**' },
@@ -64,6 +65,14 @@ const nextConfig: NextConfig = {
     cpus: 1,
   },
   staticPageGenerationTimeout: 300,
+  async headers() {
+    return [
+      {
+        source: '/api/ingest',
+        headers: [{ key: 'Cache-Control', value: 'no-store' }],
+      },
+    ]
+  },
 };
 
 export default nextConfig;

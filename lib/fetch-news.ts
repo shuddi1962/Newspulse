@@ -1,10 +1,14 @@
 import { RSS_FEEDS, getFeedsByCategory, getFeedsByRegion } from './rss-feeds'
 import { parseFeed, NewsArticle } from './rss-parser'
 
+function articleKey(a: NewsArticle): string {
+  return a.id || a.link + a.title
+}
+
 function dedup(articles: NewsArticle[], limit: number): NewsArticle[] {
   const seen = new Set<string>()
   return articles
-    .filter(a => { if (seen.has(a.id)) return false; seen.add(a.id); return true })
+    .filter(a => { const k = articleKey(a); if (seen.has(k)) return false; seen.add(k); return true })
     .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
     .slice(0, limit)
 }

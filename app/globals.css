@@ -585,3 +585,18 @@ textarea.field-input {
   animation: pulse-dot 1.4s ease infinite;
   display: inline-block;
 }
+
+/* Pulse animation for breaking dot (used in BreakingTicker) */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.4; }
+}
+
+/* Image hover zoom utilities */
+.group:hover .group-hover\:scale-105 { transform: scale(1.05); }
+.group:hover .group-hover\:scale-\[1\.04\] { transform: scale(1.04); }
+.group:hover .group-hover\:scale-\[1\.06\] { transform: scale(1.06); }
+.group:hover .group-hover\:text-red-600 { color: #e63946; }
+
+/* Pause ticker on hover */
+.ticker-track:hover { animation-play-state: paused; }
