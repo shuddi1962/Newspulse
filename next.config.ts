@@ -63,7 +63,7 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react', 'date-fns'],
   },
-  staticPageGenerationTimeout: 300,
+  staticPageGenerationTimeout: 600,
   async headers() {
     return [
       {
