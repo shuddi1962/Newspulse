@@ -1,7 +1,11 @@
 // lib/ai-rewriter.ts
 import Groq from 'groq-sdk'
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
+function getGroq() {
+  const key = process.env.GROQ_API_KEY
+  if (!key) throw new Error('GROQ_API_KEY is not set')
+  return new Groq({ apiKey: key })
+}
 
 export interface RewriteResult {
   headline: string
@@ -40,6 +44,7 @@ Return ONLY valid JSON, no markdown:
 }
 
 async function withGroq(title: string, description: string, source: string, category: string): Promise<RewriteResult | null> {
+  const groq = getGroq()
   const completion = await groq.chat.completions.create({
     model: 'llama-3.3-70b-versatile',
     messages: [
